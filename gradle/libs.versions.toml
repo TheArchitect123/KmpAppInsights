@@ -1,0 +1,12 @@
+[versions]
+agp = "8.5.1"
+kotlin = "2.0.0"
+swiftKlib =  "0.6.3"
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+
+[plugins]
+swiftklib = { id = "io.github.ttypic.swiftklib", version.ref = "swiftKlib" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
