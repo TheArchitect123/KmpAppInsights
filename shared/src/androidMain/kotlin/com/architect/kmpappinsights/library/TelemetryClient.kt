@@ -1,17 +1,7 @@
 package com.architect.kmpappinsights.library
 
 import android.app.Application
-import com.architect.kmpappinsights.contracts.DataPoint.name
-import com.architect.kmpappinsights.contracts.DataPoint.value
-import com.architect.kmpappinsights.contracts.EventData.name
-import com.architect.kmpappinsights.contracts.ExceptionDetails.message
-import com.architect.kmpappinsights.contracts.MessageData.message
 import com.architect.kmpappinsights.contracts.TelemetryData
-import com.architect.kmpappinsights.library.ApplicationInsights
-import com.architect.kmpappinsights.library.AutoCollection
-import com.architect.kmpappinsights.library.SyncUtil
-import com.architect.kmpappinsights.library.TelemetryContext
-import com.architect.kmpappinsights.library.TrackDataOperation
 import com.architect.kmpappinsights.library.config.Configuration
 import com.architect.kmpappinsights.logging.InternalLogging
 import java.lang.ref.WeakReference
@@ -337,7 +327,7 @@ class TelemetryClient protected constructor(
     }
 
     protected fun startSyncWhenBackgrounding() {
-        if (!com.architect.kmpappinsights.library.Util.isLifecycleTrackingAvailable()) {
+        if (!com.architect.kmpappinsights.library.Util.isLifecycleTrackingAvailable) {
             return
         }
 
@@ -360,7 +350,7 @@ class TelemetryClient protected constructor(
      * @return a flag indicating if autocollection features can be activated
      */
     private fun isAutoCollectionPossible(featureName: String): Boolean {
-        if (!com.architect.kmpappinsights.library.Util.isLifecycleTrackingAvailable()) {
+        if (!com.architect.kmpappinsights.library.Util.isLifecycleTrackingAvailable) {
             InternalLogging.warn(
                 TAG, "AutoCollection feature " + featureName +
                         " can't be enabled/disabled, because " +

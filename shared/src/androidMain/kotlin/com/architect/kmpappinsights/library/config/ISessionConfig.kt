@@ -7,6 +7,6 @@ interface ISessionConfig {
     /**
      * Sets the interval at which sessions are renewed
      */
-    @JvmField
+
     var sessionIntervalMs: Long
 }

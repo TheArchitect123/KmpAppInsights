@@ -78,7 +78,7 @@ class SessionStateData : TelemetryData() {
     /**
      * Gets the Properties property.
      */
-    override fun getProperties(): Map<String, String> {
+    override fun getProperties(): Map<String, String>? {
         //Do nothing - does not currently take properties
         return null
     }
@@ -102,7 +102,7 @@ class SessionStateData : TelemetryData() {
         prefix = ","
 
         writer.write("$prefix\"state\":")
-        writer.write(JsonHelper.convert(state.getValue()))
+        writer.write(JsonHelper.convert(state.value))
         prefix = ","
 
         return prefix

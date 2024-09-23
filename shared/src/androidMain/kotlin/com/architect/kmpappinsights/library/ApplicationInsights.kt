@@ -15,11 +15,6 @@ enum class ApplicationInsights {
     INSTANCE;
 
     /**
-     * The configuration of the SDK.
-     */
-    private val configuration: Configuration = Configuration()
-
-    /**
      * A flag, which determines if sending telemetry data should be disabled. Default is false.
      */
     private var telemetryDisabled = false
@@ -157,7 +152,7 @@ enum class ApplicationInsights {
         EnvelopeFactory.initialize(telemetryContext, this.commonProperties)
 
         Persistence.initialize(context)
-        Sender.initialize(this.configuration)
+        Sender.initialize(ApplicationInsights.configuration)
         ChannelManager.initialize(channelType)
 
         // Initialize Telemetry
@@ -168,7 +163,7 @@ enum class ApplicationInsights {
         TelemetryClient.initialize(!this.telemetryDisabled, application)
         TelemetryClient.startAutoCollection(
             this.telemetryContext,
-            this.configuration,
+            ApplicationInsights.configuration,
             !this.autoAppearanceDisabled,
             !this.autoPageViewsDisabled,
             !this.autoSessionManagementDisabled
@@ -219,6 +214,11 @@ enum class ApplicationInsights {
         }
 
     companion object {
+
+        /**
+         * The configuration of the SDK.
+         */
+        val configuration: Configuration = Configuration()
         /**
          * The tag for logging.
          */

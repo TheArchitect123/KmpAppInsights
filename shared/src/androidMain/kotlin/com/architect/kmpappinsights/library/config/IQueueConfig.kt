@@ -9,7 +9,6 @@ interface IQueueConfig {
      * Sets the maximum size of a batch in bytes
      * @param maxBatchCount the batchsize of data that will be queued until we send/writeToDisk it
      */
-    @JvmField
     var maxBatchCount: Int
 
     /**
@@ -20,6 +19,5 @@ interface IQueueConfig {
      * Sets the maximum interval allowed between calls to batchInvoke
      * @param maxBatchIntervalMs the amount of MS until we want to send out a batch of data
      */
-    @JvmField
     var maxBatchIntervalMs: Int
 }

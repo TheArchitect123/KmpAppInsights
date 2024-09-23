@@ -264,7 +264,7 @@ class RemoteDependencyData : TelemetryData() {
 
         if (kind != DataPointType.MEASUREMENT) {
             writer.write("$prefix\"kind\":")
-            writer.write(JsonHelper.convert(kind.getValue()))
+            writer.write(JsonHelper.convert(kind.value))
             prefix = ","
         }
 
@@ -298,7 +298,7 @@ class RemoteDependencyData : TelemetryData() {
 
         if (dependencyKind != null) {
             writer.write("$prefix\"dependencyKind\":")
-            writer.write(JsonHelper.convert(dependencyKind.getValue()))
+            writer.write(JsonHelper.convert(dependencyKind!!.value))
             prefix = ","
         }
 
@@ -316,7 +316,7 @@ class RemoteDependencyData : TelemetryData() {
 
         if (dependencySource != DependencySourceType.UNDEFINED) {
             writer.write("$prefix\"dependencySource\":")
-            writer.write(JsonHelper.convert(dependencySource.getValue()))
+            writer.write(JsonHelper.convert(dependencySource.value))
             prefix = ","
         }
 

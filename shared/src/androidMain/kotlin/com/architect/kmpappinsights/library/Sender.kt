@@ -1,8 +1,6 @@
 package com.architect.kmpappinsights.library
 
-import android.annotation.TargetApi
 import android.os.AsyncTask
-import android.os.Build
 import android.os.Looper
 import com.architect.kmpappinsights.library.config.ISenderConfig
 import com.architect.kmpappinsights.logging.InternalLogging
@@ -31,7 +29,7 @@ internal class Sender protected constructor(
     /**
      * Persistence object used to reserve, free, or delete files.
      */
-    protected var persistence: Persistence?
+    var persistence: Persistence?
 
     /**
      * Thread safe counter to keep track of num of operations
@@ -301,30 +299,15 @@ internal class Sender protected constructor(
      * @return a writer for the given connection stream
      * @throws java.io.IOException Exception thrown by GZIP (used in SDK 19+)
      */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
+
     @Throws(IOException::class)
     protected fun getWriter(connection: HttpURLConnection): Writer {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // GZIP if we are running SDK 19 or higher
-            connection.addRequestProperty("Content-Encoding", "gzip")
-            connection.setRequestProperty("Content-Type", "application/x-json-stream")
-            val gzip = GZIPOutputStream(connection.outputStream, true)
-            return OutputStreamWriter(gzip)
-        } else {
-            // no GZIP for older devices
-            return OutputStreamWriter(connection.outputStream)
-        }
+        // GZIP if we are running SDK 19 or higher
+        connection.addRequestProperty("Content-Encoding", "gzip")
+        connection.setRequestProperty("Content-Type", "application/x-json-stream")
+        val gzip = GZIPOutputStream(connection.outputStream, true)
+        return OutputStreamWriter(gzip)
     }
-
-    /**
-     * Set persistence used to reserve, free, or delete files (enables dependency injection).
-     *
-     * @param persistence a persistence used to reserve, free, or delete files
-     */
-    protected fun setPersistence(persistence: Persistence?) {
-        this.persistence = persistence
-    }
-
 
     /**
      * Set the instance, used for tests

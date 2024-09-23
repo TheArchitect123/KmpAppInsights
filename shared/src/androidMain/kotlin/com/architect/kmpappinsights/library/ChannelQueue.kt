@@ -1,6 +1,5 @@
 package com.architect.kmpappinsights.library
 
-import com.architect.kmpappinsights.library.Persistence
 import com.architect.kmpappinsights.library.config.IQueueConfig
 import com.architect.kmpappinsights.logging.InternalLogging
 import java.util.LinkedList
@@ -100,7 +99,6 @@ internal class ChannelQueue(
         synchronized(this.LOCK) {
             if (!list.isEmpty()) {
                 data = arrayOfNulls(list.size)
-                list.toArray<String>(data)
                 list.clear()
 
                 executePersistenceTask(data)
@@ -118,7 +116,7 @@ internal class ChannelQueue(
         this.scheduledPersistenceTask = TriggerPersistTask()
         timer.schedule(
             this.scheduledPersistenceTask,
-            config.maxBatchIntervalMs
+            config.maxBatchIntervalMs.toLong()
         )
     }
 
@@ -128,7 +126,7 @@ internal class ChannelQueue(
     protected fun executePersistenceTask(data: Array<String?>?) {
         if (data != null) {
             if (persistence != null) {
-                persistence.persist(data, false)
+                persistence!!.persist(data, false)
             }
         }
     }

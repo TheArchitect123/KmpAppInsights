@@ -53,7 +53,7 @@ internal class Persistence protected constructor(context: Context?) {
             val serializedData = buffer.toString()
             isSuccess = this.writeToDisk(serializedData, highPriority)
             if (isSuccess) {
-                val sender: Sender = Sender.Companion.getInstance()
+                val sender = Sender.getInstance()
                 if (sender != null && !highPriority) {
                     Sender.Companion.getInstance()!!.sendNextFile()
                 }

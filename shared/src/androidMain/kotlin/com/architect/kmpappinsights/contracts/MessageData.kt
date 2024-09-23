@@ -125,7 +125,7 @@ class MessageData : TelemetryData() {
 
         if (severityLevel != SeverityLevel.VERBOSE) {
             writer.write("$prefix\"severityLevel\":")
-            writer.write(JsonHelper.convert(severityLevel.getValue()))
+            writer.write(JsonHelper.convert(severityLevel.value))
             prefix = ","
         }
 

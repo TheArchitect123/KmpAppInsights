@@ -22,7 +22,7 @@ internal class Channel protected constructor() : IChannel {
     /**
      * Test hook to the sender
      */
-    protected var queue: ChannelQueue? = null
+    var queue: ChannelQueue? = null
 
     /**
      * Persistence used for saving unhandled exceptions.
@@ -95,28 +95,10 @@ internal class Channel protected constructor() : IChannel {
 
         if (this.persistence != null) {
             InternalLogging.info(TAG, "persisting crash", envelope.toString())
-            persistence.persist(serializedEvelopeArray, true)
+            persistence!!.persist(serializedEvelopeArray, true)
         } else {
             InternalLogging.info(TAG, "error persisting crash", envelope.toString())
         }
-    }
-
-    /**
-     * Test hook to set the queue for this channel
-     *
-     * @param queue the queue to use for this channel
-     */
-    protected fun setQueue(queue: ChannelQueue?) {
-        this.queue = queue
-    }
-
-    /**
-     * Set the persistence instance used to save unhandled exceptions.
-     *
-     * @param persistence the persitence instance which should be used
-     */
-    protected fun setPersistence(persistence: Persistence?) {
-        this.persistence = persistence
     }
 
     companion object {
@@ -145,7 +127,7 @@ internal class Channel protected constructor() : IChannel {
                     if (!isChannelLoaded) {
                         isChannelLoaded = true
                         instance = Channel()
-                        instance!!.setQueue(ChannelQueue(config))
+                        instance!!.queue = ChannelQueue(config)
                     }
                 }
             }

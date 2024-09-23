@@ -123,7 +123,7 @@ class CrashData : TelemetryData() {
     /**
      * Gets the Properties property.
      */
-    override fun getProperties(): Map<String, String> {
+    override fun getProperties(): Map<String, String>? {
         //Do nothing - does not currently take properties
         return null
     }

@@ -11,7 +11,7 @@ interface ISenderConfig {
      *
      * @param endpointUrl url of the server that receives our data
      */
-    @JvmField
+
     var endpointUrl: String?
 
     /**
@@ -22,7 +22,7 @@ interface ISenderConfig {
     /**
      * Set the timeout for reading the response from the data collector endpoint
      */
-    @JvmField
+
     var senderReadTimeout: Int
 
     /**
@@ -33,6 +33,6 @@ interface ISenderConfig {
     /**
      * Set the timeout for connecting to the data collector endpoint
      */
-    @JvmField
+
     var senderConnectTimeout: Int
 }

@@ -1,7 +1,5 @@
 package com.architect.kmpappinsights.library
 
-import com.architect.kmpappinsights.library.ApplicationInsights
-import com.architect.kmpappinsights.library.config.Configuration.endpointUrl
 import com.architect.kmpappinsights.logging.InternalLogging
 import com.microsoft.cll.android.AndroidCll
 import com.microsoft.telemetry.IChannel
@@ -21,7 +19,7 @@ class ChannelManager protected constructor(channelType: com.architect.kmpappinsi
      * Instantiates a new INSTANCE of ChannelManager
      */
     init {
-        com.architect.kmpappinsights.library.Channel.Companion.initialize(ApplicationInsights.Companion.getConfiguration())
+        Channel.initialize(ApplicationInsights.configuration)
         setChannel(channelType)
     }
 
@@ -73,14 +71,14 @@ class ChannelManager protected constructor(channelType: com.architect.kmpappinsi
      * @return The new default channel
      */
     private fun createDefaultChannel(): IChannel? {
-        var defaultChannel: IChannel =
-            com.architect.kmpappinsights.library.Channel.Companion.getInstance()
+        var defaultChannel =
+            Channel.getInstance()
         if (defaultChannel == null) {
-            com.architect.kmpappinsights.library.Channel.Companion.initialize(
-                ApplicationInsights.Companion.getConfiguration()
+            Channel.initialize(
+                ApplicationInsights.configuration
             )
             defaultChannel =
-                com.architect.kmpappinsights.library.Channel.Companion.getInstance()
+                Channel.getInstance()
         }
 
         return defaultChannel
@@ -95,8 +93,8 @@ class ChannelManager protected constructor(channelType: com.architect.kmpappinsi
             if (ApplicationInsights.Companion.getInstrumentationKey() == null) "" else ApplicationInsights.Companion.getInstrumentationKey()!!
         val cll = AndroidCll.initialize(
             iKey,
-            ApplicationInsights.INSTANCE.getContext(),
-            ApplicationInsights.Companion.getConfiguration().endpointUrl
+            ApplicationInsights.INSTANCE.context,
+            ApplicationInsights.configuration.endpointUrl
         ) as AndroidCll
         cll.useLagacyCS(true)
         return cll
