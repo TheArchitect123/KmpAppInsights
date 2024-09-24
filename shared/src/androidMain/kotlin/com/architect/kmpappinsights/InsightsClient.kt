@@ -19,6 +19,8 @@ actual class InsightsClient {
             if (allowPageTracking) {
                 ApplicationInsights.enableAutoPageViewTracking()
             }
+
+            ApplicationInsights.start()
         }
 
         actual fun writeInformational(message: EventTypeMap, eventName: String) {

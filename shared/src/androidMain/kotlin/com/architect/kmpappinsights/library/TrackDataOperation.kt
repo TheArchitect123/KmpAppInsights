@@ -127,20 +127,20 @@ internal class TrackDataOperation : Runnable {
 
     override fun run() {
         val highPrioItem = (type == DataType.MANAGED_EXCEPTION && !handled)
-        if (!Persistence.Companion.getInstance()!!.isFreeSpaceAvailable(highPrioItem)) {
+        if (!Persistence.getInstance()!!.isFreeSpaceAvailable(highPrioItem)) {
             return
         }
 
         val telemetry = getTelemetry()
         if (telemetry != null) {
-            val channel = ChannelManager.Companion.getInstance()!!.getChannel()
+            val channel = ChannelManager.getInstance()!!.getChannel()
             if (highPrioItem) {
-                (com.architect.kmpappinsights.library.Channel.Companion.getInstance() as com.architect.kmpappinsights.library.Channel)!!.processException(
+                (com.architect.kmpappinsights.library.Channel.getInstance() as com.architect.kmpappinsights.library.Channel)!!.processException(
                     telemetry
                 )
             } else {
                 telemetry.baseData!!.QualifiedName = telemetry.baseType
-                val tags: MutableMap<String?, String?> = EnvelopeFactory.Companion.getInstance()!!
+                val tags: MutableMap<String?, String?> = EnvelopeFactory.getInstance()!!
                     .getContext()!!.contextTags
                 if (this.type == DataType.NEW_SESSION) {
                     //updating IsNew tag from session context doesn't work because editing shared prefs
@@ -156,7 +156,7 @@ internal class TrackDataOperation : Runnable {
     private fun getTelemetry(): Data<Domain?>? {
         var telemetry: Data<Domain?>? = null
         if ((this.type == DataType.MANAGED_EXCEPTION)) {
-            telemetry = EnvelopeFactory.Companion.getInstance()!!.createExceptionData(
+            telemetry = EnvelopeFactory.getInstance()!!.createExceptionData(
                 this.name,
                 this.exceptionMessage,
                 this.exceptionStacktrace,
@@ -165,13 +165,13 @@ internal class TrackDataOperation : Runnable {
         } else {
             when (this.type) {
                 DataType.NONE -> if (this.telemetry != null) {
-                    telemetry = EnvelopeFactory.Companion.getInstance()!!.createData(this.telemetry)
+                    telemetry = EnvelopeFactory.getInstance()!!.createData(this.telemetry)
                 }
 
-                DataType.EVENT -> telemetry = EnvelopeFactory.Companion.getInstance()!!
+                DataType.EVENT -> telemetry = EnvelopeFactory.getInstance()!!
                     .createEventData(this.name, this.properties, this.measurements)
 
-                DataType.PAGE_VIEW -> telemetry = EnvelopeFactory.Companion.getInstance()!!
+                DataType.PAGE_VIEW -> telemetry = EnvelopeFactory.getInstance()!!
                     .createPageViewData(
                         this.name,
                         this.duration,
@@ -179,16 +179,16 @@ internal class TrackDataOperation : Runnable {
                         this.measurements
                     )
 
-                DataType.TRACE -> telemetry = EnvelopeFactory.Companion.getInstance()!!
+                DataType.TRACE -> telemetry = EnvelopeFactory.getInstance()!!
                     .createTraceData(this.name, this.properties)
 
-                DataType.METRIC -> telemetry = EnvelopeFactory.Companion.getInstance()!!
+                DataType.METRIC -> telemetry = EnvelopeFactory.getInstance()!!
                     .createMetricData(this.name, this.metric, this.properties)
 
-                DataType.NEW_SESSION -> telemetry = EnvelopeFactory.Companion.getInstance()!!
+                DataType.NEW_SESSION -> telemetry = EnvelopeFactory.getInstance()!!
                     .createNewSessionData()
 
-                DataType.HANDLED_EXCEPTION -> telemetry = EnvelopeFactory.Companion.getInstance()!!
+                DataType.HANDLED_EXCEPTION -> telemetry = EnvelopeFactory.getInstance()!!
                     .createExceptionData(this.exception, this.properties, this.measurements)
 
                 else -> {}

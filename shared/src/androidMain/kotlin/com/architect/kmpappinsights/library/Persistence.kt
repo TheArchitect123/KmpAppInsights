@@ -42,7 +42,7 @@ internal class Persistence protected constructor(context: Context?) {
     fun persist(data: Array<String?>, highPriority: Boolean) {
         if (!this.isFreeSpaceAvailable(highPriority)) {
             InternalLogging.warn(TAG, "No free space on disk to flush data.")
-            Sender.Companion.getInstance()!!.sendNextFile()
+            Sender.getInstance()!!.sendNextFile()
         } else {
             val buffer = StringBuilder()
             val isSuccess: Boolean
@@ -55,7 +55,7 @@ internal class Persistence protected constructor(context: Context?) {
             if (isSuccess) {
                 val sender = Sender.getInstance()
                 if (sender != null && !highPriority) {
-                    Sender.Companion.getInstance()!!.sendNextFile()
+                    Sender.getInstance()!!.sendNextFile()
                 }
             }
         }

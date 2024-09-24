@@ -256,7 +256,7 @@ class TelemetryClient protected constructor(
         synchronized(LOCK) {
             if (isAutoCollectionPossible("Auto PageViews") && this.autoPageViewsDisabled) {
                 this.autoPageViewsDisabled = false
-                AutoCollection.Companion.enableAutoPageViews(application)
+                AutoCollection.enableAutoPageViews(application)
             }
         }
     }
@@ -269,7 +269,7 @@ class TelemetryClient protected constructor(
         synchronized(LOCK) {
             if (isAutoCollectionPossible("Auto PageViews") && !this.autoPageViewsDisabled) {
                 this.autoPageViewsDisabled = true
-                AutoCollection.Companion.disableAutoPageViews()
+                AutoCollection.disableAutoPageViews()
             }
         }
     }
@@ -282,7 +282,7 @@ class TelemetryClient protected constructor(
         synchronized(LOCK) {
             if (isAutoCollectionPossible("Session Management") && this.autoSessionManagementDisabled) {
                 this.autoSessionManagementDisabled = false
-                AutoCollection.Companion.enableAutoSessionManagement(application)
+                AutoCollection.enableAutoSessionManagement(application)
             }
         }
     }
@@ -295,7 +295,7 @@ class TelemetryClient protected constructor(
         synchronized(LOCK) {
             if (isAutoCollectionPossible("Session Management") && !this.autoSessionManagementDisabled) {
                 this.autoSessionManagementDisabled = true
-                AutoCollection.Companion.disableAutoSessionManagement()
+                AutoCollection.disableAutoSessionManagement()
             }
         }
     }
@@ -308,7 +308,7 @@ class TelemetryClient protected constructor(
         synchronized(LOCK) {
             if (isAutoCollectionPossible("Auto Appearance") && this.autoAppearanceDisabled) {
                 this.autoAppearanceDisabled = false
-                AutoCollection.Companion.enableAutoAppearanceTracking(application)
+                AutoCollection.enableAutoAppearanceTracking(application)
             }
         }
     }
@@ -321,7 +321,7 @@ class TelemetryClient protected constructor(
         synchronized(LOCK) {
             if (isAutoCollectionPossible("Auto Appearance") && !this.autoAppearanceDisabled) {
                 this.autoAppearanceDisabled = true
-                AutoCollection.Companion.disableAutoAppearanceTracking()
+                AutoCollection.disableAutoAppearanceTracking()
             }
         }
     }
@@ -333,7 +333,7 @@ class TelemetryClient protected constructor(
 
         val app = application
         if (app != null) {
-            SyncUtil.Companion.getInstance()!!.start(app)
+            SyncUtil.getInstance()!!.start(app)
         } else {
             InternalLogging.warn(
                 TAG, "Couldn't turn on SyncUtil because given application " +
@@ -431,7 +431,7 @@ class TelemetryClient protected constructor(
             autoPageViewsEnabled: Boolean,
             autoSessionManagementEnabled: Boolean
         ) {
-            AutoCollection.Companion.initialize(context, config)
+            AutoCollection.initialize(context, config)
 
             if (autoAppearanceEnabled) {
                 instance!!.enableAutoAppearanceTracking()

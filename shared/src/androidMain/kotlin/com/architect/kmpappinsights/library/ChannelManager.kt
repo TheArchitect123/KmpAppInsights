@@ -90,7 +90,7 @@ class ChannelManager protected constructor(channelType: com.architect.kmpappinsi
      */
     private fun createTelemetryClientChannel(): IChannel {
         val iKey =
-            if (ApplicationInsights.Companion.getInstrumentationKey() == null) "" else ApplicationInsights.Companion.getInstrumentationKey()!!
+            if (ApplicationInsights.getInstrumentationKey() == null) "" else ApplicationInsights.getInstrumentationKey()!!
         val cll = AndroidCll.initialize(
             iKey,
             ApplicationInsights.INSTANCE.context,

@@ -22,11 +22,11 @@ internal class SyncUtil private constructor() : ComponentCallbacks2 {
             if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
                 InternalLogging.info(TAG, "UI of the app is hidden")
                 InternalLogging.info(TAG, "Syncing data")
-                com.architect.kmpappinsights.library.Channel.Companion.getInstance()!!
+                com.architect.kmpappinsights.library.Channel.getInstance()!!
                     .synchronize()
             } else if (level == ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW) {
                 InternalLogging.info(TAG, "Memory running low, syncing data")
-                com.architect.kmpappinsights.library.Channel.Companion.getInstance()!!
+                com.architect.kmpappinsights.library.Channel.getInstance()!!
                     .synchronize()
             }
         }
@@ -39,7 +39,7 @@ internal class SyncUtil private constructor() : ComponentCallbacks2 {
     override fun onLowMemory() {
         // unused but required to implement ComponentCallbacks
         InternalLogging.warn(TAG, "Received onLowMemory()-Callback, persisting data")
-        com.architect.kmpappinsights.library.Channel.Companion.getInstance()!!.synchronize()
+        com.architect.kmpappinsights.library.Channel.getInstance()!!.synchronize()
     }
 
     companion object {

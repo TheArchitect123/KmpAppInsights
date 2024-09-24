@@ -169,24 +169,6 @@ class RequestData : TelemetryData() {
     }
 
     /**
-     * Gets the Measurements property.
-     */
-    fun getMeasurements(): Map<String, Double>? {
-        if (this.measurements == null) {
-            this.measurements = LinkedHashMap()
-        }
-        return this.measurements
-    }
-
-    /**
-     * Sets the Measurements property.
-     */
-    fun setMeasurements(value: Map<String, Double>?) {
-        this.measurements = value
-    }
-
-
-    /**
      * Serializes the beginning of this object to the passed in writer.
      * @param writer The writer to serialize this object to.
      */

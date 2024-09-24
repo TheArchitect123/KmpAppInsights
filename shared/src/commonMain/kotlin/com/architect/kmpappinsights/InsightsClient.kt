@@ -10,4 +10,4 @@ expect class InsightsClient {
     }
 }
 
-typealias EventTypeMap = Map<String, String>
+typealias EventTypeMap = HashMap<String, String>

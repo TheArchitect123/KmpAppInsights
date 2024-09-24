@@ -52,7 +52,7 @@ internal class ChannelQueue(
      * Prevent external instantiation
      */
     init {
-        this.persistence = Persistence.Companion.getInstance()
+        this.persistence = Persistence.getInstance()
     }
 
     /**

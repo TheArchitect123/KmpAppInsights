@@ -2,7 +2,6 @@ package com.architect.kmpappinsights.logging
 
 import android.util.Log
 import com.architect.kmpappinsights.library.ApplicationInsights.Companion.isDeveloperMode
-import com.architect.kmpappinsights.logging.InternalLogging
 
 object InternalLogging {
     private val PREFIX: String = InternalLogging::class.java.getPackage().name

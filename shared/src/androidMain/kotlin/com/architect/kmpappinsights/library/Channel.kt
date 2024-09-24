@@ -33,7 +33,7 @@ internal class Channel protected constructor() : IChannel {
      * Instantiates a new INSTANCE of Channel
      */
     init {
-        this.persistence = Persistence.Companion.getInstance()
+        this.persistence = Persistence.getInstance()
     }
 
     /**
@@ -41,8 +41,8 @@ internal class Channel protected constructor() : IChannel {
      */
     override fun synchronize() {
         queue!!.flush()
-        if (Sender.Companion.getInstance() != null) {
-            Sender.Companion.getInstance()!!.sendNextFile()
+        if (Sender.getInstance() != null) {
+            Sender.getInstance()!!.sendNextFile()
         }
     }
 
@@ -53,7 +53,7 @@ internal class Channel protected constructor() : IChannel {
      */
     override fun log(data: Base, tags: Map<String, String>) {
         if (data is Data<*>) {
-            val envelope: Envelope = EnvelopeFactory.Companion.getInstance()!!
+            val envelope: Envelope = EnvelopeFactory.getInstance()!!
                 .createEnvelope(data as Data<Domain?>)
 
             // log to queue
@@ -84,7 +84,7 @@ internal class Channel protected constructor() : IChannel {
     }
 
     fun processException(data: Data<Domain?>) {
-        val envelope: Envelope = EnvelopeFactory.Companion.getInstance()!!
+        val envelope: Envelope = EnvelopeFactory.getInstance()!!
             .createEnvelope(data)
 
         queue!!.isCrashing = true

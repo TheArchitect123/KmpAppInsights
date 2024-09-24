@@ -135,8 +135,13 @@ internal class EnvelopeFactory protected constructor(
         if (isConfigured()) {
             val telemetry = EventData()
             telemetry.name = ensureNotNull(eventName)
-            telemetry.properties = properties!!
-            telemetry.setMeasurements(measurements)
+
+            if(properties != null) {
+                telemetry.properties = properties
+            }
+            if(measurements != null) {
+                telemetry.setMeasurements(measurements)
+            }
 
             data = createData(telemetry)
         }
@@ -156,7 +161,9 @@ internal class EnvelopeFactory protected constructor(
         if (isConfigured()) {
             val telemetry = MessageData()
             telemetry.message = this.ensureNotNull(message)
-            telemetry.properties = properties!!
+            if (properties != null) {
+                telemetry.properties = properties
+            }
 
             data = createData(telemetry)
         }
@@ -190,7 +197,9 @@ internal class EnvelopeFactory protected constructor(
             val metricsList: MutableList<DataPoint> = ArrayList()
             metricsList.add(dataPoint)
             telemetry.setMetrics(metricsList)
-            telemetry.properties = properties!!
+            if (properties != null) {
+                telemetry.properties = properties
+            }
 
             data = createData(telemetry)
         }
@@ -266,8 +275,13 @@ internal class EnvelopeFactory protected constructor(
             }
             telemetry.name = ensureNotNull(pageName)
             telemetry.url = null
-            telemetry.properties = properties!!
-            telemetry.setMeasurements(measurements)
+
+            if (properties != null) {
+                telemetry.properties = properties
+            }
+            if (measurements != null) {
+                telemetry.setMeasurements(measurements)
+            }
 
             data = createData(telemetry)
         }
