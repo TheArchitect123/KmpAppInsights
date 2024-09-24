@@ -9,7 +9,7 @@ A Microsoft AppInsights Client compatible for Kotlin Multiplatform. Captures Cra
 <br/>
 
 <p align="center">
-   <a href="https://central.sonatype.com/artifact/io.github.thearchitect123/titansocketKmpAppInsights">
+   <a href="https://central.sonatype.com/artifact/io.github.thearchitect123/KmpAppInsights">
     <img alt="GitHub" src="https://img.shields.io/maven-central/v/io.github.thearchitect123/KmpAppInsights.svg">
   </a>
 
