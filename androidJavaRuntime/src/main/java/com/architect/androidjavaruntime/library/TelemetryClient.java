@@ -84,12 +84,12 @@ public class TelemetryClient {
         configThreadPool();
     }
 
-    private void configThreadPool(){
+    private void configThreadPool() {
         int corePoolSize = 5;
         int maxPoolSize = 10;
         int queueSize = 5;
         long timeout = 1;
-        ArrayBlockingQueue<Runnable> queue= new ArrayBlockingQueue<Runnable>(queueSize);
+        ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(queueSize);
         ThreadFactory threadFactory = new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -202,9 +202,9 @@ public class TelemetryClient {
      * @param measurements Custom measurements associated with the event.
      */
     public void trackEvent(
-          String eventName,
-          Map<String, String> properties,
-          Map<String, Double> measurements) {
+            String eventName,
+            Map<String, String> properties,
+            Map<String, Double> measurements) {
         if (isTelemetryEnabled()) {
             this.threadPoolExecutor.execute(new TrackDataOperation(TrackDataOperation.DataType.EVENT,
                     eventName, properties, measurements));
@@ -279,7 +279,6 @@ public class TelemetryClient {
         this.trackPageView(pageName, properties, null);
     }
 
-
     /**
      * @see TelemetryClient#trackPageView(String, Map, Map)
      */
@@ -287,6 +286,34 @@ public class TelemetryClient {
         if (isTelemetryEnabled()) {
             this.threadPoolExecutor.execute(new TrackDataOperation(TrackDataOperation.DataType.PAGE_VIEW,
                     pageName, properties, measurements));
+        }
+    }
+
+    public void trackDependencyView(String pageName, Map<String, String> properties) {
+        if (isTelemetryEnabled()) {
+            this.threadPoolExecutor.execute(new TrackDataOperation(TrackDataOperation.DataType.DEPENDENCY,
+                    pageName, properties, null));
+        }
+    }
+
+    public void trackAvailabilityView(String eventName, Map<String, String> properties) {
+        if (isTelemetryEnabled()) {
+            this.threadPoolExecutor.execute(new TrackDataOperation(TrackDataOperation.DataType.AVAILABILITY,
+                    eventName, properties, null));
+        }
+    }
+
+    public void trackRequestView(String requestName, Map<String, String> properties) {
+        if (isTelemetryEnabled()) {
+            this.threadPoolExecutor.execute(new TrackDataOperation(TrackDataOperation.DataType.REQUEST,
+                    requestName, properties, null));
+        }
+    }
+
+    public void trackHandledException(Exception ex, Map<String, String> properties) {
+        if (isTelemetryEnabled()) {
+            this.threadPoolExecutor.execute(new TrackDataOperation(TrackDataOperation.DataType.HANDLED_EXCEPTION,
+                    ex, properties, null));
         }
     }
 
@@ -307,7 +334,7 @@ public class TelemetryClient {
     protected boolean isTelemetryEnabled() {
         if (!this.telemetryEnabled) {
             InternalLogging.warn(TAG, "Could not track telemetry item, because telemetry " +
-                  "feature is disabled.");
+                    "feature is disabled.");
         }
         return this.telemetryEnabled;
     }
@@ -400,7 +427,7 @@ public class TelemetryClient {
             SyncUtil.getInstance().start(app);
         } else {
             InternalLogging.warn(TAG, "Couldn't turn on SyncUtil because given application " +
-                  "was null");
+                    "was null");
         }
     }
 
@@ -414,13 +441,13 @@ public class TelemetryClient {
     private boolean isAutoCollectionPossible(String featureName) {
         if (!Util.isLifecycleTrackingAvailable()) {
             InternalLogging.warn(TAG, "AutoCollection feature " + featureName +
-                  " can't be enabled/disabled, because " +
-                  "it is not supported on this OS version.");
+                    " can't be enabled/disabled, because " +
+                    "it is not supported on this OS version.");
             return false;
         } else if (getApplication() == null) {
             InternalLogging.warn(TAG, "AutoCollection feature " + featureName +
-                  " can't be enabled/disabled, because " +
-                  "ApplicationInsights has not been setup with an application.");
+                    " can't be enabled/disabled, because " +
+                    "ApplicationInsights has not been setup with an application.");
             return false;
         } else {
             return true;

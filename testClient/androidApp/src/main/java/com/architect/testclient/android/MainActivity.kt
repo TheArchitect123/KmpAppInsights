@@ -9,12 +9,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.architect.kmpappinsights.InsightsClient
+import java.lang.Exception
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        InsightsClient.configureInsightsClient("")
+        InsightsClient.configureInsightsClient("e5266826-2aea-443b-b752-dbb886dde2e2")
+        InsightsClient.writeException(
+            Exception("CATASTROPHIC FAILURE"),
+            hashMapOf("Message" to "HELLO ")
+        )
+
+        InsightsClient.writeRequest(
+            hashMapOf("Message" to "HELLO "),
+            "TESTING 1234"
+        )
         setContent {
             MyApplicationTheme {
                 Surface(

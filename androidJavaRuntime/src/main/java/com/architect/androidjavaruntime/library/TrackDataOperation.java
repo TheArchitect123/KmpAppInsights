@@ -172,6 +172,9 @@ class TrackDataOperation implements Runnable {
                 case HANDLED_EXCEPTION:
                     telemetry = EnvelopeFactory.getInstance().createExceptionData(this.exception, this.properties, this.measurements);
                     break;
+                case REQUEST:
+                    telemetry = EnvelopeFactory.getInstance().createRequestData(this.name, this.properties);
+                    break;
                 default:
                     break;
             }
@@ -195,6 +198,9 @@ class TrackDataOperation implements Runnable {
         PAGE_VIEW,
         HANDLED_EXCEPTION,
         MANAGED_EXCEPTION,
-        NEW_SESSION
+        NEW_SESSION,
+        REQUEST,
+        DEPENDENCY,
+        AVAILABILITY
     }
 }

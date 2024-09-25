@@ -23,20 +23,32 @@ actual class InsightsClient {
             ApplicationInsights.start()
         }
 
-        actual fun writeInformational(message: EventTypeMap, eventName: String) {
+        actual fun writeAvailability(message: EventTypeMap, eventName: String) {
+            telemetryClient!!.trackAvailabilityView(eventName, message)
+        }
+
+        actual fun writeDependency(message: EventTypeMap, eventName: String) {
+            telemetryClient!!.trackDependencyView(eventName, message)
+        }
+
+        actual fun writeCustomEvent(message: EventTypeMap, eventName: String) {
             telemetryClient!!.trackEvent(eventName, message)
+        }
+
+        actual fun writePageView(message: EventTypeMap, eventName: String) {
+            telemetryClient!!.trackPageView(eventName, message)
+        }
+
+        actual fun writeRequest(message: EventTypeMap, eventName: String) {
+            telemetryClient!!.trackRequestView(eventName, message)
         }
 
         actual fun writeTrace(message: EventTypeMap, eventName: String) {
             telemetryClient!!.trackTrace(eventName, message)
         }
 
-        actual fun writeException(ex: Exception, eventName: String) {
-            //telemetryClient!!.trackEvent(eventName, message)
+        actual fun writeException(ex: Exception, message: EventTypeMap) {
+            telemetryClient!!.trackHandledException(ex, message)
         }
-
-//        actual fun writeException(message: String, ex: Exception) {
-//
-//        }
     }
 }

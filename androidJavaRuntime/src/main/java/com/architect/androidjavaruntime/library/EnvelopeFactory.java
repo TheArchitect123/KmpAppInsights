@@ -12,6 +12,7 @@ import com.architect.androidjavaruntime.contracts.ExceptionDetails;
 import com.architect.androidjavaruntime.contracts.MessageData;
 import com.architect.androidjavaruntime.contracts.MetricData;
 import com.architect.androidjavaruntime.contracts.PageViewData;
+import com.architect.androidjavaruntime.contracts.RequestData;
 import com.architect.androidjavaruntime.contracts.SessionState;
 import com.architect.androidjavaruntime.contracts.SessionStateData;
 import com.architect.androidjavaruntime.contracts.StackFrame;
@@ -215,6 +216,17 @@ class EnvelopeFactory {
             MessageData telemetry = new MessageData();
             telemetry.setMessage(this.ensureNotNull(message));
             telemetry.setProperties(properties);
+
+            data = createData(telemetry);
+        }
+        return data;
+    }
+    protected Data<Domain> createRequestData(String message, Map<String, String> properties) {
+        Data<Domain> data = null;
+        if (isConfigured()) {
+            RequestData telemetry = new RequestData();
+            telemetry.setName(this.ensureNotNull(message));
+            //telemetry.setProperties(properties);
 
             data = createData(telemetry);
         }
