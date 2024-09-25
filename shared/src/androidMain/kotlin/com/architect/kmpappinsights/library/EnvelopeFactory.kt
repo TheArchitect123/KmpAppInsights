@@ -136,10 +136,10 @@ internal class EnvelopeFactory protected constructor(
             val telemetry = EventData()
             telemetry.name = ensureNotNull(eventName)
 
-            if(properties != null) {
+            if (properties != null) {
                 telemetry.properties = properties
             }
-            if(measurements != null) {
+            if (measurements != null) {
                 telemetry.setMeasurements(measurements)
             }
 
@@ -313,8 +313,10 @@ internal class EnvelopeFactory protected constructor(
         telemetry!!.setVer(CONTRACT_VERSION)
         if (this.commonProperties != null) {
             val map = telemetry.properties
-            map?.putAll(commonProperties!!)
-            telemetry.properties = map
+            if (map != null) {
+                map.putAll(commonProperties!!)
+                telemetry.properties = map
+            }
         }
     }
 
