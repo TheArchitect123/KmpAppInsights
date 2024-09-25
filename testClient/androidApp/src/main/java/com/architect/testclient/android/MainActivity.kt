@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        InsightsClient.configureInsightsClient("e5266826-2aea-443b-b752-dbb886dde2e2")
+        InsightsClient.configureInsightsClient("")
         InsightsClient.writeException(
             Exception("CATASTROPHIC FAILURE"),
             hashMapOf("Message" to "HELLO ")
