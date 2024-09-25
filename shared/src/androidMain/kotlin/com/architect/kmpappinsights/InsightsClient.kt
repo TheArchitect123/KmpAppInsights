@@ -1,8 +1,8 @@
 package com.architect.kmpappinsights
 
 import android.app.Application
-import com.architect.kmpappinsights.library.ApplicationInsights
-import com.architect.kmpappinsights.library.TelemetryClient
+import com.architect.androidjavaruntime.library.ApplicationInsights
+import com.architect.androidjavaruntime.library.TelemetryClient
 
 actual class InsightsClient {
     actual companion object {

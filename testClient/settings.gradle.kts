@@ -20,3 +20,7 @@ include(":shared")
 
 include(":kmpAppInsights")
 project(":kmpAppInsights").projectDir = File("../shared")
+
+
+include(":androidJavaRuntime")
+project(":androidJavaRuntime").projectDir = File("../androidJavaRuntime")

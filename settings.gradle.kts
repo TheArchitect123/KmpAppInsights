@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "KmpAppInsights"
 include(":shared")
+include(":androidJavaRuntime")

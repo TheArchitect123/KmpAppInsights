@@ -43,6 +43,8 @@ kotlin {
             dependencies {
                 implementation("com.github.microsoft.telemetry-client-for-android:SharedTelemetryContracts:2.0.0")
                 implementation("com.github.microsoft.telemetry-client-for-android:AndroidCll:2.0.0")
+
+                implementation(projects.androidJavaRuntime)
             }
         }
 
