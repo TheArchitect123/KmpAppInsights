@@ -34,7 +34,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-
+                implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.0")
             }
         }
 
@@ -44,7 +44,8 @@ kotlin {
                 implementation("com.github.microsoft.telemetry-client-for-android:SharedTelemetryContracts:2.0.0")
                 implementation("com.github.microsoft.telemetry-client-for-android:AndroidCll:2.0.0")
 
-                implementation(projects.androidJavaRuntime)
+                //implementation(projects.androidJavaRuntime)
+                implementation("io.github.thearchitect123:insightsAndroidJavaRuntime:0.0.3")
             }
         }
 
@@ -68,7 +69,7 @@ afterEvaluate {
         coordinates(
             groupId = "io.github.thearchitect123",
             artifactId = "appInsights",
-            version = "0.0.4"
+            version = "0.0.5"
         )
 
         // Configure POM metadata for the published artifact
