@@ -28,6 +28,8 @@ To get started, import the library into your project:
 implementation("io.github.thearchitect123:appInsights:0.1.5")
 ```
 
+Please [visit this](https://thearchitect123.github.io/ArtifactsDocProduction/develop/kotlin/multiplatform/kmpAppInsights) for extensive documentation.
+
 ## License
 
 This software is licensed under the MIT license. See [LICENSE](./LICENSE) for full disclosure.
