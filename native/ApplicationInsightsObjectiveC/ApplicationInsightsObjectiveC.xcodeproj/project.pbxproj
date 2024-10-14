@@ -1,0 +1,573 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BD2FC59A2CB0DDE6009C670B /* MSAISessionStateData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5372CB0DDE2009C670B /* MSAISessionStateData.m */; };
+		BD2FC59B2CB0DDE6009C670B /* MSAITelemetryData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5382CB0DDE2009C670B /* MSAITelemetryData.m */; };
+		BD2FC59C2CB0DDE6009C670B /* MSAIData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5392CB0DDE2009C670B /* MSAIData.m */; };
+		BD2FC59D2CB0DDE6009C670B /* MSAIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC53B2CB0DDE2009C670B /* MSAIOperation.m */; };
+		BD2FC59E2CB0DDE6009C670B /* MSAIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC53D2CB0DDE2009C670B /* MSAIHelper.m */; };
+		BD2FC59F2CB0DDE6009C670B /* MSAISession.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC53F2CB0DDE2009C670B /* MSAISession.m */; };
+		BD2FC5A02CB0DDE6009C670B /* MSAIChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5402CB0DDE3009C670B /* MSAIChannel.m */; };
+		BD2FC5A12CB0DDE6009C670B /* MSAIReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5492CB0DDE3009C670B /* MSAIReachability.m */; };
+		BD2FC5A22CB0DDE6009C670B /* MSAIKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC54A2CB0DDE3009C670B /* MSAIKeychainUtils.m */; };
+		BD2FC5A32CB0DDE6009C670B /* MSAIPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC54C2CB0DDE3009C670B /* MSAIPersistence.m */; };
+		BD2FC5A42CB0DDE6009C670B /* MSAIMessageData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC54E2CB0DDE3009C670B /* MSAIMessageData.m */; };
+		BD2FC5A52CB0DDE6009C670B /* MSAIDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5502CB0DDE3009C670B /* MSAIDevice.m */; };
+		BD2FC5A62CB0DDE6009C670B /* MSAIOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5512CB0DDE3009C670B /* MSAIOrderedDictionary.m */; };
+		BD2FC5A72CB0DDE6009C670B /* ApplicationInsightsPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5552CB0DDE3009C670B /* ApplicationInsightsPrivate.m */; };
+		BD2FC5A82CB0DDE6009C670B /* MSAISender.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5562CB0DDE3009C670B /* MSAISender.m */; };
+		BD2FC5A92CB0DDE6009C670B /* MSAIRequestData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5582CB0DDE3009C670B /* MSAIRequestData.m */; };
+		BD2FC5AA2CB0DDE6009C670B /* MSAIObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5592CB0DDE3009C670B /* MSAIObject.m */; };
+		BD2FC5AB2CB0DDE6009C670B /* MSAIHTTPOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC55E2CB0DDE4009C670B /* MSAIHTTPOperation.m */; };
+		BD2FC5AC2CB0DDE6009C670B /* MSAIEnvelopeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5622CB0DDE4009C670B /* MSAIEnvelopeManager.m */; };
+		BD2FC5AD2CB0DDE6009C670B /* MSAIInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5662CB0DDE4009C670B /* MSAIInternal.m */; };
+		BD2FC5AE2CB0DDE6009C670B /* MSAIContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5692CB0DDE4009C670B /* MSAIContext.m */; };
+		BD2FC5AF2CB0DDE6009C670B /* MSAIContextHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC56D2CB0DDE4009C670B /* MSAIContextHelper.m */; };
+		BD2FC5B02CB0DDE6009C670B /* MSAILocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC56F2CB0DDE4009C670B /* MSAILocation.m */; };
+		BD2FC5B12CB0DDE6009C670B /* MSAIAppClient.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5702CB0DDE4009C670B /* MSAIAppClient.m */; };
+		BD2FC5B22CB0DDE6009C670B /* MSAICategoryContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5732CB0DDE4009C670B /* MSAICategoryContainer.m */; };
+		BD2FC5B32CB0DDE6009C670B /* MSAIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC57C2CB0DDE5009C670B /* MSAIApplication.m */; };
+		BD2FC5B42CB0DDE6009C670B /* MSAIBase.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5802CB0DDE5009C670B /* MSAIBase.m */; };
+		BD2FC5B52CB0DDE6009C670B /* MSAITelemetryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5822CB0DDE5009C670B /* MSAITelemetryManager.m */; };
+		BD2FC5B62CB0DDE6009C670B /* MSAIEventData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5842CB0DDE5009C670B /* MSAIEventData.m */; };
+		BD2FC5B72CB0DDE6009C670B /* MSAIDomain.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5862CB0DDE5009C670B /* MSAIDomain.m */; };
+		BD2FC5B82CB0DDE6009C670B /* MSAIMetricData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5872CB0DDE5009C670B /* MSAIMetricData.m */; };
+		BD2FC5B92CB0DDE6009C670B /* MSAIEnvelope.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC58A2CB0DDE5009C670B /* MSAIEnvelope.m */; };
+		BD2FC5BA2CB0DDE6009C670B /* MSAITelemetryContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC58C2CB0DDE5009C670B /* MSAITelemetryContext.m */; };
+		BD2FC5BB2CB0DDE6009C670B /* MSAIRemoteDependencyData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC58E2CB0DDE5009C670B /* MSAIRemoteDependencyData.m */; };
+		BD2FC5BC2CB0DDE6009C670B /* MSAIPageViewPerfData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5902CB0DDE6009C670B /* MSAIPageViewPerfData.m */; };
+		BD2FC5BD2CB0DDE6009C670B /* MSAIApplicationInsights.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5912CB0DDE6009C670B /* MSAIApplicationInsights.m */; };
+		BD2FC5BE2CB0DDE6009C670B /* MSAIPageViewData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5922CB0DDE6009C670B /* MSAIPageViewData.m */; };
+		BD2FC5BF2CB0DDE6009C670B /* MSAIDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5942CB0DDE6009C670B /* MSAIDataPoint.m */; };
+		BD2FC5C02CB0DDE6009C670B /* MSAIAvailabilityData.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5972CB0DDE6009C670B /* MSAIAvailabilityData.m */; };
+		BD2FC5C12CB0DDE6009C670B /* MSAIUser.m in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC5992CB0DDE6009C670B /* MSAIUser.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BD2FC5262CB0DDC3009C670B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		BD2FC5282CB0DDC3009C670B /* libApplicationInsightsObjectiveC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApplicationInsightsObjectiveC.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD2FC5342CB0DDE2009C670B /* MSAIEnvelopeManagerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIEnvelopeManagerPrivate.h; sourceTree = "<group>"; };
+		BD2FC5352CB0DDE2009C670B /* MSAITelemetryContextPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAITelemetryContextPrivate.h; sourceTree = "<group>"; };
+		BD2FC5362CB0DDE2009C670B /* MSAIData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIData.h; sourceTree = "<group>"; };
+		BD2FC5372CB0DDE2009C670B /* MSAISessionStateData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAISessionStateData.m; sourceTree = "<group>"; };
+		BD2FC5382CB0DDE2009C670B /* MSAITelemetryData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAITelemetryData.m; sourceTree = "<group>"; };
+		BD2FC5392CB0DDE2009C670B /* MSAIData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIData.m; sourceTree = "<group>"; };
+		BD2FC53A2CB0DDE2009C670B /* MSAIPageViewLogging_UIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIPageViewLogging_UIViewController.h; sourceTree = "<group>"; };
+		BD2FC53B2CB0DDE2009C670B /* MSAIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIOperation.m; sourceTree = "<group>"; };
+		BD2FC53C2CB0DDE2009C670B /* ApplicationInsightsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationInsightsPrivate.h; sourceTree = "<group>"; };
+		BD2FC53D2CB0DDE2009C670B /* MSAIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIHelper.m; sourceTree = "<group>"; };
+		BD2FC53E2CB0DDE2009C670B /* MSAIApplicationInsights.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIApplicationInsights.h; sourceTree = "<group>"; };
+		BD2FC53F2CB0DDE2009C670B /* MSAISession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAISession.m; sourceTree = "<group>"; };
+		BD2FC5402CB0DDE3009C670B /* MSAIChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIChannel.m; sourceTree = "<group>"; };
+		BD2FC5412CB0DDE3009C670B /* MSAIBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIBase.h; sourceTree = "<group>"; };
+		BD2FC5422CB0DDE3009C670B /* MSAIPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIPersistence.h; sourceTree = "<group>"; };
+		BD2FC5432CB0DDE3009C670B /* MSAISenderPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAISenderPrivate.h; sourceTree = "<group>"; };
+		BD2FC5442CB0DDE3009C670B /* MSAIHTTPOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIHTTPOperation.h; sourceTree = "<group>"; };
+		BD2FC5452CB0DDE3009C670B /* MSAIDataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIDataPoint.h; sourceTree = "<group>"; };
+		BD2FC5462CB0DDE3009C670B /* MSAITelemetryContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAITelemetryContext.h; sourceTree = "<group>"; };
+		BD2FC5472CB0DDE3009C670B /* MSAIObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIObject.h; sourceTree = "<group>"; };
+		BD2FC5482CB0DDE3009C670B /* MSAIChannelPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIChannelPrivate.h; sourceTree = "<group>"; };
+		BD2FC5492CB0DDE3009C670B /* MSAIReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIReachability.m; sourceTree = "<group>"; };
+		BD2FC54A2CB0DDE3009C670B /* MSAIKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIKeychainUtils.m; sourceTree = "<group>"; };
+		BD2FC54B2CB0DDE3009C670B /* MSAIContextHelperPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIContextHelperPrivate.h; sourceTree = "<group>"; };
+		BD2FC54C2CB0DDE3009C670B /* MSAIPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIPersistence.m; sourceTree = "<group>"; };
+		BD2FC54D2CB0DDE3009C670B /* MSAIPageViewPerfData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIPageViewPerfData.h; sourceTree = "<group>"; };
+		BD2FC54E2CB0DDE3009C670B /* MSAIMessageData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIMessageData.m; sourceTree = "<group>"; };
+		BD2FC54F2CB0DDE3009C670B /* MSAIPersistencePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIPersistencePrivate.h; sourceTree = "<group>"; };
+		BD2FC5502CB0DDE3009C670B /* MSAIDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIDevice.m; sourceTree = "<group>"; };
+		BD2FC5512CB0DDE3009C670B /* MSAIOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIOrderedDictionary.m; sourceTree = "<group>"; };
+		BD2FC5522CB0DDE3009C670B /* MSAITestResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAITestResult.h; sourceTree = "<group>"; };
+		BD2FC5532CB0DDE3009C670B /* MSAIRequestData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIRequestData.h; sourceTree = "<group>"; };
+		BD2FC5542CB0DDE3009C670B /* MSAISessionStateData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAISessionStateData.h; sourceTree = "<group>"; };
+		BD2FC5552CB0DDE3009C670B /* ApplicationInsightsPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationInsightsPrivate.m; sourceTree = "<group>"; };
+		BD2FC5562CB0DDE3009C670B /* MSAISender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAISender.m; sourceTree = "<group>"; };
+		BD2FC5572CB0DDE3009C670B /* MSAIUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIUser.h; sourceTree = "<group>"; };
+		BD2FC5582CB0DDE3009C670B /* MSAIRequestData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIRequestData.m; sourceTree = "<group>"; };
+		BD2FC5592CB0DDE3009C670B /* MSAIObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIObject.m; sourceTree = "<group>"; };
+		BD2FC55A2CB0DDE3009C670B /* MSAIEnvelope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIEnvelope.h; sourceTree = "<group>"; };
+		BD2FC55B2CB0DDE4009C670B /* MSAIKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIKeychainUtils.h; sourceTree = "<group>"; };
+		BD2FC55C2CB0DDE4009C670B /* MSAISession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAISession.h; sourceTree = "<group>"; };
+		BD2FC55D2CB0DDE4009C670B /* MSAIGZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIGZIP.h; sourceTree = "<group>"; };
+		BD2FC55E2CB0DDE4009C670B /* MSAIHTTPOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIHTTPOperation.m; sourceTree = "<group>"; };
+		BD2FC55F2CB0DDE4009C670B /* MSAITelemetryManagerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAITelemetryManagerPrivate.h; sourceTree = "<group>"; };
+		BD2FC5602CB0DDE4009C670B /* MSAIChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIChannel.h; sourceTree = "<group>"; };
+		BD2FC5612CB0DDE4009C670B /* ApplicationInsightsFeatureConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationInsightsFeatureConfig.h; sourceTree = "<group>"; };
+		BD2FC5622CB0DDE4009C670B /* MSAIEnvelopeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIEnvelopeManager.m; sourceTree = "<group>"; };
+		BD2FC5632CB0DDE4009C670B /* MSAIContextPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIContextPrivate.h; sourceTree = "<group>"; };
+		BD2FC5642CB0DDE4009C670B /* MSAIMetricData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIMetricData.h; sourceTree = "<group>"; };
+		BD2FC5652CB0DDE4009C670B /* MSAIEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIEnums.h; sourceTree = "<group>"; };
+		BD2FC5662CB0DDE4009C670B /* MSAIInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIInternal.m; sourceTree = "<group>"; };
+		BD2FC5672CB0DDE4009C670B /* MSAIPageViewData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIPageViewData.h; sourceTree = "<group>"; };
+		BD2FC5682CB0DDE4009C670B /* MSAIApplicationInsightsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIApplicationInsightsPrivate.h; sourceTree = "<group>"; };
+		BD2FC5692CB0DDE4009C670B /* MSAIContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIContext.m; sourceTree = "<group>"; };
+		BD2FC56A2CB0DDE4009C670B /* MSAIAvailabilityData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIAvailabilityData.h; sourceTree = "<group>"; };
+		BD2FC56B2CB0DDE4009C670B /* MSAISender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAISender.h; sourceTree = "<group>"; };
+		BD2FC56C2CB0DDE4009C670B /* MSAITelemetryData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAITelemetryData.h; sourceTree = "<group>"; };
+		BD2FC56D2CB0DDE4009C670B /* MSAIContextHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIContextHelper.m; sourceTree = "<group>"; };
+		BD2FC56E2CB0DDE4009C670B /* MSAIDependencyKind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIDependencyKind.h; sourceTree = "<group>"; };
+		BD2FC56F2CB0DDE4009C670B /* MSAILocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAILocation.m; sourceTree = "<group>"; };
+		BD2FC5702CB0DDE4009C670B /* MSAIAppClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIAppClient.m; sourceTree = "<group>"; };
+		BD2FC5712CB0DDE4009C670B /* MSAIEventData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIEventData.h; sourceTree = "<group>"; };
+		BD2FC5722CB0DDE4009C670B /* MSAISessionState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAISessionState.h; sourceTree = "<group>"; };
+		BD2FC5732CB0DDE4009C670B /* MSAICategoryContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAICategoryContainer.m; sourceTree = "<group>"; };
+		BD2FC5742CB0DDE4009C670B /* MSAINullability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAINullability.h; sourceTree = "<group>"; };
+		BD2FC5752CB0DDE5009C670B /* ApplicationInsights.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationInsights.h; sourceTree = "<group>"; };
+		BD2FC5762CB0DDE5009C670B /* MSAIDomain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIDomain.h; sourceTree = "<group>"; };
+		BD2FC5772CB0DDE5009C670B /* MSAIOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIOrderedDictionary.h; sourceTree = "<group>"; };
+		BD2FC5782CB0DDE5009C670B /* MSAIOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIOperation.h; sourceTree = "<group>"; };
+		BD2FC5792CB0DDE5009C670B /* MSAICategoryContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAICategoryContainer.h; sourceTree = "<group>"; };
+		BD2FC57A2CB0DDE5009C670B /* MSAIContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIContext.h; sourceTree = "<group>"; };
+		BD2FC57B2CB0DDE5009C670B /* MSAIDataPointType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIDataPointType.h; sourceTree = "<group>"; };
+		BD2FC57C2CB0DDE5009C670B /* MSAIApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIApplication.m; sourceTree = "<group>"; };
+		BD2FC57D2CB0DDE5009C670B /* MSAIDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIDevice.h; sourceTree = "<group>"; };
+		BD2FC57E2CB0DDE5009C670B /* MSAIDependencySourceType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIDependencySourceType.h; sourceTree = "<group>"; };
+		BD2FC57F2CB0DDE5009C670B /* MSAIMessageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIMessageData.h; sourceTree = "<group>"; };
+		BD2FC5802CB0DDE5009C670B /* MSAIBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIBase.m; sourceTree = "<group>"; };
+		BD2FC5812CB0DDE5009C670B /* MSAIInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIInternal.h; sourceTree = "<group>"; };
+		BD2FC5822CB0DDE5009C670B /* MSAITelemetryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAITelemetryManager.m; sourceTree = "<group>"; };
+		BD2FC5832CB0DDE5009C670B /* MSAILocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAILocation.h; sourceTree = "<group>"; };
+		BD2FC5842CB0DDE5009C670B /* MSAIEventData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIEventData.m; sourceTree = "<group>"; };
+		BD2FC5852CB0DDE5009C670B /* MSAIAppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIAppClient.h; sourceTree = "<group>"; };
+		BD2FC5862CB0DDE5009C670B /* MSAIDomain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIDomain.m; sourceTree = "<group>"; };
+		BD2FC5872CB0DDE5009C670B /* MSAIMetricData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIMetricData.m; sourceTree = "<group>"; };
+		BD2FC5882CB0DDE5009C670B /* MSAIReachabilityPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIReachabilityPrivate.h; sourceTree = "<group>"; };
+		BD2FC5892CB0DDE5009C670B /* MSAIApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIApplication.h; sourceTree = "<group>"; };
+		BD2FC58A2CB0DDE5009C670B /* MSAIEnvelope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIEnvelope.m; sourceTree = "<group>"; };
+		BD2FC58B2CB0DDE5009C670B /* MSAIContextHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIContextHelper.h; sourceTree = "<group>"; };
+		BD2FC58C2CB0DDE5009C670B /* MSAITelemetryContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAITelemetryContext.m; sourceTree = "<group>"; };
+		BD2FC58D2CB0DDE5009C670B /* MSAISeverityLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAISeverityLevel.h; sourceTree = "<group>"; };
+		BD2FC58E2CB0DDE5009C670B /* MSAIRemoteDependencyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIRemoteDependencyData.m; sourceTree = "<group>"; };
+		BD2FC58F2CB0DDE6009C670B /* MSAIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIHelper.h; sourceTree = "<group>"; };
+		BD2FC5902CB0DDE6009C670B /* MSAIPageViewPerfData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIPageViewPerfData.m; sourceTree = "<group>"; };
+		BD2FC5912CB0DDE6009C670B /* MSAIApplicationInsights.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIApplicationInsights.m; sourceTree = "<group>"; };
+		BD2FC5922CB0DDE6009C670B /* MSAIPageViewData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIPageViewData.m; sourceTree = "<group>"; };
+		BD2FC5932CB0DDE6009C670B /* MSAITelemetryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAITelemetryManager.h; sourceTree = "<group>"; };
+		BD2FC5942CB0DDE6009C670B /* MSAIDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIDataPoint.m; sourceTree = "<group>"; };
+		BD2FC5952CB0DDE6009C670B /* MSAIEnvelopeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIEnvelopeManager.h; sourceTree = "<group>"; };
+		BD2FC5962CB0DDE6009C670B /* MSAIReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIReachability.h; sourceTree = "<group>"; };
+		BD2FC5972CB0DDE6009C670B /* MSAIAvailabilityData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIAvailabilityData.m; sourceTree = "<group>"; };
+		BD2FC5982CB0DDE6009C670B /* MSAIRemoteDependencyData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIRemoteDependencyData.h; sourceTree = "<group>"; };
+		BD2FC5992CB0DDE6009C670B /* MSAIUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIUser.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BD2FC5252CB0DDC3009C670B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BD2FC51F2CB0DDC3009C670B = {
+			isa = PBXGroup;
+			children = (
+				BD2FC52A2CB0DDC3009C670B /* ApplicationInsightsObjectiveC */,
+				BD2FC5292CB0DDC3009C670B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BD2FC5292CB0DDC3009C670B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BD2FC5282CB0DDC3009C670B /* libApplicationInsightsObjectiveC.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BD2FC52A2CB0DDC3009C670B /* ApplicationInsightsObjectiveC */ = {
+			isa = PBXGroup;
+			children = (
+				BD2FC5752CB0DDE5009C670B /* ApplicationInsights.h */,
+				BD2FC5612CB0DDE4009C670B /* ApplicationInsightsFeatureConfig.h */,
+				BD2FC53C2CB0DDE2009C670B /* ApplicationInsightsPrivate.h */,
+				BD2FC5552CB0DDE3009C670B /* ApplicationInsightsPrivate.m */,
+				BD2FC5852CB0DDE5009C670B /* MSAIAppClient.h */,
+				BD2FC5702CB0DDE4009C670B /* MSAIAppClient.m */,
+				BD2FC5892CB0DDE5009C670B /* MSAIApplication.h */,
+				BD2FC57C2CB0DDE5009C670B /* MSAIApplication.m */,
+				BD2FC53E2CB0DDE2009C670B /* MSAIApplicationInsights.h */,
+				BD2FC5912CB0DDE6009C670B /* MSAIApplicationInsights.m */,
+				BD2FC5682CB0DDE4009C670B /* MSAIApplicationInsightsPrivate.h */,
+				BD2FC56A2CB0DDE4009C670B /* MSAIAvailabilityData.h */,
+				BD2FC5972CB0DDE6009C670B /* MSAIAvailabilityData.m */,
+				BD2FC5412CB0DDE3009C670B /* MSAIBase.h */,
+				BD2FC5802CB0DDE5009C670B /* MSAIBase.m */,
+				BD2FC5792CB0DDE5009C670B /* MSAICategoryContainer.h */,
+				BD2FC5732CB0DDE4009C670B /* MSAICategoryContainer.m */,
+				BD2FC5602CB0DDE4009C670B /* MSAIChannel.h */,
+				BD2FC5402CB0DDE3009C670B /* MSAIChannel.m */,
+				BD2FC5482CB0DDE3009C670B /* MSAIChannelPrivate.h */,
+				BD2FC57A2CB0DDE5009C670B /* MSAIContext.h */,
+				BD2FC5692CB0DDE4009C670B /* MSAIContext.m */,
+				BD2FC58B2CB0DDE5009C670B /* MSAIContextHelper.h */,
+				BD2FC56D2CB0DDE4009C670B /* MSAIContextHelper.m */,
+				BD2FC54B2CB0DDE3009C670B /* MSAIContextHelperPrivate.h */,
+				BD2FC5632CB0DDE4009C670B /* MSAIContextPrivate.h */,
+				BD2FC5362CB0DDE2009C670B /* MSAIData.h */,
+				BD2FC5392CB0DDE2009C670B /* MSAIData.m */,
+				BD2FC5452CB0DDE3009C670B /* MSAIDataPoint.h */,
+				BD2FC5942CB0DDE6009C670B /* MSAIDataPoint.m */,
+				BD2FC57B2CB0DDE5009C670B /* MSAIDataPointType.h */,
+				BD2FC56E2CB0DDE4009C670B /* MSAIDependencyKind.h */,
+				BD2FC57E2CB0DDE5009C670B /* MSAIDependencySourceType.h */,
+				BD2FC57D2CB0DDE5009C670B /* MSAIDevice.h */,
+				BD2FC5502CB0DDE3009C670B /* MSAIDevice.m */,
+				BD2FC5762CB0DDE5009C670B /* MSAIDomain.h */,
+				BD2FC5862CB0DDE5009C670B /* MSAIDomain.m */,
+				BD2FC5652CB0DDE4009C670B /* MSAIEnums.h */,
+				BD2FC55A2CB0DDE3009C670B /* MSAIEnvelope.h */,
+				BD2FC58A2CB0DDE5009C670B /* MSAIEnvelope.m */,
+				BD2FC5952CB0DDE6009C670B /* MSAIEnvelopeManager.h */,
+				BD2FC5622CB0DDE4009C670B /* MSAIEnvelopeManager.m */,
+				BD2FC5342CB0DDE2009C670B /* MSAIEnvelopeManagerPrivate.h */,
+				BD2FC5712CB0DDE4009C670B /* MSAIEventData.h */,
+				BD2FC5842CB0DDE5009C670B /* MSAIEventData.m */,
+				BD2FC55D2CB0DDE4009C670B /* MSAIGZIP.h */,
+				BD2FC58F2CB0DDE6009C670B /* MSAIHelper.h */,
+				BD2FC53D2CB0DDE2009C670B /* MSAIHelper.m */,
+				BD2FC5442CB0DDE3009C670B /* MSAIHTTPOperation.h */,
+				BD2FC55E2CB0DDE4009C670B /* MSAIHTTPOperation.m */,
+				BD2FC5812CB0DDE5009C670B /* MSAIInternal.h */,
+				BD2FC5662CB0DDE4009C670B /* MSAIInternal.m */,
+				BD2FC55B2CB0DDE4009C670B /* MSAIKeychainUtils.h */,
+				BD2FC54A2CB0DDE3009C670B /* MSAIKeychainUtils.m */,
+				BD2FC5832CB0DDE5009C670B /* MSAILocation.h */,
+				BD2FC56F2CB0DDE4009C670B /* MSAILocation.m */,
+				BD2FC57F2CB0DDE5009C670B /* MSAIMessageData.h */,
+				BD2FC54E2CB0DDE3009C670B /* MSAIMessageData.m */,
+				BD2FC5642CB0DDE4009C670B /* MSAIMetricData.h */,
+				BD2FC5872CB0DDE5009C670B /* MSAIMetricData.m */,
+				BD2FC5742CB0DDE4009C670B /* MSAINullability.h */,
+				BD2FC5472CB0DDE3009C670B /* MSAIObject.h */,
+				BD2FC5592CB0DDE3009C670B /* MSAIObject.m */,
+				BD2FC5782CB0DDE5009C670B /* MSAIOperation.h */,
+				BD2FC53B2CB0DDE2009C670B /* MSAIOperation.m */,
+				BD2FC5772CB0DDE5009C670B /* MSAIOrderedDictionary.h */,
+				BD2FC5512CB0DDE3009C670B /* MSAIOrderedDictionary.m */,
+				BD2FC5672CB0DDE4009C670B /* MSAIPageViewData.h */,
+				BD2FC5922CB0DDE6009C670B /* MSAIPageViewData.m */,
+				BD2FC53A2CB0DDE2009C670B /* MSAIPageViewLogging_UIViewController.h */,
+				BD2FC54D2CB0DDE3009C670B /* MSAIPageViewPerfData.h */,
+				BD2FC5902CB0DDE6009C670B /* MSAIPageViewPerfData.m */,
+				BD2FC5422CB0DDE3009C670B /* MSAIPersistence.h */,
+				BD2FC54C2CB0DDE3009C670B /* MSAIPersistence.m */,
+				BD2FC54F2CB0DDE3009C670B /* MSAIPersistencePrivate.h */,
+				BD2FC5962CB0DDE6009C670B /* MSAIReachability.h */,
+				BD2FC5492CB0DDE3009C670B /* MSAIReachability.m */,
+				BD2FC5882CB0DDE5009C670B /* MSAIReachabilityPrivate.h */,
+				BD2FC5982CB0DDE6009C670B /* MSAIRemoteDependencyData.h */,
+				BD2FC58E2CB0DDE5009C670B /* MSAIRemoteDependencyData.m */,
+				BD2FC5532CB0DDE3009C670B /* MSAIRequestData.h */,
+				BD2FC5582CB0DDE3009C670B /* MSAIRequestData.m */,
+				BD2FC56B2CB0DDE4009C670B /* MSAISender.h */,
+				BD2FC5562CB0DDE3009C670B /* MSAISender.m */,
+				BD2FC5432CB0DDE3009C670B /* MSAISenderPrivate.h */,
+				BD2FC55C2CB0DDE4009C670B /* MSAISession.h */,
+				BD2FC53F2CB0DDE2009C670B /* MSAISession.m */,
+				BD2FC5722CB0DDE4009C670B /* MSAISessionState.h */,
+				BD2FC5542CB0DDE3009C670B /* MSAISessionStateData.h */,
+				BD2FC5372CB0DDE2009C670B /* MSAISessionStateData.m */,
+				BD2FC58D2CB0DDE5009C670B /* MSAISeverityLevel.h */,
+				BD2FC5462CB0DDE3009C670B /* MSAITelemetryContext.h */,
+				BD2FC58C2CB0DDE5009C670B /* MSAITelemetryContext.m */,
+				BD2FC5352CB0DDE2009C670B /* MSAITelemetryContextPrivate.h */,
+				BD2FC56C2CB0DDE4009C670B /* MSAITelemetryData.h */,
+				BD2FC5382CB0DDE2009C670B /* MSAITelemetryData.m */,
+				BD2FC5932CB0DDE6009C670B /* MSAITelemetryManager.h */,
+				BD2FC5822CB0DDE5009C670B /* MSAITelemetryManager.m */,
+				BD2FC55F2CB0DDE4009C670B /* MSAITelemetryManagerPrivate.h */,
+				BD2FC5522CB0DDE3009C670B /* MSAITestResult.h */,
+				BD2FC5572CB0DDE3009C670B /* MSAIUser.h */,
+				BD2FC5992CB0DDE6009C670B /* MSAIUser.m */,
+			);
+			path = ApplicationInsightsObjectiveC;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BD2FC5272CB0DDC3009C670B /* ApplicationInsightsObjectiveC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD2FC5312CB0DDC3009C670B /* Build configuration list for PBXNativeTarget "ApplicationInsightsObjectiveC" */;
+			buildPhases = (
+				BD2FC5242CB0DDC3009C670B /* Sources */,
+				BD2FC5252CB0DDC3009C670B /* Frameworks */,
+				BD2FC5262CB0DDC3009C670B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ApplicationInsightsObjectiveC;
+			productName = ApplicationInsightsObjectiveC;
+			productReference = BD2FC5282CB0DDC3009C670B /* libApplicationInsightsObjectiveC.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BD2FC5202CB0DDC3009C670B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					BD2FC5272CB0DDC3009C670B = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = BD2FC5232CB0DDC3009C670B /* Build configuration list for PBXProject "ApplicationInsightsObjectiveC" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BD2FC51F2CB0DDC3009C670B;
+			productRefGroup = BD2FC5292CB0DDC3009C670B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BD2FC5272CB0DDC3009C670B /* ApplicationInsightsObjectiveC */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BD2FC5242CB0DDC3009C670B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD2FC59F2CB0DDE6009C670B /* MSAISession.m in Sources */,
+				BD2FC5A42CB0DDE6009C670B /* MSAIMessageData.m in Sources */,
+				BD2FC5BC2CB0DDE6009C670B /* MSAIPageViewPerfData.m in Sources */,
+				BD2FC5A82CB0DDE6009C670B /* MSAISender.m in Sources */,
+				BD2FC5AC2CB0DDE6009C670B /* MSAIEnvelopeManager.m in Sources */,
+				BD2FC59A2CB0DDE6009C670B /* MSAISessionStateData.m in Sources */,
+				BD2FC5BB2CB0DDE6009C670B /* MSAIRemoteDependencyData.m in Sources */,
+				BD2FC5A92CB0DDE6009C670B /* MSAIRequestData.m in Sources */,
+				BD2FC5A62CB0DDE6009C670B /* MSAIOrderedDictionary.m in Sources */,
+				BD2FC59E2CB0DDE6009C670B /* MSAIHelper.m in Sources */,
+				BD2FC5AD2CB0DDE6009C670B /* MSAIInternal.m in Sources */,
+				BD2FC5B32CB0DDE6009C670B /* MSAIApplication.m in Sources */,
+				BD2FC5C12CB0DDE6009C670B /* MSAIUser.m in Sources */,
+				BD2FC5B42CB0DDE6009C670B /* MSAIBase.m in Sources */,
+				BD2FC5A02CB0DDE6009C670B /* MSAIChannel.m in Sources */,
+				BD2FC5A52CB0DDE6009C670B /* MSAIDevice.m in Sources */,
+				BD2FC5AE2CB0DDE6009C670B /* MSAIContext.m in Sources */,
+				BD2FC5B02CB0DDE6009C670B /* MSAILocation.m in Sources */,
+				BD2FC59C2CB0DDE6009C670B /* MSAIData.m in Sources */,
+				BD2FC5A22CB0DDE6009C670B /* MSAIKeychainUtils.m in Sources */,
+				BD2FC5B12CB0DDE6009C670B /* MSAIAppClient.m in Sources */,
+				BD2FC59D2CB0DDE6009C670B /* MSAIOperation.m in Sources */,
+				BD2FC5BD2CB0DDE6009C670B /* MSAIApplicationInsights.m in Sources */,
+				BD2FC5B82CB0DDE6009C670B /* MSAIMetricData.m in Sources */,
+				BD2FC5B22CB0DDE6009C670B /* MSAICategoryContainer.m in Sources */,
+				BD2FC5A32CB0DDE6009C670B /* MSAIPersistence.m in Sources */,
+				BD2FC5AF2CB0DDE6009C670B /* MSAIContextHelper.m in Sources */,
+				BD2FC5A12CB0DDE6009C670B /* MSAIReachability.m in Sources */,
+				BD2FC5AA2CB0DDE6009C670B /* MSAIObject.m in Sources */,
+				BD2FC5BA2CB0DDE6009C670B /* MSAITelemetryContext.m in Sources */,
+				BD2FC5B92CB0DDE6009C670B /* MSAIEnvelope.m in Sources */,
+				BD2FC5AB2CB0DDE6009C670B /* MSAIHTTPOperation.m in Sources */,
+				BD2FC59B2CB0DDE6009C670B /* MSAITelemetryData.m in Sources */,
+				BD2FC5C02CB0DDE6009C670B /* MSAIAvailabilityData.m in Sources */,
+				BD2FC5B62CB0DDE6009C670B /* MSAIEventData.m in Sources */,
+				BD2FC5BF2CB0DDE6009C670B /* MSAIDataPoint.m in Sources */,
+				BD2FC5A72CB0DDE6009C670B /* ApplicationInsightsPrivate.m in Sources */,
+				BD2FC5BE2CB0DDE6009C670B /* MSAIPageViewData.m in Sources */,
+				BD2FC5B72CB0DDE6009C670B /* MSAIDomain.m in Sources */,
+				BD2FC5B52CB0DDE6009C670B /* MSAITelemetryManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BD2FC52F2CB0DDC3009C670B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		BD2FC5302CB0DDC3009C670B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BD2FC5322CB0DDC3009C670B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EJD9WJY8DN;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BD2FC5332CB0DDC3009C670B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EJD9WJY8DN;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BD2FC5232CB0DDC3009C670B /* Build configuration list for PBXProject "ApplicationInsightsObjectiveC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD2FC52F2CB0DDC3009C670B /* Debug */,
+				BD2FC5302CB0DDC3009C670B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BD2FC5312CB0DDC3009C670B /* Build configuration list for PBXNativeTarget "ApplicationInsightsObjectiveC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD2FC5322CB0DDC3009C670B /* Debug */,
+				BD2FC5332CB0DDC3009C670B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BD2FC5202CB0DDC3009C670B /* Project object */;
+}

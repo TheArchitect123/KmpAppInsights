@@ -1,0 +1,467 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BD2FC6CB2CB76455009C670B /* ApplicationInsightsPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6CA2CB76455009C670B /* ApplicationInsightsPrivate.swift */; };
+		BD2FC6CD2CB7647A009C670B /* MSAIAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6CC2CB7647A009C670B /* MSAIAppClient.swift */; };
+		BD2FC6CF2CB76496009C670B /* MSAIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6CE2CB76496009C670B /* MSAIApplication.swift */; };
+		BD2FC6D12CB764C8009C670B /* MSAIApplicationInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6D02CB764C8009C670B /* MSAIApplicationInsights.swift */; };
+		BD2FC6D32CB7655E009C670B /* MSAIAvailabilityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6D22CB7655E009C670B /* MSAIAvailabilityData.swift */; };
+		BD2FC6D52CB7659B009C670B /* MSAIBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6D42CB7659B009C670B /* MSAIBase.swift */; };
+		BD2FC6D72CB765B7009C670B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6D62CB765B7009C670B /* Extensions.swift */; };
+		BD2FC6DA2CB76B8E009C670B /* MSAIContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6D92CB76B8E009C670B /* MSAIContext.swift */; };
+		BD2FC6DC2CB76BF4009C670B /* MSAIContextHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6DB2CB76BF4009C670B /* MSAIContextHelper.swift */; };
+		BD2FC6DE2CB76C06009C670B /* MSAIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6DD2CB76C06009C670B /* MSAIData.swift */; };
+		BD2FC6E02CB76C20009C670B /* MSAIDataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6DF2CB76C20009C670B /* MSAIDataPoint.swift */; };
+		BD2FC6E22CB76C46009C670B /* MSAIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6E12CB76C46009C670B /* MSAIDevice.swift */; };
+		BD2FC6E42CB76C94009C670B /* MSAIDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6E32CB76C94009C670B /* MSAIDomain.swift */; };
+		BD2FC6E62CB76CD2009C670B /* MSAIEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6E52CB76CD2009C670B /* MSAIEnvelope.swift */; };
+		BD2FC6E82CB76D79009C670B /* MSAIEnvelopeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6E72CB76D79009C670B /* MSAIEnvelopeManager.swift */; };
+		BD2FC6EA2CB76DA3009C670B /* MSAIEventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6E92CB76DA3009C670B /* MSAIEventData.swift */; };
+		BD2FC6EC2CB76DD3009C670B /* MSAIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6EB2CB76DD3009C670B /* MSAIHelper.swift */; };
+		BD2FC6EE2CB76E63009C670B /* MSAIHTTPOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6ED2CB76E63009C670B /* MSAIHTTPOperation.swift */; };
+		BD2FC6F02CB76EA6009C670B /* MSAIInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6EF2CB76EA6009C670B /* MSAIInternal.swift */; };
+		BD2FC6F22CB76ECC009C670B /* MSAIKeychainUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6F12CB76ECC009C670B /* MSAIKeychainUtils.swift */; };
+		BD2FC6F42CB76EFB009C670B /* MSAILocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6F32CB76EFB009C670B /* MSAILocation.swift */; };
+		BD2FC6F62CB76F2D009C670B /* MSAIMessageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6F52CB76F2D009C670B /* MSAIMessageData.swift */; };
+		BD2FC6F82CB76F4D009C670B /* MSAIMetricData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6F72CB76F4D009C670B /* MSAIMetricData.swift */; };
+		BD2FC6FA2CB76F8D009C670B /* MSAIObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6F92CB76F8D009C670B /* MSAIObject.swift */; };
+		BD2FC6FC2CB76FA1009C670B /* MSAIOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6FB2CB76FA1009C670B /* MSAIOperation.swift */; };
+		BD2FC6FE2CB76FD0009C670B /* MSAIOrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6FD2CB76FD0009C670B /* MSAIOrderedDictionary.swift */; };
+		BD2FC7002CB76FE0009C670B /* MSAIPageViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC6FF2CB76FE0009C670B /* MSAIPageViewData.swift */; };
+		BD2FC7022CB77005009C670B /* MSAIPageViewPerfData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC7012CB77005009C670B /* MSAIPageViewPerfData.swift */; };
+		BD2FC7042CB77069009C670B /* MSAIPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC7032CB77069009C670B /* MSAIPersistence.swift */; };
+		BD2FC7062CB770A8009C670B /* MSAIReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC7052CB770A8009C670B /* MSAIReachability.swift */; };
+		BD2FC7082CB77139009C670B /* MSAIRemoteDependencyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC7072CB77139009C670B /* MSAIRemoteDependencyData.swift */; };
+		BD2FC70A2CB77185009C670B /* MSAIRequestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC7092CB77185009C670B /* MSAIRequestData.swift */; };
+		BD2FC70C2CB771B8009C670B /* MSAISender.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC70B2CB771B8009C670B /* MSAISender.swift */; };
+		BD2FC70E2CB77226009C670B /* MSAISession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC70D2CB77226009C670B /* MSAISession.swift */; };
+		BD2FC7102CB77240009C670B /* MSAISessionStateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC70F2CB77240009C670B /* MSAISessionStateData.swift */; };
+		BD2FC7122CB7729F009C670B /* MSAITelemetryContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC7112CB7729F009C670B /* MSAITelemetryContext.swift */; };
+		BD2FC7142CB772F2009C670B /* MSAITelemetryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC7132CB772F2009C670B /* MSAITelemetryData.swift */; };
+		BD2FC7162CB7730F009C670B /* MSAITelemetryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC7152CB7730F009C670B /* MSAITelemetryManager.swift */; };
+		BD2FC7182CB773CF009C670B /* MSAIUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC7172CB773CF009C670B /* MSAIUser.swift */; };
+		BD2FC71A2CB77896009C670B /* MSAIChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FC7192CB77896009C670B /* MSAIChannel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BD2FC6BE2CB7642F009C670B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		BD2FC6C02CB7642F009C670B /* libSwiftInsights.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSwiftInsights.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD2FC6CA2CB76455009C670B /* ApplicationInsightsPrivate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationInsightsPrivate.swift; sourceTree = "<group>"; };
+		BD2FC6CC2CB7647A009C670B /* MSAIAppClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIAppClient.swift; sourceTree = "<group>"; };
+		BD2FC6CE2CB76496009C670B /* MSAIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIApplication.swift; sourceTree = "<group>"; };
+		BD2FC6D02CB764C8009C670B /* MSAIApplicationInsights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIApplicationInsights.swift; sourceTree = "<group>"; };
+		BD2FC6D22CB7655E009C670B /* MSAIAvailabilityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIAvailabilityData.swift; sourceTree = "<group>"; };
+		BD2FC6D42CB7659B009C670B /* MSAIBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIBase.swift; sourceTree = "<group>"; };
+		BD2FC6D62CB765B7009C670B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		BD2FC6D92CB76B8E009C670B /* MSAIContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIContext.swift; sourceTree = "<group>"; };
+		BD2FC6DB2CB76BF4009C670B /* MSAIContextHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIContextHelper.swift; sourceTree = "<group>"; };
+		BD2FC6DD2CB76C06009C670B /* MSAIData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIData.swift; sourceTree = "<group>"; };
+		BD2FC6DF2CB76C20009C670B /* MSAIDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIDataPoint.swift; sourceTree = "<group>"; };
+		BD2FC6E12CB76C46009C670B /* MSAIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIDevice.swift; sourceTree = "<group>"; };
+		BD2FC6E32CB76C94009C670B /* MSAIDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIDomain.swift; sourceTree = "<group>"; };
+		BD2FC6E52CB76CD2009C670B /* MSAIEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIEnvelope.swift; sourceTree = "<group>"; };
+		BD2FC6E72CB76D79009C670B /* MSAIEnvelopeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIEnvelopeManager.swift; sourceTree = "<group>"; };
+		BD2FC6E92CB76DA3009C670B /* MSAIEventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIEventData.swift; sourceTree = "<group>"; };
+		BD2FC6EB2CB76DD3009C670B /* MSAIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIHelper.swift; sourceTree = "<group>"; };
+		BD2FC6ED2CB76E63009C670B /* MSAIHTTPOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIHTTPOperation.swift; sourceTree = "<group>"; };
+		BD2FC6EF2CB76EA6009C670B /* MSAIInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIInternal.swift; sourceTree = "<group>"; };
+		BD2FC6F12CB76ECC009C670B /* MSAIKeychainUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIKeychainUtils.swift; sourceTree = "<group>"; };
+		BD2FC6F32CB76EFB009C670B /* MSAILocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAILocation.swift; sourceTree = "<group>"; };
+		BD2FC6F52CB76F2D009C670B /* MSAIMessageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIMessageData.swift; sourceTree = "<group>"; };
+		BD2FC6F72CB76F4D009C670B /* MSAIMetricData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIMetricData.swift; sourceTree = "<group>"; };
+		BD2FC6F92CB76F8D009C670B /* MSAIObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIObject.swift; sourceTree = "<group>"; };
+		BD2FC6FB2CB76FA1009C670B /* MSAIOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIOperation.swift; sourceTree = "<group>"; };
+		BD2FC6FD2CB76FD0009C670B /* MSAIOrderedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIOrderedDictionary.swift; sourceTree = "<group>"; };
+		BD2FC6FF2CB76FE0009C670B /* MSAIPageViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIPageViewData.swift; sourceTree = "<group>"; };
+		BD2FC7012CB77005009C670B /* MSAIPageViewPerfData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIPageViewPerfData.swift; sourceTree = "<group>"; };
+		BD2FC7032CB77069009C670B /* MSAIPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIPersistence.swift; sourceTree = "<group>"; };
+		BD2FC7052CB770A8009C670B /* MSAIReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIReachability.swift; sourceTree = "<group>"; };
+		BD2FC7072CB77139009C670B /* MSAIRemoteDependencyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIRemoteDependencyData.swift; sourceTree = "<group>"; };
+		BD2FC7092CB77185009C670B /* MSAIRequestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIRequestData.swift; sourceTree = "<group>"; };
+		BD2FC70B2CB771B8009C670B /* MSAISender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAISender.swift; sourceTree = "<group>"; };
+		BD2FC70D2CB77226009C670B /* MSAISession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAISession.swift; sourceTree = "<group>"; };
+		BD2FC70F2CB77240009C670B /* MSAISessionStateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAISessionStateData.swift; sourceTree = "<group>"; };
+		BD2FC7112CB7729F009C670B /* MSAITelemetryContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAITelemetryContext.swift; sourceTree = "<group>"; };
+		BD2FC7132CB772F2009C670B /* MSAITelemetryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAITelemetryData.swift; sourceTree = "<group>"; };
+		BD2FC7152CB7730F009C670B /* MSAITelemetryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAITelemetryManager.swift; sourceTree = "<group>"; };
+		BD2FC7172CB773CF009C670B /* MSAIUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIUser.swift; sourceTree = "<group>"; };
+		BD2FC7192CB77896009C670B /* MSAIChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAIChannel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BD2FC6BD2CB7642F009C670B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BD2FC6B72CB7642F009C670B = {
+			isa = PBXGroup;
+			children = (
+				BD2FC6C22CB7642F009C670B /* SwiftInsights */,
+				BD2FC6C12CB7642F009C670B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BD2FC6C12CB7642F009C670B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BD2FC6C02CB7642F009C670B /* libSwiftInsights.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BD2FC6C22CB7642F009C670B /* SwiftInsights */ = {
+			isa = PBXGroup;
+			children = (
+				BD2FC6CA2CB76455009C670B /* ApplicationInsightsPrivate.swift */,
+				BD2FC6CC2CB7647A009C670B /* MSAIAppClient.swift */,
+				BD2FC6CE2CB76496009C670B /* MSAIApplication.swift */,
+				BD2FC6D02CB764C8009C670B /* MSAIApplicationInsights.swift */,
+				BD2FC6D22CB7655E009C670B /* MSAIAvailabilityData.swift */,
+				BD2FC6D42CB7659B009C670B /* MSAIBase.swift */,
+				BD2FC6D62CB765B7009C670B /* Extensions.swift */,
+				BD2FC6D92CB76B8E009C670B /* MSAIContext.swift */,
+				BD2FC6DB2CB76BF4009C670B /* MSAIContextHelper.swift */,
+				BD2FC6DD2CB76C06009C670B /* MSAIData.swift */,
+				BD2FC6DF2CB76C20009C670B /* MSAIDataPoint.swift */,
+				BD2FC6E12CB76C46009C670B /* MSAIDevice.swift */,
+				BD2FC6E32CB76C94009C670B /* MSAIDomain.swift */,
+				BD2FC6E52CB76CD2009C670B /* MSAIEnvelope.swift */,
+				BD2FC6E72CB76D79009C670B /* MSAIEnvelopeManager.swift */,
+				BD2FC6E92CB76DA3009C670B /* MSAIEventData.swift */,
+				BD2FC6EB2CB76DD3009C670B /* MSAIHelper.swift */,
+				BD2FC6ED2CB76E63009C670B /* MSAIHTTPOperation.swift */,
+				BD2FC6EF2CB76EA6009C670B /* MSAIInternal.swift */,
+				BD2FC6F12CB76ECC009C670B /* MSAIKeychainUtils.swift */,
+				BD2FC6F32CB76EFB009C670B /* MSAILocation.swift */,
+				BD2FC6F52CB76F2D009C670B /* MSAIMessageData.swift */,
+				BD2FC6F72CB76F4D009C670B /* MSAIMetricData.swift */,
+				BD2FC6F92CB76F8D009C670B /* MSAIObject.swift */,
+				BD2FC6FB2CB76FA1009C670B /* MSAIOperation.swift */,
+				BD2FC6FD2CB76FD0009C670B /* MSAIOrderedDictionary.swift */,
+				BD2FC6FF2CB76FE0009C670B /* MSAIPageViewData.swift */,
+				BD2FC7012CB77005009C670B /* MSAIPageViewPerfData.swift */,
+				BD2FC7032CB77069009C670B /* MSAIPersistence.swift */,
+				BD2FC7052CB770A8009C670B /* MSAIReachability.swift */,
+				BD2FC7072CB77139009C670B /* MSAIRemoteDependencyData.swift */,
+				BD2FC7092CB77185009C670B /* MSAIRequestData.swift */,
+				BD2FC70B2CB771B8009C670B /* MSAISender.swift */,
+				BD2FC70D2CB77226009C670B /* MSAISession.swift */,
+				BD2FC70F2CB77240009C670B /* MSAISessionStateData.swift */,
+				BD2FC7112CB7729F009C670B /* MSAITelemetryContext.swift */,
+				BD2FC7132CB772F2009C670B /* MSAITelemetryData.swift */,
+				BD2FC7152CB7730F009C670B /* MSAITelemetryManager.swift */,
+				BD2FC7172CB773CF009C670B /* MSAIUser.swift */,
+				BD2FC7192CB77896009C670B /* MSAIChannel.swift */,
+			);
+			path = SwiftInsights;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BD2FC6BF2CB7642F009C670B /* SwiftInsights */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD2FC6C72CB7642F009C670B /* Build configuration list for PBXNativeTarget "SwiftInsights" */;
+			buildPhases = (
+				BD2FC6BC2CB7642F009C670B /* Sources */,
+				BD2FC6BD2CB7642F009C670B /* Frameworks */,
+				BD2FC6BE2CB7642F009C670B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftInsights;
+			productName = SwiftInsights;
+			productReference = BD2FC6C02CB7642F009C670B /* libSwiftInsights.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BD2FC6B82CB7642F009C670B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					BD2FC6BF2CB7642F009C670B = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = BD2FC6BB2CB7642F009C670B /* Build configuration list for PBXProject "SwiftInsights" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BD2FC6B72CB7642F009C670B;
+			packageReferences = (
+				BD2FC6D82CB76761009C670B /* XCRemoteSwiftPackageReference "swift-nio-zlib-support" */,
+			);
+			productRefGroup = BD2FC6C12CB7642F009C670B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BD2FC6BF2CB7642F009C670B /* SwiftInsights */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BD2FC6BC2CB7642F009C670B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD2FC6D52CB7659B009C670B /* MSAIBase.swift in Sources */,
+				BD2FC6F22CB76ECC009C670B /* MSAIKeychainUtils.swift in Sources */,
+				BD2FC6E22CB76C46009C670B /* MSAIDevice.swift in Sources */,
+				BD2FC6F42CB76EFB009C670B /* MSAILocation.swift in Sources */,
+				BD2FC6FA2CB76F8D009C670B /* MSAIObject.swift in Sources */,
+				BD2FC6D32CB7655E009C670B /* MSAIAvailabilityData.swift in Sources */,
+				BD2FC6E62CB76CD2009C670B /* MSAIEnvelope.swift in Sources */,
+				BD2FC6EA2CB76DA3009C670B /* MSAIEventData.swift in Sources */,
+				BD2FC6FC2CB76FA1009C670B /* MSAIOperation.swift in Sources */,
+				BD2FC7002CB76FE0009C670B /* MSAIPageViewData.swift in Sources */,
+				BD2FC6F02CB76EA6009C670B /* MSAIInternal.swift in Sources */,
+				BD2FC7122CB7729F009C670B /* MSAITelemetryContext.swift in Sources */,
+				BD2FC6CF2CB76496009C670B /* MSAIApplication.swift in Sources */,
+				BD2FC6FE2CB76FD0009C670B /* MSAIOrderedDictionary.swift in Sources */,
+				BD2FC6DA2CB76B8E009C670B /* MSAIContext.swift in Sources */,
+				BD2FC6CD2CB7647A009C670B /* MSAIAppClient.swift in Sources */,
+				BD2FC6E82CB76D79009C670B /* MSAIEnvelopeManager.swift in Sources */,
+				BD2FC70C2CB771B8009C670B /* MSAISender.swift in Sources */,
+				BD2FC6CB2CB76455009C670B /* ApplicationInsightsPrivate.swift in Sources */,
+				BD2FC7082CB77139009C670B /* MSAIRemoteDependencyData.swift in Sources */,
+				BD2FC7142CB772F2009C670B /* MSAITelemetryData.swift in Sources */,
+				BD2FC6D12CB764C8009C670B /* MSAIApplicationInsights.swift in Sources */,
+				BD2FC70E2CB77226009C670B /* MSAISession.swift in Sources */,
+				BD2FC71A2CB77896009C670B /* MSAIChannel.swift in Sources */,
+				BD2FC6EE2CB76E63009C670B /* MSAIHTTPOperation.swift in Sources */,
+				BD2FC6EC2CB76DD3009C670B /* MSAIHelper.swift in Sources */,
+				BD2FC7062CB770A8009C670B /* MSAIReachability.swift in Sources */,
+				BD2FC6DC2CB76BF4009C670B /* MSAIContextHelper.swift in Sources */,
+				BD2FC6E02CB76C20009C670B /* MSAIDataPoint.swift in Sources */,
+				BD2FC7022CB77005009C670B /* MSAIPageViewPerfData.swift in Sources */,
+				BD2FC6D72CB765B7009C670B /* Extensions.swift in Sources */,
+				BD2FC6F62CB76F2D009C670B /* MSAIMessageData.swift in Sources */,
+				BD2FC7102CB77240009C670B /* MSAISessionStateData.swift in Sources */,
+				BD2FC6E42CB76C94009C670B /* MSAIDomain.swift in Sources */,
+				BD2FC7162CB7730F009C670B /* MSAITelemetryManager.swift in Sources */,
+				BD2FC7042CB77069009C670B /* MSAIPersistence.swift in Sources */,
+				BD2FC70A2CB77185009C670B /* MSAIRequestData.swift in Sources */,
+				BD2FC6DE2CB76C06009C670B /* MSAIData.swift in Sources */,
+				BD2FC7182CB773CF009C670B /* MSAIUser.swift in Sources */,
+				BD2FC6F82CB76F4D009C670B /* MSAIMetricData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BD2FC6C52CB7642F009C670B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BD2FC6C62CB7642F009C670B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BD2FC6C82CB7642F009C670B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BD2FC6C92CB7642F009C670B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BD2FC6BB2CB7642F009C670B /* Build configuration list for PBXProject "SwiftInsights" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD2FC6C52CB7642F009C670B /* Debug */,
+				BD2FC6C62CB7642F009C670B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BD2FC6C72CB7642F009C670B /* Build configuration list for PBXNativeTarget "SwiftInsights" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD2FC6C82CB7642F009C670B /* Debug */,
+				BD2FC6C92CB7642F009C670B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BD2FC6D82CB76761009C670B /* XCRemoteSwiftPackageReference "swift-nio-zlib-support" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-nio-zlib-support.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+	};
+	rootObject = BD2FC6B82CB7642F009C670B /* Project object */;
+}
