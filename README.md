@@ -25,8 +25,10 @@ KmpAppInsights handles all the networking, flushing, and saving logs to disk for
 To get started, import the library into your project:
 
 ```sh
-implementation("io.github.thearchitect123:appInsights:0.0.1")
+implementation("io.github.thearchitect123:appInsights:0.1.5")
 ```
+
+Please [visit this](https://thearchitect123.github.io/ArtifactsDocProduction/develop/kotlin/multiplatform/kmpAppInsights) for extensive documentation.
 
 ## License
 
