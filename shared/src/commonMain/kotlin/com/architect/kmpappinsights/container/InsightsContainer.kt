@@ -1,10 +1,7 @@
 package com.architect.kmpappinsights.container
 
-import androidx.room.RoomDatabase
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.architect.kmpappinsights.AppInsightsTrackingService
 import com.architect.kmpappinsights.InsightsLogger
-import com.architect.kmpappinsights.storage.RoomStorageDbContext
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
@@ -16,14 +13,13 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
 
 internal object InsightsContainer {
     const val eventBaseType = "Microsoft.ApplicationInsights.Event"
     var instrumentationKey = ""
     private const val baseUrl = "dc.services.visualstudio.com"
+    val interopLogger = InsightsLogger()
     private val ktorFitClient by lazy {
         val httpClient = HttpClient {
             install(Logging) {
@@ -42,7 +38,7 @@ internal object InsightsContainer {
             }
             install(DefaultRequest) {
                 header(HttpHeaders.ContentType, ContentType.Application.Json)
-                url{
+                url {
                     protocol = URLProtocol.HTTPS
                     host = baseUrl
                 }

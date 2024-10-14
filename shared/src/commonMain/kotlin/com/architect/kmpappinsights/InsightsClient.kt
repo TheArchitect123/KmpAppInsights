@@ -24,32 +24,41 @@ import com.architect.kmpappinsights.services.ExceptionFormatter
 import com.architect.kmpappinsights.storage.RoomStorageAccess
 import com.architect.kmpappinsights.storage.models.InsightsDataType
 import com.architect.kmpappinsights.storage.models.LogEntries
+import com.architect.kmpessentials.backgrounding.BackgroundOptions
 import com.architect.kmpessentials.backgrounding.KmpBackgrounding
 import com.architect.kmpessentials.deviceInfo.DevicePlatform
 import com.architect.kmpessentials.deviceInfo.KmpDeviceInfo
 import com.architect.kmpessentials.launcher.KmpLauncher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.DurationUnit
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 typealias EventTypeMap = Map<String, String>
 
+@OptIn(ExperimentalUuidApi::class)
 object InsightsClient {
     private var timerUploadInSeconds: Int? = null
     private suspend fun processLogEntries() {
         try {
-            val allLogs = RoomStorageAccess.logDaoAccess.getAllLogs()
-            if (allLogs.isNotEmpty()) {
-                val jsonEntries = allLogs.joinToString("\n") { it.jsonPayload }
-                val response =
-                    InsightsContainer.appInsightsHttpService.postBatchJson(jsonEntries)
-                if (response.errors.isEmpty()) {
-                    // clear all the logs currently running on storage
-                    RoomStorageAccess.roomDbContext.getDao().clearAllLogs()
+            RoomStorageAccess.roomDbContext.query(LogEntries::class).asFlow().collect { allLogs ->
+                if (allLogs.list.isNotEmpty()) {
+                    val jsonEntries = allLogs.list.joinToString("\n") { it.jsonPayload }
+                    val response =
+                        InsightsContainer.appInsightsHttpService.postBatchJson(jsonEntries)
+                    if (response.errors.isEmpty()) {
+                        // clear all the logs currently running on storage
+                        RoomStorageAccess.roomDbContext.write {
+                            delete(allLogs.list)
+                        }
+                    }
                 }
             }
         } catch (ex: Exception) {
@@ -70,11 +79,16 @@ object InsightsClient {
         KmpLauncher.startTimerRepeating(timerBoot) {
             // run the broadcast
             if (allowBackgrounding) {
-                KmpBackgrounding.createAndStartWorker {
+                KmpBackgrounding.createAndStartWorkerWithoutCancel(
+                    BackgroundOptions(
+                        requiresInternet = true,
+                        requiresStorage = true
+                    )
+                ) {
                     processLogEntries()
                 }
             } else {
-                GlobalScope.launch {
+                GlobalScope.launch(Dispatchers.IO) {
                     processLogEntries()
                 }
             }
@@ -86,7 +100,7 @@ object InsightsClient {
     }
 
     fun forceFlushAllLogs(): InsightsClient {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
             processLogEntries()
         }
 
@@ -102,29 +116,34 @@ object InsightsClient {
 //    }
 
     fun writeCustomEvent(message: EventTypeMap, eventName: String): InsightsClient {
-        val jsonElement = Json.encodeToJsonElement(
-            CustomEvent.serializer(), CustomEvent(
-                name = InsightsContainer.eventBaseType,
-                insightsKey = InsightsContainer.instrumentationKey,
-                time = Clock.System.now().toString(),
-                data = CustomBaseData(
-                    type = "EventData",
-                    customData = BaseEventCustomData(
-                        version = "1",
-                        eventName = eventName,
-                        eventProperties = message
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val jsonElement = Json.encodeToJsonElement(
+                    CustomEvent.serializer(), CustomEvent(
+                        name = InsightsContainer.eventBaseType,
+                        insightsKey = InsightsContainer.instrumentationKey,
+                        time = Clock.System.now().toString(),
+                        data = CustomBaseData(
+                            type = "EventData",
+                            customData = BaseEventCustomData(
+                                version = "1",
+                                eventName = eventName,
+                                eventProperties = message
+                            )
+                        )
                     )
                 )
-            )
-        )
 
-        GlobalScope.launch {
-            RoomStorageAccess.logDaoAccess.insertLogDato(
-                LogEntries(
-                    jsonPayload = jsonElement.toString(),
-                    logEntryType = InsightsDataType.CustomEvent
-                )
-            )
+                RoomStorageAccess.roomDbContext.write {
+                    copyToRealm(LogEntries().apply {
+                        jsonPayload = jsonElement.toString()
+                        logEntryType = InsightsDataType.CustomEvent.ordinal
+                        id = Uuid.random().toString()
+                    })
+                }
+            } catch (ex: Exception) {
+                InsightsContainer.interopLogger.logError(ex.message + "\n ${ex.stackTraceToString()}")
+            }
         }
 
         return this
@@ -136,32 +155,37 @@ object InsightsClient {
         pageName: String,
         sessionId: String = ""
     ): InsightsClient {
-        val jsonElement = Json.encodeToJsonElement(
-            PageEvent.serializer(),
-            PageEvent(
-                name = InsightsContainer.eventBaseType,
-                insightsKey = InsightsContainer.instrumentationKey,
-                time = Clock.System.now().toString(),
-                data = BasePageEventCustomData(
-                    type = "PageViewData",
-                    customData = BasePageEventSubCustomData(
-                        version = "1",
-                        eventProperties = message,
-                        eventName = eventName,
-                        url = pageName,
-                        sessionId = sessionId
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val jsonElement = Json.encodeToJsonElement(
+                    PageEvent.serializer(),
+                    PageEvent(
+                        name = InsightsContainer.eventBaseType,
+                        insightsKey = InsightsContainer.instrumentationKey,
+                        time = Clock.System.now().toString(),
+                        data = BasePageEventCustomData(
+                            type = "PageViewData",
+                            customData = BasePageEventSubCustomData(
+                                version = "1",
+                                eventProperties = message,
+                                eventName = eventName,
+                                url = pageName,
+                                sessionId = sessionId
+                            )
+                        )
                     )
                 )
-            )
-        )
 
-        GlobalScope.launch {
-            RoomStorageAccess.logDaoAccess.insertLogDato(
-                LogEntries(
-                    jsonPayload = jsonElement.toString(),
-                    logEntryType = InsightsDataType.PageView
-                )
-            )
+                RoomStorageAccess.roomDbContext.write {
+                    copyToRealm(LogEntries().apply {
+                        jsonPayload = jsonElement.toString()
+                        logEntryType = InsightsDataType.PageView.ordinal
+                        id = Uuid.random().toString()
+                    })
+                }
+            } catch (ex: Exception) {
+                InsightsContainer.interopLogger.logError(ex.message + "\n ${ex.stackTraceToString()}")
+            }
         }
 
         return this
@@ -172,51 +196,56 @@ object InsightsClient {
         eventName: String,
         requestInfo: RequestStorageData
     ): InsightsClient {
-        //dd.hh:mm:ss.fff
-        val formedMilliseconds =
-            requestInfo.durationMs.milliseconds.toDouble(DurationUnit.MILLISECONDS) / 1000
-        val fc = formedMilliseconds.toString()
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                //dd.hh:mm:ss.fff
+                val formedMilliseconds =
+                    requestInfo.durationMs.milliseconds.toDouble(DurationUnit.MILLISECONDS) / 1000
+                val fc = formedMilliseconds.toString()
 
-        var milliseconds = "00"
-        var seconds = ""
-        if (fc.contains(".")) {
-            milliseconds = (fc.substring(fc.indexOf(".")).toDouble() * 1000).toLong().toString()
-            seconds = fc.substring(0, fc.indexOf(".")).toLong().toString()
-        } else {
-            seconds = fc
-        }
+                var milliseconds = "00"
+                var seconds = ""
+                if (fc.contains(".")) {
+                    milliseconds =
+                        (fc.substring(fc.indexOf(".")).toDouble() * 1000).toLong().toString()
+                    seconds = fc.substring(0, fc.indexOf(".")).toLong().toString()
+                } else {
+                    seconds = fc
+                }
 
-        val jsonElement = Json.encodeToJsonElement(
-            RequestEvent.serializer(),
-            RequestEvent(
-                name = InsightsContainer.eventBaseType,
-                insightsKey = InsightsContainer.instrumentationKey,
-                time = Clock.System.now().toString(),
-                data = RequestCustomBaseData(
-                    type = "RequestData",
-                    customData = BaseRequestCustomData(
-                        id = Random.nextInt(),
-                        version = 1,
-                        eventName = eventName,
-                        eventProperties = message,
-                        url = requestInfo.requestUrl,
-                        source = requestInfo.source,
-                        duration = "00.00:00:${seconds}.$milliseconds",
-                        responseCode = requestInfo.responseCode,
+                val jsonElement = Json.encodeToJsonElement(
+                    RequestEvent.serializer(),
+                    RequestEvent(
+                        name = InsightsContainer.eventBaseType,
+                        insightsKey = InsightsContainer.instrumentationKey,
+                        time = Clock.System.now().toString(),
+                        data = RequestCustomBaseData(
+                            type = "RequestData",
+                            customData = BaseRequestCustomData(
+                                id = Random.nextInt(),
+                                version = 1,
+                                eventName = eventName,
+                                eventProperties = message,
+                                url = requestInfo.requestUrl,
+                                source = requestInfo.source,
+                                duration = "00.00:00:${seconds}.$milliseconds",
+                                responseCode = requestInfo.responseCode,
+                            )
+                        )
                     )
                 )
-            )
-        )
 
-        GlobalScope.launch {
-            RoomStorageAccess.logDaoAccess.insertLogDato(
-                LogEntries(
-                    jsonPayload = jsonElement.toString(),
-                    logEntryType = InsightsDataType.Request
-                )
-            )
+                RoomStorageAccess.roomDbContext.write {
+                    copyToRealm(LogEntries().apply {
+                        jsonPayload = jsonElement.toString()
+                        logEntryType = InsightsDataType.Request.ordinal
+                        id = Uuid.random().toString()
+                    })
+                }
+            } catch (ex: Exception) {
+                InsightsContainer.interopLogger.logError(ex.message + "\n ${ex.stackTraceToString()}")
+            }
         }
-
         return this
     }
 
@@ -225,88 +254,99 @@ object InsightsClient {
         eventName: String,
         level: TraceSeverityLevel
     ): InsightsClient {
-        val jsonElement = Json.encodeToJsonElement(
-            TraceEvent.serializer(),
-            TraceEvent(
-                name = InsightsContainer.eventBaseType,
-                insightsKey = InsightsContainer.instrumentationKey,
-                time = Clock.System.now().toString(),
-                data = CustomTraceBaseData(
-                    type = "MessageData",
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val jsonElement = Json.encodeToJsonElement(
+                    TraceEvent.serializer(),
+                    TraceEvent(
+                        name = InsightsContainer.eventBaseType,
+                        insightsKey = InsightsContainer.instrumentationKey,
+                        time = Clock.System.now().toString(),
+                        data = CustomTraceBaseData(
+                            type = "MessageData",
 
-                    customData = BaseEventTraceCustomData(
-                        version = "1",
-                        level = level.ordinal,
-                        message = eventName,
-                        eventProperties = message
+                            customData = BaseEventTraceCustomData(
+                                version = "1",
+                                level = level.ordinal,
+                                message = eventName,
+                                eventProperties = message
+                            )
+                        )
                     )
                 )
-            )
-        )
-        GlobalScope.launch {
-            RoomStorageAccess.logDaoAccess.insertLogDato(
-                LogEntries(
-                    jsonPayload = jsonElement.toString(),
-                    logEntryType = InsightsDataType.Trace
-                )
-            )
+
+                RoomStorageAccess.roomDbContext.write {
+                    copyToRealm(LogEntries().apply {
+                        jsonPayload = jsonElement.toString()
+                        logEntryType = InsightsDataType.Trace.ordinal
+                        id = Uuid.random().toString()
+                    })
+                }
+            } catch (ex: Exception) {
+                InsightsContainer.interopLogger.logError(ex.message + "\n ${ex.stackTraceToString()}")
+            }
         }
 
         return this
     }
 
     fun writeException(ex: Exception, message: EventTypeMap): InsightsClient {
-        val excItems = mutableMapOf("StackTrace" to "", "Message" to "")
-        excItems["Message"] = ex.message ?: ""
-        excItems["StackTrace"] = ex.stackTraceToString()
-        if (message.isNotEmpty()) {
-            excItems.putAll(message)
-        }
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val excItems = mutableMapOf("StackTrace" to "", "Message" to "")
+                excItems["Message"] = ex.message ?: ""
+                excItems["StackTrace"] = ex.stackTraceToString()
+                if (message.isNotEmpty()) {
+                    excItems.putAll(message)
+                }
 
-        val exFormat =
-            if (KmpDeviceInfo.getRunningPlatform() == DevicePlatform.iOS) ExceptionStackTraceDetailsInfo(
-                level = 0,
-                method = "Unknown, please open to view details",
-                fileName = "",
-                line = 0,
-                assembly = ""
-            )
-            else ExceptionFormatter.getStackException(ex)
+                val exFormat =
+                    if (KmpDeviceInfo.getRunningPlatform() == DevicePlatform.iOS) ExceptionStackTraceDetailsInfo(
+                        level = 0,
+                        method = "Unknown, please open to view details",
+                        fileName = "",
+                        line = 0,
+                        assembly = ""
+                    )
+                    else ExceptionFormatter.getStackException(ex)
 
-        val jsonElement = Json.encodeToJsonElement(
-            ExceptionEvent.serializer(),
-            ExceptionEvent(
-                name = "Microsoft.ApplicationInsights.Event",
-                insightsKey = InsightsContainer.instrumentationKey,
-                time = Clock.System.now().toString(),
-                data = BaseEventExceptionCustomData(
-                    type = "ExceptionData",
-                    excData = ExceptionInfo(
-                        eventProperties = excItems,
-                        version = 1,
-                        exception = listOf(
-                            ExceptionDetailsInfo(
-                                uniqueId = Random.nextInt(),
-                                eventName = ex.message ?: ex.stackTraceToString(),
-                                type = ex::class.simpleName ?: "System.Exception",
-                                hasStack = ex.stackTraceToString().isNotBlank(),
-                                parsedStacks = listOf(
-                                    exFormat
+                val jsonElement = Json.encodeToJsonElement(
+                    ExceptionEvent.serializer(),
+                    ExceptionEvent(
+                        name = "Microsoft.ApplicationInsights.Event",
+                        insightsKey = InsightsContainer.instrumentationKey,
+                        time = Clock.System.now().toString(),
+                        data = BaseEventExceptionCustomData(
+                            type = "ExceptionData",
+                            excData = ExceptionInfo(
+                                eventProperties = excItems,
+                                version = 1,
+                                exception = listOf(
+                                    ExceptionDetailsInfo(
+                                        uniqueId = Random.nextInt(),
+                                        eventName = ex.message ?: ex.stackTraceToString(),
+                                        type = ex::class.simpleName ?: "System.Exception",
+                                        hasStack = ex.stackTraceToString().isNotBlank(),
+                                        parsedStacks = listOf(
+                                            exFormat
+                                        )
+                                    )
                                 )
-                            )
+                            ),
                         )
-                    ),
+                    )
                 )
-            )
-        )
 
-        GlobalScope.launch {
-            RoomStorageAccess.logDaoAccess.insertLogDato(
-                LogEntries(
-                    jsonPayload = jsonElement.toString(),
-                    logEntryType = InsightsDataType.Exception
-                )
-            )
+                RoomStorageAccess.roomDbContext.write {
+                    copyToRealm(LogEntries().apply {
+                        jsonPayload = jsonElement.toString()
+                        logEntryType = InsightsDataType.Exception.ordinal
+                        id = Uuid.random().toString()
+                    })
+                }
+            } catch (ex: Exception) {
+                InsightsContainer.interopLogger.logError(ex.message + "\n ${ex.stackTraceToString()}")
+            }
         }
 
         return this

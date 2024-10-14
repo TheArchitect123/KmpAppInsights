@@ -1,7 +1,11 @@
 package com.architect.kmpappinsights.storage.models
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-@Entity
-data class LogEntries(@PrimaryKey(autoGenerate = true) val id: Long = 0, val jsonPayload: String, val logEntryType : InsightsDataType)
+class LogEntries : RealmObject {
+    @PrimaryKey
+    var id: String = ""
+    var jsonPayload: String = ""
+    var logEntryType: Int? = null
+}

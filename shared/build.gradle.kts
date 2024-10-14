@@ -3,7 +3,6 @@ import com.vanniktech.maven.publish.SonatypeHost
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.androidxRoom)
 
     id("org.gradle.maven-publish")
     id("signing")
@@ -13,6 +12,7 @@ plugins {
     kotlin("plugin.serialization") version "2.0.0"
     id("com.google.devtools.ksp")
     id("de.jensklingenberg.ktorfit") version "2.1.0"
+    id("io.realm.kotlin") version "3.0.0"
 }
 
 val ktorVersion = "3.0.0"
@@ -42,9 +42,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.androidx.room.runtime)
-                implementation(libs.androidx.sqlite.bundled) // storage
-
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
                 implementation("co.touchlab:kermit:2.0.4")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:2.1.0")
@@ -54,7 +51,11 @@ kotlin {
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation(libs.ktor.client.core)
 
-                implementation("io.github.thearchitect123:kmpEssentials:1.2.3")
+                implementation("io.github.thearchitect123:kmpEssentials:1.2.5")
+
+                implementation("io.realm.kotlin:library-base:3.0.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
+
             }
         }
 
@@ -88,7 +89,7 @@ afterEvaluate {
         coordinates(
             groupId = "io.github.thearchitect123",
             artifactId = "appInsights",
-            version = "0.1.5"
+            version = "0.1.9"
         )
 
         // Configure POM metadata for the published artifact
@@ -128,13 +129,6 @@ afterEvaluate {
     }
 }
 
-dependencies{
-    add("kspAndroid", libs.androidx.room.compiler)
-    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
-    add("kspIosX64", libs.androidx.room.compiler)
-    add("kspIosArm64", libs.androidx.room.compiler)
-}
-
 dependencies {
     with("de.jensklingenberg.ktorfit:ktorfit-ksp:2.0.1") {
         add("kspAndroid", this)
@@ -145,10 +139,6 @@ dependencies {
 }
 
 tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
-
-room {
-    schemaDirectory("$projectDir/schemas")
-}
 
 ksp {
     arg("moduleName", project.name)
