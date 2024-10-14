@@ -89,7 +89,7 @@ afterEvaluate {
         coordinates(
             groupId = "io.github.thearchitect123",
             artifactId = "appInsights",
-            version = "0.1.9"
+            version = "0.2.0"
         )
 
         // Configure POM metadata for the published artifact

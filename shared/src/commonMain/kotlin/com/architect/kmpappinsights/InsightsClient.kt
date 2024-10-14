@@ -56,7 +56,9 @@ object InsightsClient {
                     if (response.errors.isEmpty()) {
                         // clear all the logs currently running on storage
                         RoomStorageAccess.roomDbContext.write {
-                            delete(allLogs.list)
+                            allLogs.list.forEach { logEntry ->
+                                delete(logEntry)
+                            }
                         }
                     }
                 }
