@@ -5,8 +5,11 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 
 object RoomStorageAccess {
-    val roomDbContext by lazy {
-        val configuration = RealmConfiguration.create(schema = setOf(LogEntries::class))
-        Realm.open(configuration)
+    private val config = RealmConfiguration.create(schema = setOf(LogEntries::class))
+    var roomDbContext = Realm.open(config)
+
+    fun generateNewRealmInstance(): Realm {
+        roomDbContext = Realm.open(config)
+        return roomDbContext
     }
 }
