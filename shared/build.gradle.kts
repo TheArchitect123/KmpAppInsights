@@ -12,7 +12,6 @@ plugins {
     kotlin("plugin.serialization") version "2.0.0"
     id("com.google.devtools.ksp")
     id("de.jensklingenberg.ktorfit") version "2.1.0"
-    id("io.realm.kotlin") version "3.0.0"
 }
 
 val ktorVersion = "3.0.0"
@@ -51,9 +50,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation(libs.ktor.client.core)
 
-                implementation("io.github.thearchitect123:kmpEssentials:1.2.5")
-
-                implementation("io.realm.kotlin:library-base:3.0.0")
+                implementation("io.github.thearchitect123:kmpEssentials:1.5.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
 
             }
@@ -89,7 +86,7 @@ afterEvaluate {
         coordinates(
             groupId = "io.github.thearchitect123",
             artifactId = "appInsights",
-            version = "0.3.6"
+            version = "0.4.8"
         )
 
         // Configure POM metadata for the published artifact

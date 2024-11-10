@@ -20,6 +20,7 @@ internal object InsightsContainer {
     var instrumentationKey = ""
     private const val baseUrl = "dc.services.visualstudio.com"
     val interopLogger = InsightsLogger()
+
     private val ktorFitClient by lazy {
         val httpClient = HttpClient {
             install(Logging) {

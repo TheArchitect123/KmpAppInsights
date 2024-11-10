@@ -22,17 +22,13 @@ import com.architect.kmpappinsights.contracts.TraceEvent
 import com.architect.kmpappinsights.contracts.TraceSeverityLevel
 import com.architect.kmpappinsights.services.CrashReporting
 import com.architect.kmpappinsights.services.ExceptionFormatter
-import com.architect.kmpappinsights.storage.RoomStorageAccess
-import com.architect.kmpappinsights.storage.models.InsightsDataType
-import com.architect.kmpappinsights.storage.models.LogEntries
 import com.architect.kmpessentials.aliases.DefaultAction
 import com.architect.kmpessentials.backgrounding.BackgroundOptions
 import com.architect.kmpessentials.backgrounding.KmpBackgrounding
 import com.architect.kmpessentials.deviceInfo.DevicePlatform
 import com.architect.kmpessentials.deviceInfo.KmpDeviceInfo
+import com.architect.kmpessentials.fileSystem.KmpFileSystem
 import com.architect.kmpessentials.launcher.KmpLauncher
-import io.realm.kotlin.log.LogLevel
-import io.realm.kotlin.log.RealmLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.IO
@@ -46,62 +42,27 @@ import kotlin.time.DurationUnit
 typealias EventTypeMap = Map<String, String>
 
 object InsightsClient {
-
-    private val storageInMemory = mutableListOf<LogEntries>()
-
     private var timerUploadInSeconds: Int? = null
+    private val insightsStorageName = "insights"
     private suspend fun processLogEntries() {
         try {
-            val realmLink = RoomStorageAccess.roomDbContext
-            val allLogs = realmLink.query(LogEntries::class).find()
-            if (allLogs.isNotEmpty()) {
-                val jsonEntries = allLogs.joinToString("\n") { it.jsonPayload }
-                val response =
-                    InsightsContainer.appInsightsHttpService.postBatchJson(jsonEntries)
-                if (response.errors.isEmpty()) {
-                    // clear all the logs currently running on storage
-                    realmLink.write {
-                        val liveLogs = allLogs.mapNotNull { logEntry ->
-                            findLatest(logEntry) // Converts frozen objects to live objects
-                        }
+            val jsonFilesDirectory = KmpFileSystem.createDirectNameAtAppStorage(
+                insightsStorageName
+            )
 
-                        liveLogs.forEach { logEntry ->
-                            delete(logEntry)
-                        }
-                    }
+            // remove any duplicate files
+            val filePaths = KmpFileSystem.getAllFilePathsFromDirectoryPath(jsonFilesDirectory).distinct()
+            val jsonEntries = filePaths.mapNotNull { KmpFileSystem.readTextFromFileAt(it) }
+                .joinToString("\n") { it }
+            val response =
+                InsightsContainer.appInsightsHttpService.postBatchJson(jsonEntries)
+            if (response.errors.isEmpty()) {
+                filePaths.forEach { // clear the files from storage after processing them
+                    KmpFileSystem.deleteFileAt(it)
                 }
             }
         } catch (ex: Exception) {
-            writeException(
-                Exception("Failed to upload logs to AppInsights. Will try again in the next $timerUploadInSeconds seconds \n ${ex.stackTraceToString()}"),
-                mapOf()
-            )
-        }
-    }
 
-    private suspend fun processLogEntriesForStorage() {
-        try {
-            var realmLink = RoomStorageAccess.roomDbContext
-            if (realmLink.isClosed()) {
-                // reopen the realm and generate a new instance
-                realmLink = RoomStorageAccess.generateNewRealmInstance()
-            }
-
-            val storeItems = storageInMemory.toList()
-            if (storeItems.isNotEmpty()) {
-                realmLink.write {
-                    storeItems.forEach {
-                        copyToRealm(it)
-                    }
-                }
-            }
-
-            storageInMemory.removeAll(storeItems)
-        } catch (ex: Exception) {
-            writeException(
-                Exception("Failed to store logs on internal storage. Will try again soon. \n ${ex.stackTraceToString()}"),
-                mapOf()
-            )
         }
     }
 
@@ -109,15 +70,10 @@ object InsightsClient {
         instrumentationKey: String,
         timerUploadInSeconds: Int = 30,
         allowBackgrounding: Boolean = false,
-        allowCrashReporting: Boolean = false,
-        isDeveloperMode: Boolean = false,
+        allowCrashReporting: Boolean = false
     ): InsightsClient {
         if (timerUploadInSeconds < 15) {
             throw Exception("Timer for AppInsights can't be less than 15 seconds. Please try any number higher than 15 seconds (Preferably, 15 to 30)")
-        }
-
-        if (isDeveloperMode) {
-            RealmLog.setLevel(LogLevel.ALL)
         }
 
         if (allowCrashReporting) {
@@ -134,32 +90,22 @@ object InsightsClient {
                 KmpBackgrounding.createAndStartWorkerWithoutCancel(
                     BackgroundOptions(
                         requiresInternet = true,
-                        requiresStorage = true
+                        requiresStorage = false
                     )
                 ) {
-                    processLogEntries()
+                    try {
+                        processLogEntries()
+                    } catch (ex: Exception) {
+
+                    }
                 }
             } else {
                 GlobalScope.launch(Dispatchers.IO) {
-                    processLogEntries()
-                }
-            }
+                    try {
+                        processLogEntries()
+                    } catch (ex: Exception) {
 
-            true
-        }
-
-        KmpLauncher.startTimerRepeating(5.0) {
-            if (allowBackgrounding) {
-                KmpBackgrounding.createAndStartWorkerWithoutCancel(
-                    BackgroundOptions(
-                        requiresStorage = true
-                    )
-                ) {
-                    processLogEntriesForStorage()
-                }
-            } else {
-                GlobalScope.launch(Dispatchers.IO) {
-                    processLogEntriesForStorage()
+                    }
                 }
             }
 
@@ -194,6 +140,21 @@ object InsightsClient {
 //        return this
 //    }
 
+    private fun prepareJsonFileData(json: String) {
+        val fileName = "random_json_file_${Random.nextInt()}_${
+            Clock.System.now().toEpochMilliseconds()
+        }.txt"
+
+        val jsonFilesDirectory = KmpFileSystem.createDirectNameAtAppStorage(
+            insightsStorageName
+        )
+
+        val jsonFile = KmpFileSystem.getMergedFilePathFromDirectory(jsonFilesDirectory, fileName)
+        if (!jsonFile.isNullOrEmpty()) {
+            KmpFileSystem.writeTextToFileAt(jsonFile, json)
+        }
+    }
+
     fun writeCustomEvent(message: EventTypeMap, eventName: String): InsightsClient {
         val jsonElement = Json.encodeToJsonElement(
             CustomEvent.serializer(), CustomEvent(
@@ -211,10 +172,7 @@ object InsightsClient {
             )
         )
 
-        storageInMemory.add(LogEntries().apply {
-            jsonPayload = jsonElement.toString()
-            logEntryType = InsightsDataType.CustomEvent.ordinal
-        })
+        prepareJsonFileData(jsonElement.toString())
 
         return this
     }
@@ -244,10 +202,7 @@ object InsightsClient {
             )
         )
 
-        storageInMemory.add(LogEntries().apply {
-            jsonPayload = jsonElement.toString()
-            logEntryType = InsightsDataType.PageView.ordinal
-        })
+        prepareJsonFileData(jsonElement.toString())
 
         return this
     }
@@ -294,11 +249,7 @@ object InsightsClient {
             )
         )
 
-        storageInMemory.add(LogEntries().apply {
-            jsonPayload = jsonElement.toString()
-            logEntryType = InsightsDataType.Request.ordinal
-        })
-
+        prepareJsonFileData(jsonElement.toString())
         return this
     }
 
@@ -326,11 +277,7 @@ object InsightsClient {
             )
         )
 
-        storageInMemory.add(LogEntries().apply {
-            jsonPayload = jsonElement.toString()
-            logEntryType = InsightsDataType.Trace.ordinal
-        })
-
+        prepareJsonFileData(jsonElement.toString())
         return this
     }
 
@@ -384,10 +331,7 @@ object InsightsClient {
             )
         )
 
-        storageInMemory.add(LogEntries().apply {
-            jsonPayload = jsonElement.toString()
-            logEntryType = InsightsDataType.Exception.ordinal
-        })
+        prepareJsonFileData(jsonElement.toString())
 
         return this
     }

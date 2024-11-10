@@ -24,7 +24,7 @@ class MainActivity : FragmentActivity() {
 
         }
 
-        InsightsClient.configureInsightsClient("MY_INSIGHTS_KEY", 10)
+        InsightsClient.configureInsightsClient("MY_INSIGHTS_KEY", 20)
         
         InsightsClient.writeCustomEvent(
             mapOf("" to ""),

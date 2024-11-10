@@ -6,13 +6,23 @@ import com.architect.kmpappinsights.contracts.TraceSeverityLevel
 actual class ExceptionFormatter {
     actual companion object {
         actual fun getStackException(ex: Exception): ExceptionStackTraceDetailsInfo {
-            val stack = ex.stackTrace.first()
+            if(ex.stackTrace.isNotEmpty()) {
+                val stack = ex.stackTrace.first()
+                return ExceptionStackTraceDetailsInfo(
+                    level = TraceSeverityLevel.Error.ordinal,
+                    method = stack.methodName,
+                    fileName = "Unknown",
+                    line = stack.lineNumber.toLong(),
+                    assembly = stack.className
+                )
+            }
+
             return ExceptionStackTraceDetailsInfo(
                 level = TraceSeverityLevel.Error.ordinal,
-                method = stack.methodName,
-                fileName = stack.fileName,
-                line = stack.lineNumber.toLong(),
-                assembly = stack.className
+                method = "Unknown",
+                fileName = "Unknown",
+                line = 0,
+                assembly = "Unknown"
             )
         }
     }

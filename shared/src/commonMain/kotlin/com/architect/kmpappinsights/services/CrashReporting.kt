@@ -5,3 +5,4 @@ expect class CrashReporting {
         fun registerForCrashReporting()
     }
 }
+
