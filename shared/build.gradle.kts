@@ -130,6 +130,9 @@ signing {
 // Task to generate sources JAR
 tasks.register<Jar>("customSourcesJar") {
     archiveClassifier.set("sources")
+
+    // Ensure the KSP metadata task runs first
+    dependsOn("kspCommonMainKotlinMetadata")
     from(kotlin.sourceSets["commonMain"].kotlin.srcDirs.filter { it.exists() })
 }
 
