@@ -117,12 +117,15 @@ mavenPublishing {
 }
 
 signing {
-    // Configure signing using in-memory keys
-    useInMemoryPgpKeys(
-        System.getenv("GPG_PRIVATE_KEY"),
-        System.getenv("GPG_PASSPHRASE")
-    )
-    sign(publishing.publications) // Sign all publications
+    val privateKey = System.getenv("GPG_PRIVATE_KEY")
+    val passphrase = System.getenv("GPG_PASSPHRASE")
+    if (privateKey.isNullOrEmpty() || passphrase.isNullOrEmpty()) {
+        println("Signing configuration is incomplete.")
+    } else {
+        println("Signing configuration is complete.")
+        useInMemoryPgpKeys(privateKey, passphrase)
+        sign(publishing.publications)
+    }
 }
 
 dependencies {
