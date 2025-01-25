@@ -27,7 +27,8 @@ jobs:
 
       - name: Install Xcode Command Line Tools
         run: |
-          xcode-select --install || echo "Xcode Command Line Tools already installed"
+          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+          xcodebuild -version
 
       # Step 3: Import GPG key (securely)
       - name: Import GPG key
@@ -58,9 +59,6 @@ jobs:
       - name: Verify Maven settings
         run: ls -la ~/.m2
 
-      - name: Verify gradle tasks Available
-        run: ./gradlew tasks
-
       - name: Build Android and Common Artifacts
         run: ./gradlew clean assemble --no-configuration-cache 
 
@@ -85,6 +83,9 @@ jobs:
             exit 1
           fi
           echo "Artifacts verified successfully!"
+
+      - name: Verify Publications
+        run: ./gradlew publishToMavenLocal --no-configuration-cache --info --stacktrace
 
       # Step 6: Build and Publish to Maven Central
       - name: Build and publish
