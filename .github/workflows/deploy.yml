@@ -36,6 +36,41 @@ jobs:
           sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
           xcodebuild -version
 
-      # Step 6: Build and Publish to Maven Central
-      - name: Build and publish
-        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+      # Step 3: Import GPG key (securely)
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo "use-agent" >> ~/.gnupg/gpg.conf
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          gpg --list-secret-keys --keyid-format LONG > /dev/null
+
+      # Step 4: Configure Maven settings (securely)
+      - name: Configure Maven settings
+        run: |
+          mkdir -p ~/.m2
+          cat <<EOF > ~/.m2/settings.xml
+          <settings>
+            <servers>
+              <server>
+                <id>ossrh</id>
+                <username>${{ secrets.OSSRH_USERNAME }}</username>
+                <password>${{ secrets.OSSRH_PASSWORD }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+      
+      - name: Verify Maven settings
+        run: ls -la ~/.m2
+
+      # Step 6: Build and Verify Artifacts
+      - name: Build and verify artifacts
+        run: |
+          ./gradlew clean assemble --no-configuration-cache
+          ./gradlew :shared:linkReleaseFrameworkIosArm64
+          ./gradlew :shared:linkReleaseFrameworkIosSimulatorArm64
+          ./gradlew publishToMavenLocal --no-configuration-cache --info --stacktrace
+
+      # Step 7: Publish to Maven Central
+      - name: Publish to Maven Central
+        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache --info --stacktrace
