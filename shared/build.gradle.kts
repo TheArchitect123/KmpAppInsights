@@ -14,6 +14,11 @@ plugins {
     id("de.jensklingenberg.ktorfit") version "2.1.0"
 }
 
+repositories {
+    mavenCentral() // Public libraries from Maven Central
+    google() // For Android-specific dependencies
+}
+
 val ktorVersion = "3.0.0"
 
 kotlin {
