@@ -126,6 +126,14 @@ afterEvaluate {
     }
 }
 
+signing {
+    val privateKey = System.getenv("GPG_PRIVATE_KEY") ?: error("GPG_PRIVATE_KEY is missing")
+    val passphrase = System.getenv("GPG_PASSPHRASE") ?: error("GPG_PASSPHRASE is missing")
+
+    useInMemoryPgpKeys(privateKey, passphrase)
+    sign(publishing.publications)
+}
+
 dependencies {
     with("de.jensklingenberg.ktorfit:ktorfit-ksp:2.0.1") {
         add("kspAndroid", this)
