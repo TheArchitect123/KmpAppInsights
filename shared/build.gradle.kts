@@ -30,7 +30,6 @@ kotlin {
         }
     }
 
-    // iOS targets
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -116,8 +115,6 @@ mavenPublishing {
     signAllPublications()
 }
 
-
-
 signing {
     val privateKey = System.getenv("GPG_PRIVATE_KEY")
     val passphrase = System.getenv("GPG_PASSPHRASE")
@@ -130,50 +127,24 @@ signing {
     sign(publishing.publications)
 }
 
-// Task to verify artifacts
-tasks.register("verifyArtifacts") {
-    group = "verification"
-    description = "Verify if artifacts are generated before uploading."
-
-    doLast {
-        val artifactsDir = project.buildDir.resolve("libs")
-        println("Checking for artifacts in: $artifactsDir")
-
-        if (!artifactsDir.exists()) {
-            throw GradleException("No artifacts directory found at $artifactsDir. Artifact generation failed.")
-        }
-
-        val artifacts = artifactsDir.walkTopDown()
-            .filter { it.isFile }
-            .toList()
-
-        if (artifacts.isEmpty()) {
-            throw GradleException("No artifacts found in $artifactsDir. Artifact generation failed.")
-        }
-
-        println("Artifacts found:")
-        artifacts.forEach { artifact ->
-            println("FOUND ARTIFACT - ${artifact.path}")
-        }
-    }
-}
-
-// Manually generate sources and javadoc JARs if not already handled
+// Task to generate sources JAR
 tasks.register<Jar>("customSourcesJar") {
     archiveClassifier.set("sources")
-    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs)
+    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs.filter { it.exists() })
 }
 
-// Attach sources and Javadoc JARs to publications
-afterEvaluate {
-    tasks.withType<AbstractPublishToMaven>().configureEach {
-        dependsOn("customSourcesJar")
+// Attach sources JAR to publications
+publishing {
+    publications {
+        withType<MavenPublication> {
+            artifact(tasks["customSourcesJar"])
+        }
     }
 }
 
 // Ensure artifacts are built for local publishing
 tasks.named("publishToMavenLocal") {
-    dependsOn("verifyArtifacts")
+    dependsOn("customSourcesJar")
 }
 
 ksp {
