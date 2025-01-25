@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest  # Use macOS for iOS builds
 
     steps:
       # Step 1: Checkout the repository
@@ -24,6 +24,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      - name: Install Xcode Command Line Tools
+        run: |
+          xcode-select --install || echo "Xcode Command Line Tools already installed"
 
       # Step 3: Import GPG key (securely)
       - name: Import GPG key
