@@ -25,13 +25,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Step 3: Configure Maven settings
-      - name: Configure Maven settings
-        run: mkdir -p ~/.m2
-
-      # Step 4: Build and publish
+      # Step 3: Build and publish
       - name: Build and publish
-        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache --info --stack-trace
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
