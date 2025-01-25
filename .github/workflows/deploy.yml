@@ -14,8 +14,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print all environment variables
-        run: printenv
+      - name: Debug secrets
+        run: |
+          if [ -z "${{ secrets.GPG_PRIVATE_KEY }}" ]; then
+            echo "GPG_PRIVATE_KEY is NOT set or is empty."
+          else
+            echo "GPG_PRIVATE_KEY is set."
+          fi
+
+          if [ -z "${{ secrets.GPG_PASSPHRASE }}" ]; then
+            echo "GPG_PASSPHRASE is NOT set or is empty."
+          else
+            echo "GPG_PASSPHRASE is set."
+          fi
+
+          if [ -z "${{ secrets.OSSRH_USERNAME }}" ]; then
+            echo "OSSRH_USERNAME is NOT set or is empty."
+          else
+            echo "OSSRH_USERNAME is set."
+          fi
 
       - name: Checkout repository
         uses: actions/checkout@v3
