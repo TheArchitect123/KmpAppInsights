@@ -126,29 +126,29 @@ signing {
     useInMemoryPgpKeys(privateKey, passphrase)
     sign(publishing.publications)
 }
-
-// Task to generate sources JAR
-tasks.register<Jar>("customSourcesJar") {
-    archiveClassifier.set("sources")
-
-    // Ensure the KSP metadata task runs first
-    dependsOn("kspCommonMainKotlinMetadata")
-    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs.filter { it.exists() })
-}
-
-// Attach sources JAR to publications
-publishing {
-    publications {
-        withType<MavenPublication> {
-            artifact(tasks["customSourcesJar"])
-        }
-    }
-}
-
-// Ensure artifacts are built for local publishing
-tasks.named("publishToMavenLocal") {
-    dependsOn("customSourcesJar")
-}
+//
+//// Task to generate sources JAR
+//tasks.register<Jar>("customSourcesJar") {
+//    archiveClassifier.set("sources")
+//
+//    // Ensure the KSP metadata task runs first
+//    dependsOn("kspCommonMainKotlinMetadata")
+//    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs.filter { it.exists() })
+//}
+//
+//// Attach sources JAR to publications
+//publishing {
+//    publications {
+//        withType<MavenPublication> {
+//            artifact(tasks["customSourcesJar"])
+//        }
+//    }
+//}
+//
+//// Ensure artifacts are built for local publishing
+//tasks.named("publishToMavenLocal") {
+//    dependsOn("customSourcesJar")
+//}
 
 ksp {
     arg("moduleName", project.name)
