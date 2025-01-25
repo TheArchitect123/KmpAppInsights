@@ -39,21 +39,20 @@ jobs:
       - name: Configure Maven settings
         run: |
           mkdir -p ~/.m2
-          echo "<settings>
-  <servers>
-    <server>
-      <id>ossrh</id>
-      <username>${{ secrets.OSSRH_USERNAME }}</username>
-      <password>${{ secrets.OSSRH_PASSWORD }}</password>
-    </server>
-  </servers>
-</settings>" > ~/.m2/settings.xml
-
-          echo "Generated Maven settings.xml:"
-          cat ~/.m2/settings.xml
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          cat <<EOF > ~/.m2/settings.xml
+          <settings>
+            <servers>
+              <server>
+                <id>ossrh</id>
+                <username>${{ secrets.OSSRH_USERNAME }}</username>
+                <password>${{ secrets.OSSRH_PASSWORD }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+      
+      - name: Verify Maven settings
+        run: ls -la ~/.m2
 
       # Step 5: Verify Generated Artifacts for Kotlin Multiplatform
       - name: Verify Generated Artifacts
