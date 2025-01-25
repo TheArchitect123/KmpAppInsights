@@ -160,6 +160,17 @@ tasks.named("publishToMavenLocal") {
     dependsOn("verifyArtifacts")
 }
 
+tasks.register("sourcesJar", Jar::class) {
+    archiveClassifier.set("sources") // This sets the classifier for the artifact
+    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs) // Include common source set
+    from(kotlin.sourceSets["androidMain"].kotlin.srcDirs) // Include Android source set
+    from(kotlin.sourceSets["iosMain"].kotlin.srcDirs) // Include iOS source set
+}
+
+tasks.withType<Jar>().configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE // Avoid duplicate files in jar
+}
+
 android {
     namespace = "com.architect.kmpappinsights"
     compileSdk = 34
