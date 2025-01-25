@@ -116,6 +116,8 @@ mavenPublishing {
     signAllPublications()
 }
 
+
+
 signing {
     val privateKey = System.getenv("GPG_PRIVATE_KEY")
     val passphrase = System.getenv("GPG_PASSPHRASE")
@@ -153,6 +155,19 @@ tasks.register("verifyArtifacts") {
         artifacts.forEach { artifact ->
             println("FOUND ARTIFACT - ${artifact.path}")
         }
+    }
+}
+
+// Manually generate sources and javadoc JARs if not already handled
+tasks.register<Jar>("customSourcesJar") {
+    archiveClassifier.set("sources")
+    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs)
+}
+
+// Attach sources and Javadoc JARs to publications
+afterEvaluate {
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOn("customSourcesJar")
     }
 }
 
