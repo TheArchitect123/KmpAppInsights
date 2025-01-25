@@ -143,6 +143,14 @@ signing {
     val privateKey = System.getenv("GPG_PRIVATE_KEY")
     val passphrase = System.getenv("GPG_PASSPHRASE")
 
+    if (privateKey.isNullOrBlank()) {
+        println("PRIVATE KEY DOES NOT EXIST")
+    }
+
+    if (privateKey.isNullOrBlank()) {
+        println("PASSPHRASE DOES NOT EXIST")
+    }
+
     if (!privateKey.isNullOrBlank() && !passphrase.isNullOrBlank()) {
         println("DEBUG: Attempting to configure and verify GPG signing.")
         try {
