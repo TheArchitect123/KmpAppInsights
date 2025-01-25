@@ -150,6 +150,14 @@ signing {
 //    dependsOn("customSourcesJar")
 //}
 
+tasks.named("sourcesJar", Jar::class) {
+    // Ensure KSP metadata is generated before creating the sources JAR
+    dependsOn("kspCommonMainKotlinMetadata")
+
+    // Include sources from the `commonMain` source set
+    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs.filter { it.exists() })
+}
+
 ksp {
     arg("moduleName", project.name)
 }
