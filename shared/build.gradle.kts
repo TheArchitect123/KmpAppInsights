@@ -85,13 +85,13 @@ publishing {
             artifactId = "appInsights"
             version = "0.5.8"
 
-            // Add sources and javadoc jars
-            artifact(tasks["sourcesJar"]) {
-                classifier = "sources"
-            }
-            artifact(tasks["javadocJar"]) {
-                classifier = "javadoc"
-            }
+//            // Add sources and javadoc jars
+//            artifact(tasks["sourcesJar"]) {
+//                classifier = "sources"
+//            }
+//            artifact(tasks["javadocJar"]) {
+//                classifier = "javadoc"
+//            }
         }
     }
 
@@ -163,17 +163,17 @@ signing {
     sign(publishing.publications)
 }
 
-// Task to generate sources jar
-tasks.register("sourcesJar", Jar::class) {
-    archiveClassifier.set("sources")
-    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs)
-}
-
-// Task to generate javadoc jar
-tasks.register("javadocJar", Jar::class) {
-    archiveClassifier.set("javadoc")
-    from(tasks["javadoc"])
-}
+//// Task to generate sources jar
+//tasks.register("sourcesJar", Jar::class) {
+//    archiveClassifier.set("sources")
+//    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs)
+//}
+//
+//// Task to generate javadoc jar
+//tasks.register("javadocJar", Jar::class) {
+//    archiveClassifier.set("javadoc")
+//    from(tasks["javadoc"])
+//}
 
 // Task to verify artifacts
 tasks.register("verifyArtifacts") {
