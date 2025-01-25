@@ -94,6 +94,15 @@ mavenPublishing {
         version = "0.5.9"
     )
 
+    // Attach the custom sources JAR
+    configure(publications) {
+        withType<MavenPublication> {
+            artifact(customSourcesJar.get()) {
+                classifier = "sources"
+            }
+        }
+    }
+    
     pom {
         name.set("KmpAppInsights")
         description.set("An AppInsights Client for Kotlin Multiplatform. Supports both iOS & Android")
