@@ -83,7 +83,7 @@ publishing {
             from(components["kotlin"])
             groupId = "io.github.thearchitect123"
             artifactId = "appInsights"
-            version = "0.5.8"
+            version = "0.5.9"
 
 //            // Add sources and javadoc jars
 //            artifact(tasks["sourcesJar"]) {
