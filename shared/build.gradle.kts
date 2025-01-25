@@ -165,16 +165,22 @@ tasks.register("verifyArtifacts") {
     description = "Verify if artifacts are generated before uploading."
 
     doLast {
-        val artifactsDir = project.buildDir.resolve("publications")
-        val artifacts = artifactsDir.listFiles()?.flatMap { publicationDir ->
-            publicationDir.listFiles()?.toList() ?: emptyList()
-        } ?: emptyList()
+        val artifactsDir = project.buildDir.resolve("libs") // Path to artifacts
+        println("Checking for artifacts in: $artifactsDir")
+
+        if (!artifactsDir.exists()) {
+            throw GradleException("No artifacts directory found at $artifactsDir. Artifact generation failed.")
+        }
+
+        val artifacts = artifactsDir.walkTopDown()
+            .filter { it.isFile } // Ensure we're only listing files
+            .toList()
 
         if (artifacts.isEmpty()) {
             throw GradleException("No artifacts found in $artifactsDir. Artifact generation failed.")
         }
 
-        println("Artifacts generated successfully:")
+        println("Artifacts found:")
         artifacts.forEach { artifact ->
             println("FOUND ARTIFACT - ${artifact.path}")
         }
