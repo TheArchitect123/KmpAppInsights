@@ -162,7 +162,7 @@ signing {
                     println("DEBUG: Verifying GPG key by signing a dummy artifact.")
                     exec {
                         commandLine = listOf("gpg", "--batch", "--yes", "--armor", "--sign")
-                        standardInput = "test".byteInputStream() // Dummy data to sign
+                        standardInput = System.getenv("GPG_PRIVATE_KEY").byteInputStream() // Dummy data to sign
                         standardOutput = ByteArrayOutputStream() // Discard output
                         errorOutput = ByteArrayOutputStream() // Capture any errors
                     }
