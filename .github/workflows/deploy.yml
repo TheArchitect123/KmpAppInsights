@@ -49,21 +49,9 @@ jobs:
                   </servers>
                 </settings>" > ~/.m2/settings.xml
 
-      # Step 5: Verify artifacts before publishing
-      - name: Verify artifacts
-        run: |
-          ./gradlew clean assemble
-          echo "Checking for generated artifacts..."
-          if [ ! -d "./shared/build/libs" ]; then
-            echo "ERROR: No artifacts generated in ./shared/build/libs"
-            exit 1
-          fi
-          echo "Artifacts generated successfully:"
-          ls -lh ./shared/build/libs
-
-      # Step 6: Build and publish
+      # Step 5: Build and publish
       - name: Build and publish
-        run: ./gradlew clean publish --no-configuration-cache --info --stacktrace
+        run: ./gradlew clean publishAndReleaseToMavenCentral --no-configuration-cache --info --stacktrace
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
