@@ -58,6 +58,8 @@ jobs:
       - name: Verify Maven settings
         run: ls -la ~/.m2
 
+      - name: Verify gradle tasks Available
+        uses: ./gradlew tasks
 
       - name: Build Android and Common Artifacts
         run: ./gradlew clean assemble --no-configuration-cache 
