@@ -160,6 +160,30 @@ dependencies {
 }
 
 tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
+tasks.register("verifyArtifacts") {
+    group = "verification"
+    description = "Verify if artifacts are generated before uploading."
+
+    doLast {
+        val artifactsDir = project.buildDir.resolve("publications")
+        val artifacts = artifactsDir.listFiles()?.flatMap { publicationDir ->
+            publicationDir.listFiles()?.toList() ?: emptyList()
+        } ?: emptyList()
+
+        if (artifacts.isEmpty()) {
+            throw GradleException("No artifacts found in $artifactsDir. Artifact generation failed.")
+        }
+
+        println("Artifacts generated successfully:")
+        artifacts.forEach { artifact ->
+            println("- ${artifact.path}")
+        }
+    }
+}
+
+tasks.named("publish") {
+    dependsOn("verifyArtifacts")
+}
 
 ksp {
     arg("moduleName", project.name)

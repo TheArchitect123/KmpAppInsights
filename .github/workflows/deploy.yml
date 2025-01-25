@@ -14,15 +14,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Set up JDK
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      # Step 3: Import GPG key
       - name: Import GPG key
         run: |
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
@@ -32,6 +35,7 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
+      # Step 4: Configure Maven settings
       - name: Configure Maven settings
         run: |
           mkdir -p ~/.m2
@@ -45,6 +49,19 @@ jobs:
                   </servers>
                 </settings>" > ~/.m2/settings.xml
 
+      # Step 5: Verify artifacts before publishing
+      - name: Verify artifacts
+        run: |
+          ./gradlew clean assemble
+          echo "Checking for generated artifacts..."
+          if [ ! -d "./shared/build/libs" ]; then
+            echo "ERROR: No artifacts generated in ./shared/build/libs"
+            exit 1
+          fi
+          echo "Artifacts generated successfully:"
+          ls -lh ./shared/build/libs
+
+      # Step 6: Build and publish
       - name: Build and publish
         run: ./gradlew clean publish --no-configuration-cache --info --stacktrace
         env:
