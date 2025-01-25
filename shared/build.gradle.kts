@@ -78,15 +78,21 @@ kotlin {
     }
 }
 
-mavenPublishing {
-    // Define coordinates for the published artifact
-    coordinates(
-        groupId = "io.github.thearchitect123",
-        artifactId = "appInsights",
-        version = "0.5.8"
-    )
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["kotlin"])
+            groupId = "io.github.thearchitect123"
+            artifactId = "appInsights"
+            version = "0.5.8"
 
-    // Define credentials for Maven publishing
+            // Add artifacts for Android and iOS
+            artifact(tasks["kotlinMultiplatform"]) {
+                classifier = "kotlinMultiplatform"
+            }
+        }
+    }
+
     repositories {
         maven {
             name = "ossrh"
@@ -100,39 +106,17 @@ mavenPublishing {
             }
         }
     }
+}
 
-    // Configure POM metadata for the published artifact
-    pom {
-        name.set("KmpAppInsights")
-        description.set("An AppInsights Client for Kotlin Multiplatform. Supports both iOS & Android")
-        inceptionYear.set("2024")
-        url.set("https://github.com/TheArchitect123/KmpAppInsights")
+mavenPublishing {
+    // Define coordinates for the published artifact
+    coordinates(
+        groupId = "io.github.thearchitect123",
+        artifactId = "appInsights",
+        version = "0.5.8"
+    )
 
-        licenses {
-            license {
-                name.set("MIT")
-                url.set("https://opensource.org/licenses/MIT")
-            }
-        }
-
-        // Specify developers information
-        developers {
-            developer {
-                id.set("Dan Gerchcovich")
-                name.set("TheArchitect123")
-                email.set("dan.developer789@gmail.com")
-            }
-        }
-
-        // Specify SCM information
-        scm {
-            connection.set("scm:git:git://github.com/TheArchitect123/KmpAppInsights.git")
-            developerConnection.set("scm:git:ssh://git@github.com/TheArchitect123/KmpAppInsights.git")
-            url.set("https://github.com/TheArchitect123/KmpAppInsights")
-        }
-    }
-
-    // Configure publishing to Maven Central
+    // Publish to Maven Central
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
     // Enable GPG signing for all publications
@@ -143,59 +127,21 @@ signing {
     val privateKey = System.getenv("GPG_PRIVATE_KEY")
     val passphrase = System.getenv("GPG_PASSPHRASE")
 
-    if (privateKey.isNullOrBlank()) {
-        println("PRIVATE KEY DOES NOT EXIST")
-    }
-
-    if (privateKey.isNullOrBlank()) {
-        println("PASSPHRASE DOES NOT EXIST")
-    }
-
-    if (!privateKey.isNullOrBlank() && !passphrase.isNullOrBlank()) {
-        println("DEBUG: Attempting to configure and verify GPG signing.")
-        try {
-            useInMemoryPgpKeys(privateKey, passphrase)
-
-            // Verify the signing configuration by attempting to sign a dummy publication
-            project.tasks.register("verifySigningKey") {
-                doLast {
-                    println("DEBUG: Verifying GPG key by signing a dummy artifact.")
-                    exec {
-                        commandLine = listOf("gpg", "--batch", "--yes", "--armor", "--sign")
-                        standardInput = System.getenv("GPG_PRIVATE_KEY").byteInputStream() // Dummy data to sign
-                        standardOutput = ByteArrayOutputStream() // Discard output
-                        errorOutput = ByteArrayOutputStream() // Capture any errors
-                    }
-                    println("DEBUG: GPG key is valid and signing works.")
-                }
-            }
-
-            // Proceed to sign actual publications
-            sign(publishing.publications)
-        } catch (e: Exception) {
-            throw GradleException("GPG key validation failed: ${e.message}")
-        }
-    } else {
-        println("DEBUG: GPG_PRIVATE_KEY or GPG_PASSPHRASE is missing.")
+    if (privateKey.isNullOrBlank() || passphrase.isNullOrBlank()) {
         throw GradleException("GPG_PRIVATE_KEY or GPG_PASSPHRASE is missing.")
     }
+
+    useInMemoryPgpKeys(privateKey, passphrase)
+    sign(publishing.publications)
 }
 
-dependencies {
-    with("de.jensklingenberg.ktorfit:ktorfit-ksp:2.0.1") {
-        add("kspAndroid", this)
-        add("kspIosArm64", this)
-        add("kspIosSimulatorArm64", this)
-    }
-}
-
-tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
+// Task to verify artifacts
 tasks.register("verifyArtifacts") {
     group = "verification"
     description = "Verify if artifacts are generated before uploading."
 
     doLast {
-        val artifactsDir = project.buildDir.resolve("libs") // Path to artifacts
+        val artifactsDir = project.buildDir.resolve("libs")
         println("Checking for artifacts in: $artifactsDir")
 
         if (!artifactsDir.exists()) {
@@ -203,7 +149,7 @@ tasks.register("verifyArtifacts") {
         }
 
         val artifacts = artifactsDir.walkTopDown()
-            .filter { it.isFile } // Ensure we're only listing files
+            .filter { it.isFile }
             .toList()
 
         if (artifacts.isEmpty()) {
@@ -217,20 +163,8 @@ tasks.register("verifyArtifacts") {
     }
 }
 
-tasks.register("verifyGpgKey") {
-    doLast {
-        println("DEBUG: Verifying GPG key usability...")
-        exec {
-            commandLine = listOf("gpg", "--batch", "--yes", "--armor", "--sign")
-            standardInput = System.getenv("GPG_PRIVATE_KEY").byteInputStream() // Dummy data to sign
-            standardOutput = ByteArrayOutputStream() // Discard output
-            errorOutput = ByteArrayOutputStream() // Capture any errors
-        }
-        println("DEBUG: GPG key is valid and signing works.")
-    }
-}
-
-tasks.named("publish") {
+// Ensure artifacts are built for local publishing
+tasks.named("publishToMavenLocal") {
     dependsOn("verifyArtifacts")
 }
 
