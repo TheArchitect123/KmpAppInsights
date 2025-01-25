@@ -1,5 +1,4 @@
 import com.vanniktech.maven.publish.SonatypeHost
-import org.gradle.api.tasks.bundling.Jar
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -7,16 +6,12 @@ plugins {
 
     id("org.gradle.maven-publish")
     id("signing")
+    id("maven-publish")
     id("com.vanniktech.maven.publish") version "0.28.0"
 
     kotlin("plugin.serialization") version "2.0.0"
     id("com.google.devtools.ksp")
     id("de.jensklingenberg.ktorfit") version "2.1.0"
-}
-
-repositories {
-    mavenCentral()
-    google()
 }
 
 val ktorVersion = "3.0.0"
@@ -30,21 +25,34 @@ kotlin {
         }
     }
 
-    iosArm64()
-    iosSimulatorArm64()
+    // needs to be added into a build pipeline to automate creation of the static libraries (merged universal library)
+    //lipo -create “libApplicationInsightsObjectiveC.a” “libApplicationInsightsObjectiveC.a” -output “libApplicationInsightsObjectiveC.a”
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
+    }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+                implementation("co.touchlab:kermit:2.0.4")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:2.1.0")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation(libs.ktor.client.core)
+
                 implementation("io.github.thearchitect123:kmpEssentials:1.8.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
+
             }
         }
 
@@ -55,10 +63,13 @@ kotlin {
             }
         }
 
+//        // iOS Targets
         val iosArm64Main by getting
+        val iosX64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
@@ -68,84 +79,63 @@ kotlin {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("androidRelease") {
-            from(components["release"])
-            groupId = "io.github.thearchitect123"
-            artifactId = "appInsights-android"
-            version = "0.5.9"
-        }
 
-        create<MavenPublication>("iosArm64") {
-            from(components["iosArm64"])
-            groupId = "io.github.thearchitect123"
-            artifactId = "appInsights-iosArm64"
-            version = "0.5.9"
-        }
+afterEvaluate {
+    mavenPublishing {
+        // Define coordinates for the published artifact
+        coordinates(
+            groupId = "io.github.thearchitect123",
+            artifactId = "appInsights",
+            version = "0.6.1"
+        )
 
-        create<MavenPublication>("iosSimulatorArm64") {
-            from(components["iosSimulatorArm64"])
-            groupId = "io.github.thearchitect123"
-            artifactId = "appInsights-iosSimulatorArm64"
-            version = "0.5.9"
-        }
-    }
+        // Configure POM metadata for the published artifact
+        pom {
+            name.set("KmpAppInsights")
+            description.set("An AppInsights Client for Kotlin Multiplatform. Supports both iOS & Android")
+            inceptionYear.set("2024")
+            url.set("https://github.com/TheArchitect123/KmpAppInsights")
 
-    repositories {
-        maven {
-            name = "ossrh"
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = System.getenv("OSSRH_USERNAME") ?: ""
-                password = System.getenv("OSSRH_PASSWORD") ?: ""
+            licenses {
+                license {
+                    name.set("MIT")
+                    url.set("https://opensource.org/licenses/MIT")
+                }
+            }
+
+            // Specify developers information
+            developers {
+                developer {
+                    id.set("Dan Gerchcovich")
+                    name.set("TheArchitect123")
+                    email.set("dan.developer789@gmail.com")
+                }
+            }
+
+            // Specify SCM information
+            scm {
+                url.set("https://github.com/TheArchitect123/KmpAppInsights")
             }
         }
+
+        // Configure publishing to Maven Central
+        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+        // Enable GPG signing for all publications
+        signAllPublications()
     }
 }
 
-signing {
-    val privateKey = System.getenv("GPG_PRIVATE_KEY")
-    val passphrase = System.getenv("GPG_PASSPHRASE")
-
-    if (privateKey.isNullOrBlank() || passphrase.isNullOrBlank()) {
-        throw GradleException("GPG_PRIVATE_KEY or GPG_PASSPHRASE is missing.")
-    }
-
-    useInMemoryPgpKeys(privateKey, passphrase)
-    sign(publishing.publications)
-}
-
-tasks.register("verifyArtifacts") {
-    group = "verification"
-    description = "Verify if artifacts are generated before uploading."
-
-    doLast {
-        val artifactsDir = project.buildDir.resolve("libs")
-        println("Checking for artifacts in: $artifactsDir")
-
-        if (!artifactsDir.exists()) {
-            throw GradleException("No artifacts directory found at $artifactsDir. Artifact generation failed.")
-        }
-
-        val artifacts = artifactsDir.walkTopDown()
-            .filter { it.isFile }
-            .toList()
-
-        if (artifacts.isEmpty()) {
-            throw GradleException("No artifacts found in $artifactsDir. Artifact generation failed.")
-        }
-
-        println("Artifacts found:")
-        artifacts.forEach { artifact ->
-            println("FOUND ARTIFACT - ${artifact.path}")
-        }
+dependencies {
+    with("de.jensklingenberg.ktorfit:ktorfit-ksp:2.0.1") {
+        add("kspAndroid", this)
+        add("kspIosArm64", this)
+        add("kspIosSimulatorArm64", this)
+        add("kspIosX64", this)
     }
 }
 
-tasks.named("publishToMavenLocal") {
-    dependsOn("verifyArtifacts")
-}
+tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
 
 ksp {
     arg("moduleName", project.name)
@@ -160,8 +150,5 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    publishing {
-        singleVariant("release")
     }
 }
