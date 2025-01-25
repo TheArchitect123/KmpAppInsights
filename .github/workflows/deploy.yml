@@ -12,6 +12,11 @@ permissions:
 jobs:
   deploy:
     runs-on: macos-latest  # Use macOS for iOS builds
+    env:
+        GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
     steps:
       # Step 1: Checkout the repository
@@ -37,8 +42,6 @@ jobs:
           echo "use-agent" >> ~/.gnupg/gpg.conf
           echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
           gpg --list-secret-keys --keyid-format LONG > /dev/null
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
       # Step 4: Configure Maven settings (securely)
       - name: Configure Maven settings
@@ -61,21 +64,11 @@ jobs:
 
       - name: Build Android and Common Artifacts
         run: ./gradlew clean assemble --no-configuration-cache 
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
       - name: Build iOS Artifacts
         run: |
           ./gradlew :shared:linkReleaseFrameworkIosArm64
           ./gradlew :shared:linkReleaseFrameworkIosSimulatorArm64
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
       # Step 5: Verify Generated Artifacts for Kotlin Multiplatform
       - name: Verify Generated Artifacts
@@ -96,17 +89,7 @@ jobs:
 
       - name: Verify Publications
         run: ./gradlew publishToMavenLocal --no-configuration-cache --info --stacktrace
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
       # Step 6: Build and Publish to Maven Central
       - name: Build and publish
         run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-configuration-cache --info --stacktrace
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
