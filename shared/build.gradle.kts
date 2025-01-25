@@ -1,4 +1,5 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.gradle.api.tasks.bundling.Jar
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -76,11 +77,21 @@ kotlin {
     }
 }
 
+// Define custom sources JAR task
+val customSourcesJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("sources")
+    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs)
+    from(kotlin.sourceSets["androidMain"].kotlin.srcDirs)
+    from(kotlin.sourceSets["iosMain"].kotlin.srcDirs)
+    from(kotlin.sourceSets["iosArm64Main"].kotlin.srcDirs)
+    from(kotlin.sourceSets["iosSimulatorArm64Main"].kotlin.srcDirs)
+}
+
 mavenPublishing {
     coordinates(
         groupId = "io.github.thearchitect123",
         artifactId = "appInsights",
-        version = "0.6.0"
+        version = "0.5.9"
     )
 
     pom {
@@ -111,17 +122,6 @@ mavenPublishing {
         }
     }
 
-    // Add the sources JAR to the publications
-    publishing {
-        publications {
-            withType<MavenPublication>().configureEach {
-                artifact(tasks["sourcesJar"]) {
-                    classifier = "sources"
-                }
-            }
-        }
-    }
-
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
 }
@@ -138,48 +138,41 @@ signing {
     sign(publishing.publications)
 }
 
+// Task to verify artifacts
 tasks.register("verifyArtifacts") {
     group = "verification"
     description = "Verify if artifacts are generated before uploading."
 
     doLast {
-        val dirsToCheck = listOf(
-            project.buildDir.resolve("libs"),
-            project.buildDir.resolve("bin/iosArm64/releaseFramework"),
-            project.buildDir.resolve("bin/iosSimulatorArm64/releaseFramework")
-        )
+        val artifactsDir = project.buildDir.resolve("libs")
+        println("Checking for artifacts in: $artifactsDir")
 
-        println("Verifying artifacts in the following directories:")
-        dirsToCheck.forEach { println(it.absolutePath) }
-
-        val artifacts = dirsToCheck.flatMap { dir ->
-            if (dir.exists()) dir.walkTopDown().filter { it.isFile }.toList() else emptyList()
+        if (!artifactsDir.exists()) {
+            throw GradleException("No artifacts directory found at $artifactsDir. Artifact generation failed.")
         }
+
+        val artifacts = artifactsDir.walkTopDown()
+            .filter { it.isFile }
+            .toList()
 
         if (artifacts.isEmpty()) {
-            throw GradleException("No artifacts found. Ensure the build process generated the necessary outputs.")
+            throw GradleException("No artifacts found in $artifactsDir. Artifact generation failed.")
         }
 
-        println("Artifacts verified successfully:")
+        println("Artifacts found:")
         artifacts.forEach { artifact ->
             println("FOUND ARTIFACT - ${artifact.path}")
         }
     }
 }
 
+// Ensure artifacts are built for local publishing
 tasks.named("publishToMavenLocal") {
     dependsOn("verifyArtifacts")
 }
 
-tasks.named("sourcesJar", Jar::class) {
-    archiveClassifier.set("sources") // Set the classifier for the artifact
-    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs) // Add common source set
-    from(kotlin.sourceSets["androidMain"].kotlin.srcDirs) // Add Android source set
-    from(kotlin.sourceSets["iosMain"].kotlin.srcDirs) // Add iOS source set (if applicable)
-}
-
-tasks.withType<Jar>().configureEach {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE // Avoid duplicate files in jar
+ksp {
+    arg("moduleName", project.name)
 }
 
 android {
