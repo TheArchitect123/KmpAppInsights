@@ -47,7 +47,9 @@ jobs:
                 </settings>" > ~/.m2/settings.xml
 
       - name: Build and publish
-        run: ./gradlew clean publish -Psigning.gnupg.keyName="${{ secrets.GPG_KEY_ID }}" -Psigning.gnupg.passphrase="${{ secrets.GPG_PASSPHRASE }}"
+        run: ./gradlew clean publish --no-configuration-cache \
+        -Psigning.gnupg.keyName="${{ secrets.GPG_KEY_ID }}" \
+        -Psigning.gnupg.passphrase="${{ secrets.GPG_PASSPHRASE }}"
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
