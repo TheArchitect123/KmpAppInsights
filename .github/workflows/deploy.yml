@@ -64,7 +64,7 @@ jobs:
         run: ls -la ~/.m2
 
       # # Step 6: Build and Verify Artifacts
-      # - name: Build and verify artifacts
+      # - name: Build and verify artifacts g
       #   run: |
       #     ./gradlew clean assemble --no-configuration-cache
       #     ./gradlew :shared:linkReleaseFrameworkIosArm64
