@@ -54,6 +54,9 @@ jobs:
       - name: Verify Maven settings
         run: ls -la ~/.m2
 
+      - name: Build Artifacts
+        run: ./gradlew clean assemble --no-configuration-cache --info --stacktrace
+        
       # Step 5: Verify Generated Artifacts for Kotlin Multiplatform
       - name: Verify Generated Artifacts
         run: |
