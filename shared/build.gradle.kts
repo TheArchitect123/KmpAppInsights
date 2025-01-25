@@ -77,16 +77,6 @@ kotlin {
     }
 }
 
-// Define custom sources JAR task
-val customSourcesJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("sources")
-    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs)
-    from(kotlin.sourceSets["androidMain"].kotlin.srcDirs)
-    from(kotlin.sourceSets["iosMain"].kotlin.srcDirs)
-    from(kotlin.sourceSets["iosArm64Main"].kotlin.srcDirs)
-    from(kotlin.sourceSets["iosSimulatorArm64Main"].kotlin.srcDirs)
-}
-
 mavenPublishing {
     coordinates(
         groupId = "io.github.thearchitect123",
@@ -94,15 +84,6 @@ mavenPublishing {
         version = "0.5.9"
     )
 
-    // Attach the custom sources JAR
-    configure(publications) {
-        withType<MavenPublication> {
-            artifact(customSourcesJar.get()) {
-                classifier = "sources"
-            }
-        }
-    }
-    
     pom {
         name.set("KmpAppInsights")
         description.set("An AppInsights Client for Kotlin Multiplatform. Supports both iOS & Android")
