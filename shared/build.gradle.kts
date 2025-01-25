@@ -157,6 +157,15 @@ tasks.named("sourcesJar", org.gradle.jvm.tasks.Jar::class) {
     from(kotlin.sourceSets["commonMain"].kotlin.srcDirs.filter { it.exists() })
 }
 
+tasks.named("publishAndroidReleasePublicationToMavenLocal") {
+    dependsOn("signAndroidReleasePublication")
+    mustRunAfter("signIosArm64Publication", "signIosSimulatorArm64Publication")
+}
+
+tasks.named("publishIosArm64PublicationToMavenLocal") {
+    dependsOn("signIosArm64Publication")
+}
+
 ksp {
     arg("moduleName", project.name)
 }
