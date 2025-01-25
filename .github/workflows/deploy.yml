@@ -46,7 +46,7 @@ jobs:
                 </settings>" > ~/.m2/settings.xml
 
       - name: Build and publish
-        run: ./gradlew clean publish --no-configuration-cache
+        run: ./gradlew clean publish --no-configuration-cache --info --stacktrace
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
