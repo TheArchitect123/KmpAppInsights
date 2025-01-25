@@ -105,6 +105,8 @@ mavenPublishing {
 
         // Specify SCM information
         scm {
+            connection.set("scm:git:git://github.com/TheArchitect123/KmpAppInsights.git")
+            developerConnection.set("scm:git:ssh://git@github.com/TheArchitect123/KmpAppInsights.git")
             url.set("https://github.com/TheArchitect123/KmpAppInsights")
         }
     }
