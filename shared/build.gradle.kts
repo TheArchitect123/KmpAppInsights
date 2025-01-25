@@ -111,6 +111,17 @@ mavenPublishing {
         }
     }
 
+    // Add the sources JAR to the publications
+    publishing {
+        publications {
+            withType<MavenPublication>().configureEach {
+                artifact(tasks["sourcesJar"]) {
+                    classifier = "sources"
+                }
+            }
+        }
+    }
+
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
 }
@@ -160,11 +171,11 @@ tasks.named("publishToMavenLocal") {
     dependsOn("verifyArtifacts")
 }
 
-tasks.register("sourcesJar", Jar::class) {
-    archiveClassifier.set("sources") // This sets the classifier for the artifact
-    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs) // Include common source set
-    from(kotlin.sourceSets["androidMain"].kotlin.srcDirs) // Include Android source set
-    from(kotlin.sourceSets["iosMain"].kotlin.srcDirs) // Include iOS source set
+tasks.named("sourcesJar", Jar::class) {
+    archiveClassifier.set("sources") // Set the classifier for the artifact
+    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs) // Add common source set
+    from(kotlin.sourceSets["androidMain"].kotlin.srcDirs) // Add Android source set
+    from(kotlin.sourceSets["iosMain"].kotlin.srcDirs) // Add iOS source set (if applicable)
 }
 
 tasks.withType<Jar>().configureEach {
