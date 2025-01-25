@@ -150,7 +150,7 @@ signing {
 //    dependsOn("customSourcesJar")
 //}
 
-tasks.named("sourcesJar", Jar::class) {
+tasks.named("sourcesJar", org.gradle.jvm.tasks.Jar::class) {
     // Ensure KSP metadata is generated before creating the sources JAR
     dependsOn("kspCommonMainKotlinMetadata")
 
