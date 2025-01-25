@@ -30,15 +30,8 @@ kotlin {
         }
     }
 
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-            isStatic = true
-        }
-    }
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         val commonMain by getting {
@@ -50,7 +43,6 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation(libs.ktor.client.core)
-
                 implementation("io.github.thearchitect123:kmpEssentials:1.8.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
             }
@@ -76,42 +68,40 @@ kotlin {
     }
 }
 
-mavenPublishing {
-    coordinates(
-        groupId = "io.github.thearchitect123",
-        artifactId = "appInsights",
-        version = "0.5.9"
-    )
-
-    pom {
-        name.set("KmpAppInsights")
-        description.set("An AppInsights Client for Kotlin Multiplatform. Supports both iOS & Android")
-        inceptionYear.set("2024")
-        url.set("https://github.com/TheArchitect123/KmpAppInsights")
-
-        licenses {
-            license {
-                name.set("MIT")
-                url.set("https://opensource.org/licenses/MIT")
-            }
+publishing {
+    publications {
+        create<MavenPublication>("androidRelease") {
+            from(components["release"])
+            groupId = "io.github.thearchitect123"
+            artifactId = "appInsights-android"
+            version = "0.5.9"
         }
 
-        developers {
-            developer {
-                id.set("Dan Gerchcovich")
-                name.set("TheArchitect123")
-                email.set("dan.developer789@gmail.com")
-            }
+        create<MavenPublication>("iosArm64") {
+            from(components["iosArm64"])
+            groupId = "io.github.thearchitect123"
+            artifactId = "appInsights-iosArm64"
+            version = "0.5.9"
         }
 
-        scm {
-            connection.set("scm:git:git://github.com/TheArchitect123/KmpAppInsights.git")
-            developerConnection.set("scm:git:ssh://git@github.com/TheArchitect123/KmpAppInsights.git")
-            url.set("https://github.com/TheArchitect123/KmpAppInsights")
+        create<MavenPublication>("iosSimulatorArm64") {
+            from(components["iosSimulatorArm64"])
+            groupId = "io.github.thearchitect123"
+            artifactId = "appInsights-iosSimulatorArm64"
+            version = "0.5.9"
         }
     }
 
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    repositories {
+        maven {
+            name = "ossrh"
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = System.getenv("OSSRH_USERNAME") ?: ""
+                password = System.getenv("OSSRH_PASSWORD") ?: ""
+            }
+        }
+    }
 }
 
 signing {
@@ -125,45 +115,36 @@ signing {
     useInMemoryPgpKeys(privateKey, passphrase)
     sign(publishing.publications)
 }
-//
-//// Task to generate sources JAR
-//tasks.register<Jar>("customSourcesJar") {
-//    archiveClassifier.set("sources")
-//
-//    // Ensure the KSP metadata task runs first
-//    dependsOn("kspCommonMainKotlinMetadata")
-//    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs.filter { it.exists() })
-//}
-//
-//// Attach sources JAR to publications
-//publishing {
-//    publications {
-//        withType<MavenPublication> {
-//            artifact(tasks["customSourcesJar"])
-//        }
-//    }
-//}
-//
-//// Ensure artifacts are built for local publishing
-//tasks.named("publishToMavenLocal") {
-//    dependsOn("customSourcesJar")
-//}
 
-tasks.named("sourcesJar", org.gradle.jvm.tasks.Jar::class) {
-    // Ensure KSP metadata is generated before creating the sources JAR
-    dependsOn("kspCommonMainKotlinMetadata")
+tasks.register("verifyArtifacts") {
+    group = "verification"
+    description = "Verify if artifacts are generated before uploading."
 
-    // Include sources from the `commonMain` source set
-    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs.filter { it.exists() })
+    doLast {
+        val artifactsDir = project.buildDir.resolve("libs")
+        println("Checking for artifacts in: $artifactsDir")
+
+        if (!artifactsDir.exists()) {
+            throw GradleException("No artifacts directory found at $artifactsDir. Artifact generation failed.")
+        }
+
+        val artifacts = artifactsDir.walkTopDown()
+            .filter { it.isFile }
+            .toList()
+
+        if (artifacts.isEmpty()) {
+            throw GradleException("No artifacts found in $artifactsDir. Artifact generation failed.")
+        }
+
+        println("Artifacts found:")
+        artifacts.forEach { artifact ->
+            println("FOUND ARTIFACT - ${artifact.path}")
+        }
+    }
 }
 
-tasks.named("publishAndroidReleasePublicationToMavenLocal") {
-    dependsOn("signAndroidReleasePublication")
-    mustRunAfter("signIosArm64Publication", "signIosSimulatorArm64Publication")
-}
-
-tasks.named("publishIosArm64PublicationToMavenLocal") {
-    dependsOn("signIosArm64Publication")
+tasks.named("publishToMavenLocal") {
+    dependsOn("verifyArtifacts")
 }
 
 ksp {
