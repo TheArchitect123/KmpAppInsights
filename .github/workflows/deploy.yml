@@ -51,7 +51,7 @@ jobs:
 
       # Step 5: Build and publish
       - name: Build and publish
-        run: ./gradlew clean publishToMavenCentralRepository --no-configuration-cache --info --stacktrace
+        run: ./gradlew clean publishKotlinMultiplatformPublicationToMavenCentralRepository --no-configuration-cache --info --stacktrace
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
