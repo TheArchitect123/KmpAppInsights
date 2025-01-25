@@ -88,7 +88,7 @@ jobs:
 
       # Step 6: Build and Publish to Maven Central
       - name: Build and publish
-        run: ./gradlew clean publishAllPublicationsToMavenCentralRepository --no-configuration-cache --info --stacktrace
+        run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-configuration-cache --info --stacktrace
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
