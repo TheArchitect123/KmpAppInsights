@@ -25,8 +25,7 @@ kotlin {
         }
     }
 
-    // needs to be added into a build pipeline to automate creation of the static libraries (merged universal library)
-    //lipo -create “libApplicationInsightsObjectiveC.a” “libApplicationInsightsObjectiveC.a” -output “libApplicationInsightsObjectiveC.a”
+    // iOS targets
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -60,7 +59,6 @@ kotlin {
             }
         }
 
-//        // iOS Targets
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
@@ -74,51 +72,57 @@ kotlin {
     }
 }
 
+mavenPublishing {
+    // Define coordinates for the published artifact
+    coordinates(
+        groupId = "io.github.thearchitect123",
+        artifactId = "appInsights",
+        version = "0.5.8"
+    )
 
-afterEvaluate {
-    mavenPublishing {
-        // Define coordinates for the published artifact
-        coordinates(
-            groupId = "io.github.thearchitect123",
-            artifactId = "appInsights",
-            version = "0.5.8"
-        )
+    // Configure POM metadata for the published artifact
+    pom {
+        name.set("KmpAppInsights")
+        description.set("An AppInsights Client for Kotlin Multiplatform. Supports both iOS & Android")
+        inceptionYear.set("2024")
+        url.set("https://github.com/TheArchitect123/KmpAppInsights")
 
-        // Configure POM metadata for the published artifact
-        pom {
-            name.set("KmpAppInsights")
-            description.set("An AppInsights Client for Kotlin Multiplatform. Supports both iOS & Android")
-            inceptionYear.set("2024")
-            url.set("https://github.com/TheArchitect123/KmpAppInsights")
-
-            licenses {
-                license {
-                    name.set("MIT")
-                    url.set("https://opensource.org/licenses/MIT")
-                }
-            }
-
-            // Specify developers information
-            developers {
-                developer {
-                    id.set("Dan Gerchcovich")
-                    name.set("TheArchitect123")
-                    email.set("dan.developer789@gmail.com")
-                }
-            }
-
-            // Specify SCM information
-            scm {
-                url.set("https://github.com/TheArchitect123/KmpAppInsights")
+        licenses {
+            license {
+                name.set("MIT")
+                url.set("https://opensource.org/licenses/MIT")
             }
         }
 
-        // Configure publishing to Maven Central
-        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+        // Specify developers information
+        developers {
+            developer {
+                id.set("Dan Gerchcovich")
+                name.set("TheArchitect123")
+                email.set("dan.developer789@gmail.com")
+            }
+        }
 
-        // Enable GPG signing for all publications
-        signAllPublications()
+        // Specify SCM information
+        scm {
+            url.set("https://github.com/TheArchitect123/KmpAppInsights")
+        }
     }
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
+}
+
+signing {
+    // Configure signing using in-memory keys
+    useInMemoryPgpKeys(
+        System.getenv("GPG_PRIVATE_KEY"),
+        System.getenv("GPG_PASSPHRASE")
+    )
+    sign(publishing.publications) // Sign all publications
 }
 
 dependencies {
@@ -146,6 +150,3 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
-
-
-
