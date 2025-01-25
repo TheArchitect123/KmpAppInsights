@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Print all environment variables
+        run: printenv
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -46,7 +49,7 @@ jobs:
                 </settings>" > ~/.m2/settings.xml
 
       - name: Build and publish
-        run: ./gradlew clean publish -Psigning.gnupg.keyName="${{ secrets.GPG_KEY_ID }}" -Psigning.gnupg.passphrase="${{ secrets.GPG_PASSPHRASE }}"
+        run: ./gradlew clean publish --no-configuration-cache -Psigning.gnupg.keyName="${{ secrets.GPG_KEY_ID }}" -Psigning.gnupg.passphrase="${{ secrets.GPG_PASSPHRASE }}"
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
