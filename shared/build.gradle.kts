@@ -6,7 +6,6 @@ plugins {
 
     id("org.gradle.maven-publish")
     id("signing")
-    id("maven-publish")
     id("com.vanniktech.maven.publish") version "0.28.0"
 
     kotlin("plugin.serialization") version "2.0.0"
@@ -15,8 +14,8 @@ plugins {
 }
 
 repositories {
-    mavenCentral() // Public libraries from Maven Central
-    google() // For Android-specific dependencies
+    mavenCentral()
+    google()
 }
 
 val ktorVersion = "3.0.0"
@@ -77,45 +76,11 @@ kotlin {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["kotlin"])
-            groupId = "io.github.thearchitect123"
-            artifactId = "appInsights"
-            version = "0.5.9"
-
-//            // Add sources and javadoc jars
-//            artifact(tasks["sourcesJar"]) {
-//                classifier = "sources"
-//            }
-//            artifact(tasks["javadocJar"]) {
-//                classifier = "javadoc"
-//            }
-        }
-    }
-
-    repositories {
-        maven {
-            name = "ossrh"
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = System.getenv("OSSRH_USERNAME") ?: ""
-                password = System.getenv("OSSRH_PASSWORD") ?: ""
-            }
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-    }
-}
-
 mavenPublishing {
-    // Define coordinates for the published artifact
     coordinates(
         groupId = "io.github.thearchitect123",
         artifactId = "appInsights",
-        version = "0.5.8"
+        version = "0.6.0"
     )
 
     pom {
@@ -146,7 +111,6 @@ mavenPublishing {
         }
     }
 
-    // Automatically include all publications for multiplatform targets
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
 }
@@ -163,53 +127,37 @@ signing {
     sign(publishing.publications)
 }
 
-//// Task to generate sources jar
-//tasks.register("sourcesJar", Jar::class) {
-//    archiveClassifier.set("sources")
-//    from(kotlin.sourceSets["commonMain"].kotlin.srcDirs)
-//}
-//
-//// Task to generate javadoc jar
-//tasks.register("javadocJar", Jar::class) {
-//    archiveClassifier.set("javadoc")
-//    from(tasks["javadoc"])
-//}
-
-// Task to verify artifacts
 tasks.register("verifyArtifacts") {
     group = "verification"
     description = "Verify if artifacts are generated before uploading."
 
     doLast {
-        val artifactsDir = project.buildDir.resolve("libs")
-        println("Checking for artifacts in: $artifactsDir")
+        val dirsToCheck = listOf(
+            project.buildDir.resolve("libs"),
+            project.buildDir.resolve("bin/iosArm64/releaseFramework"),
+            project.buildDir.resolve("bin/iosSimulatorArm64/releaseFramework")
+        )
 
-        if (!artifactsDir.exists()) {
-            throw GradleException("No artifacts directory found at $artifactsDir. Artifact generation failed.")
+        println("Verifying artifacts in the following directories:")
+        dirsToCheck.forEach { println(it.absolutePath) }
+
+        val artifacts = dirsToCheck.flatMap { dir ->
+            if (dir.exists()) dir.walkTopDown().filter { it.isFile }.toList() else emptyList()
         }
-
-        val artifacts = artifactsDir.walkTopDown()
-            .filter { it.isFile }
-            .toList()
 
         if (artifacts.isEmpty()) {
-            throw GradleException("No artifacts found in $artifactsDir. Artifact generation failed.")
+            throw GradleException("No artifacts found. Ensure the build process generated the necessary outputs.")
         }
 
-        println("Artifacts found:")
+        println("Artifacts verified successfully:")
         artifacts.forEach { artifact ->
             println("FOUND ARTIFACT - ${artifact.path}")
         }
     }
 }
 
-// Ensure artifacts are built for local publishing
 tasks.named("publishToMavenLocal") {
     dependsOn("verifyArtifacts")
-}
-
-ksp {
-    arg("moduleName", project.name)
 }
 
 android {
