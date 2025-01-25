@@ -119,10 +119,11 @@ mavenPublishing {
 signing {
     val privateKey = System.getenv("GPG_PRIVATE_KEY")
     val passphrase = System.getenv("GPG_PASSPHRASE")
+
     if (privateKey.isNullOrEmpty() || passphrase.isNullOrEmpty()) {
-        println("Signing configuration is incomplete.")
+        println("DEBUG: Signing configuration is incomplete.")
     } else {
-        println("Signing configuration is complete.")
+        println("DEBUG: Signing configuration is complete.")
         useInMemoryPgpKeys(privateKey, passphrase)
         sign(publishing.publications)
     }
