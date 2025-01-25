@@ -1,4 +1,5 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import java.io.ByteArrayOutputStream
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -142,12 +143,33 @@ signing {
     val privateKey = System.getenv("GPG_PRIVATE_KEY")
     val passphrase = System.getenv("GPG_PASSPHRASE")
 
-    if (privateKey.isNullOrEmpty() || passphrase.isNullOrEmpty()) {
-        println("DEBUG: Signing configuration is incomplete.")
+    if (!privateKey.isNullOrBlank() && !passphrase.isNullOrBlank()) {
+        println("DEBUG: Attempting to configure and verify GPG signing.")
+        try {
+            useInMemoryPgpKeys(privateKey, passphrase)
+
+            // Verify the signing configuration by attempting to sign a dummy publication
+            project.tasks.register("verifySigningKey") {
+                doLast {
+                    println("DEBUG: Verifying GPG key by signing a dummy artifact.")
+                    exec {
+                        commandLine = listOf("gpg", "--batch", "--yes", "--armor", "--sign")
+                        standardInput = "test".byteInputStream() // Dummy data to sign
+                        standardOutput = ByteArrayOutputStream() // Discard output
+                        errorOutput = ByteArrayOutputStream() // Capture any errors
+                    }
+                    println("DEBUG: GPG key is valid and signing works.")
+                }
+            }
+
+            // Proceed to sign actual publications
+            sign(publishing.publications)
+        } catch (e: Exception) {
+            throw GradleException("GPG key validation failed: ${e.message}")
+        }
     } else {
-        println("DEBUG: Signing configuration is complete.")
-        useInMemoryPgpKeys(privateKey, passphrase)
-        sign(publishing.publications)
+        println("DEBUG: GPG_PRIVATE_KEY or GPG_PASSPHRASE is missing.")
+        throw GradleException("GPG_PRIVATE_KEY or GPG_PASSPHRASE is missing.")
     }
 }
 
@@ -184,6 +206,19 @@ tasks.register("verifyArtifacts") {
         artifacts.forEach { artifact ->
             println("FOUND ARTIFACT - ${artifact.path}")
         }
+    }
+}
+
+tasks.register("verifyGpgKey") {
+    doLast {
+        println("DEBUG: Verifying GPG key usability...")
+        exec {
+            commandLine = listOf("gpg", "--batch", "--yes", "--armor", "--sign")
+            standardInput = System.getenv("GPG_PRIVATE_KEY").byteInputStream() // Dummy data to sign
+            standardOutput = ByteArrayOutputStream() // Discard output
+            errorOutput = ByteArrayOutputStream() // Capture any errors
+        }
+        println("DEBUG: GPG key is valid and signing works.")
     }
 }
 
