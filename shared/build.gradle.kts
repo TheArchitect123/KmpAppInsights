@@ -176,7 +176,7 @@ tasks.register("verifyArtifacts") {
 
         println("Artifacts generated successfully:")
         artifacts.forEach { artifact ->
-            println("- ${artifact.path}")
+            println("FOUND ARTIFACT - ${artifact.path}")
         }
     }
 }
