@@ -14,6 +14,11 @@ plugins {
     id("de.jensklingenberg.ktorfit") version "2.1.0"
 }
 
+repositories {
+    mavenCentral() // For public libraries
+    google() // For Android libraries
+}
+
 val ktorVersion = "3.0.0"
 
 kotlin {
@@ -132,7 +137,7 @@ afterEvaluate {
                 }
             }
         }
-        
+
         // Enable GPG signing for all publications
         signAllPublications()
     }
