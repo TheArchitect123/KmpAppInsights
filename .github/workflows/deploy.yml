@@ -38,18 +38,19 @@ jobs:
       # Step 4: Configure Maven settings (securely)
       - name: Configure Maven settings
         run: |
-        mkdir -p ~/.m2
-        cat > ~/.m2/settings.xml <<EOL
-<settings>
-<servers>
-  <server>
-    <id>ossrh</id>
-    <username>${{ secrets.OSSRH_USERNAME }}</username>
-    <password>${{ secrets.OSSRH_PASSWORD }}</password>
-  </server>
-</servers>
-</settings>
-EOL
+          mkdir -p ~/.m2
+          echo "<settings>
+  <servers>
+    <server>
+      <id>ossrh</id>
+      <username>${{ secrets.OSSRH_USERNAME }}</username>
+      <password>${{ secrets.OSSRH_PASSWORD }}</password>
+    </server>
+  </servers>
+</settings>" > ~/.m2/settings.xml
+
+          echo "Generated Maven settings.xml:"
+          cat ~/.m2/settings.xml
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
