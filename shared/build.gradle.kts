@@ -28,7 +28,6 @@ kotlin {
     // needs to be added into a build pipeline to automate creation of the static libraries (merged universal library)
     //lipo -create “libApplicationInsightsObjectiveC.a” “libApplicationInsightsObjectiveC.a” -output “libApplicationInsightsObjectiveC.a”
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -42,7 +41,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
-                implementation("co.touchlab:kermit:2.0.4")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:2.1.0")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
@@ -50,9 +48,8 @@ kotlin {
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation(libs.ktor.client.core)
 
-                implementation("io.github.thearchitect123:kmpEssentials:1.5.0")
+                implementation("io.github.thearchitect123:kmpEssentials:1.8.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
-
             }
         }
 
@@ -65,11 +62,9 @@ kotlin {
 
 //        // iOS Targets
         val iosArm64Main by getting
-        val iosX64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
@@ -86,7 +81,7 @@ afterEvaluate {
         coordinates(
             groupId = "io.github.thearchitect123",
             artifactId = "appInsights",
-            version = "0.4.8"
+            version = "0.5.7"
         )
 
         // Configure POM metadata for the published artifact
@@ -131,7 +126,6 @@ dependencies {
         add("kspAndroid", this)
         add("kspIosArm64", this)
         add("kspIosSimulatorArm64", this)
-        add("kspIosX64", this)
     }
 }
 

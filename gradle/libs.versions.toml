@@ -1,25 +1,15 @@
 [versions]
 agp = "8.5.2"
-kotlin = "2.0.20"
-swiftKlib =  "0.6.3"
+kotlin = "2.0.10"
 ktor = "3.0.0"
 ksp = "2.0.10-1.0.24"
-
-room = "2.7.0-alpha09"
-sqlite = "2.5.0-alpha09"
 
 [libraries]
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
-androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-androidx-sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
-
 
 [plugins]
 kspModule = {id = "com.google.devtools.ksp", version.ref = "ksp"}
-swiftklib = { id = "io.github.ttypic.swiftklib", version.ref = "swiftKlib" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-androidxRoom = { id = "androidx.room", version.ref = "room" }

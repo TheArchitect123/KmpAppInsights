@@ -29,6 +29,7 @@ import com.architect.kmpessentials.deviceInfo.DevicePlatform
 import com.architect.kmpessentials.deviceInfo.KmpDeviceInfo
 import com.architect.kmpessentials.fileSystem.KmpFileSystem
 import com.architect.kmpessentials.launcher.KmpLauncher
+import com.architect.kmpessentials.logging.KmpLogging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.IO
@@ -44,6 +45,9 @@ typealias EventTypeMap = Map<String, String>
 object InsightsClient {
     private var timerUploadInSeconds: Int? = null
     private val insightsStorageName = "insights"
+    private var countOfRecordsToUploadViaBatch = 10
+    private var appCrashMap: EventTypeMap? = null
+
     private suspend fun processLogEntries() {
         try {
             val jsonFilesDirectory = KmpFileSystem.createDirectNameAtAppStorage(
@@ -51,7 +55,9 @@ object InsightsClient {
             )
 
             // remove any duplicate files
-            val filePaths = KmpFileSystem.getAllFilePathsFromDirectoryPath(jsonFilesDirectory).distinct()
+            val filePaths =
+                KmpFileSystem.getAllFilePathsFromDirectoryPath(jsonFilesDirectory).distinct()
+                    .take(countOfRecordsToUploadViaBatch)
             val jsonEntries = filePaths.mapNotNull { KmpFileSystem.readTextFromFileAt(it) }
                 .joinToString("\n") { it }
             val response =
@@ -66,9 +72,14 @@ object InsightsClient {
         }
     }
 
+    fun setAppMapForCrashes(appCrashMap: EventTypeMap? = null){
+        this.appCrashMap = appCrashMap
+    }
+
     fun configureInsightsClient(
         instrumentationKey: String,
         timerUploadInSeconds: Int = 30,
+        countOfRecordsToUploadViaBatch: Int = 10,
         allowBackgrounding: Boolean = false,
         allowCrashReporting: Boolean = false
     ): InsightsClient {
@@ -80,6 +91,7 @@ object InsightsClient {
             CrashReporting.registerForCrashReporting()
         }
 
+        this.countOfRecordsToUploadViaBatch = countOfRecordsToUploadViaBatch
         InsightsContainer.instrumentationKey = instrumentationKey
         this.timerUploadInSeconds = timerUploadInSeconds
 
@@ -93,19 +105,11 @@ object InsightsClient {
                         requiresStorage = false
                     )
                 ) {
-                    try {
-                        processLogEntries()
-                    } catch (ex: Exception) {
-
-                    }
+                    processLogEntries()
                 }
             } else {
                 GlobalScope.launch(Dispatchers.IO) {
-                    try {
-                        processLogEntries()
-                    } catch (ex: Exception) {
-
-                    }
+                    processLogEntries()
                 }
             }
 
@@ -285,8 +289,15 @@ object InsightsClient {
         ex: Exception,
         message: EventTypeMap,
     ): InsightsClient {
-        InsightsContainer.interopLogger.logError(ex.message + "\n ${ex.stackTraceToString()}")
+        prepareJsonFileData(getExceptionDtoJson(ex, message))
 
+        return this
+    }
+
+   private fun getExceptionDtoJson(
+        ex: Exception,
+        message: EventTypeMap
+    ): String {
         val excItems = mutableMapOf("StackTrace" to "", "Message" to "")
         excItems["Message"] = ex.message ?: ""
         excItems["StackTrace"] = ex.stackTraceToString()
@@ -304,7 +315,7 @@ object InsightsClient {
             )
             else ExceptionFormatter.getStackException(ex)
 
-        val jsonElement = Json.encodeToJsonElement(
+        return Json.encodeToJsonElement(
             ExceptionEvent.serializer(),
             ExceptionEvent(
                 name = "Microsoft.ApplicationInsights.Event",
@@ -329,10 +340,51 @@ object InsightsClient {
                     ),
                 )
             )
-        )
+        ).toString()
+    }
 
-        prepareJsonFileData(jsonElement.toString())
+    internal fun uploadAppCrashLog(crashDetails: Exception){
+        KmpBackgrounding.createAndStartWorker {
+            val crashLog = """
+                CATASTROPHIC CRASH - \n
+                Message: ${crashDetails.message}
+                Cause: ${crashDetails.cause}
+                Stack Trace: ${crashDetails.stackTraceToString()}
+            """.trimIndent()
 
-        return this
+            // Log to the console & write to storage
+            KmpLogging.writeError("CATASTROPHIC_EXCEPTION", crashLog)
+
+            // attempt to upload logs to insights
+            // if it fails after 3 attempts, then write crash to storage
+            val details = appCrashMap ?: mapOf()
+
+            try {
+                val cexception = Exception(crashDetails)
+
+                // need to set the map info, for the startup crash
+                val jsonLog = getExceptionDtoJson(
+                    cexception,
+                    details
+                )
+
+                var attempt = 3
+                while (attempt == 0) {
+                    attempt--
+                    val response =
+                        InsightsContainer.appInsightsHttpService.postBatchJson(jsonLog)
+                    if (response.errors.isEmpty()) {
+                        break
+                    } else {
+                        if (attempt == 0) { // log the exception on storage
+                            writeException(crashDetails, details)
+                        }
+                    }
+                }
+            } catch (ex: Exception) {
+                writeException(ex, details)
+            }
+        }
+
     }
 }
