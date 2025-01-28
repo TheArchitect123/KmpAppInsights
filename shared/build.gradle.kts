@@ -34,7 +34,7 @@ kotlin {
     //lipo -create “libApplicationInsightsObjectiveC.a” “libApplicationInsightsObjectiveC.a” -output “libApplicationInsightsObjectiveC.a”
     listOf(
         iosArm64(),
-        iosSimulatorArm64()
+        //iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -69,11 +69,11 @@ kotlin {
 
 //        // iOS Targets
         val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
+     //   val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
             iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
+         //   iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation(libs.ktor.client.darwin)
             }
@@ -167,7 +167,7 @@ dependencies {
     with("de.jensklingenberg.ktorfit:ktorfit-ksp:2.0.1") {
         add("kspAndroid", this)
         add("kspIosArm64", this)
-        add("kspIosSimulatorArm64", this)
+        //add("kspIosSimulatorArm64", this)
     }
 }
 
