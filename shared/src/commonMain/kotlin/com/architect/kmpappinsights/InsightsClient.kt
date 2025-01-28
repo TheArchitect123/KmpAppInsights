@@ -72,7 +72,7 @@ object InsightsClient {
         }
     }
 
-    fun setAppMapForCrashes(appCrashMap: EventTypeMap? = null){
+    fun setAppMapForCrashes(appCrashMap: EventTypeMap? = null) {
         this.appCrashMap = appCrashMap
     }
 
@@ -294,7 +294,7 @@ object InsightsClient {
         return this
     }
 
-   private fun getExceptionDtoJson(
+    private fun getExceptionDtoJson(
         ex: Exception,
         message: EventTypeMap
     ): String {
@@ -343,48 +343,48 @@ object InsightsClient {
         ).toString()
     }
 
-    internal fun uploadAppCrashLog(crashDetails: Exception){
-        KmpBackgrounding.createAndStartWorker {
-            val crashLog = """
+    internal suspend fun uploadAppCrashLog(crashDetails: Exception) {
+        KmpLogging.writeInfo("Preparing Crash Report","Running Crash Report")
+        val crashLog = """
                 CATASTROPHIC CRASH - \n
                 Message: ${crashDetails.message}
                 Cause: ${crashDetails.cause}
                 Stack Trace: ${crashDetails.stackTraceToString()}
             """.trimIndent()
 
-            // Log to the console & write to storage
-            KmpLogging.writeError("CATASTROPHIC_EXCEPTION", crashLog)
+        // Log to the console & write to storage
+        KmpLogging.writeError("CATASTROPHIC_EXCEPTION", crashLog)
 
-            // attempt to upload logs to insights
-            // if it fails after 3 attempts, then write crash to storage
-            val details = appCrashMap ?: mapOf()
+        // attempt to upload logs to insights
+        // if it fails after 3 attempts, then write crash to storage
+        val details = appCrashMap ?: mapOf()
 
-            try {
-                val cexception = Exception(crashDetails)
+        try {
+            val cexception = Exception(crashDetails)
 
-                // need to set the map info, for the startup crash
-                val jsonLog = getExceptionDtoJson(
-                    cexception,
-                    details
-                )
+            // need to set the map info, for the startup crash
+            val jsonLog = getExceptionDtoJson(
+                cexception,
+                details
+            )
 
-                var attempt = 3
-                while (attempt == 0) {
-                    attempt--
-                    val response =
-                        InsightsContainer.appInsightsHttpService.postBatchJson(jsonLog)
-                    if (response.errors.isEmpty()) {
-                        break
-                    } else {
-                        if (attempt == 0) { // log the exception on storage
-                            writeException(crashDetails, details)
-                        }
+            var attempt = 3
+            while (attempt == 0) {
+                attempt--
+                val response =
+                    InsightsContainer.appInsightsHttpService.postBatchJson(jsonLog)
+                if (response.errors.isEmpty()) {
+                    break
+                } else {
+                    if (attempt == 0) { // log the exception on storage
+                        writeException(crashDetails, details)
                     }
                 }
-            } catch (ex: Exception) {
-                writeException(ex, details)
             }
+        } catch (ex: Exception) {
+            writeException(ex, details)
         }
 
+        KmpLogging.writeInfo("Preparing Crash Report","Successfully uploaded crash report")
     }
 }

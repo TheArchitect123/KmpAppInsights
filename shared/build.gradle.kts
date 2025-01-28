@@ -14,11 +14,6 @@ plugins {
     id("de.jensklingenberg.ktorfit") version "2.1.0"
 }
 
-repositories {
-    mavenCentral() // For public libraries
-    google() // For Android libraries
-}
-
 val ktorVersion = "3.0.0"
 
 kotlin {
@@ -33,7 +28,6 @@ kotlin {
     // needs to be added into a build pipeline to automate creation of the static libraries (merged universal library)
     //lipo -create “libApplicationInsightsObjectiveC.a” “libApplicationInsightsObjectiveC.a” -output “libApplicationInsightsObjectiveC.a”
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -70,11 +64,9 @@ kotlin {
 
 //        // iOS Targets
         val iosArm64Main by getting
-        val iosX64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
@@ -91,7 +83,7 @@ afterEvaluate {
         coordinates(
             groupId = "io.github.thearchitect123",
             artifactId = "appInsights",
-            version = "0.6.1"
+            version = "0.6.9"
         )
 
         // Configure POM metadata for the published artifact
@@ -119,6 +111,8 @@ afterEvaluate {
 
             // Specify SCM information
             scm {
+                connection.set("scm:git:git://github.com/TheArchitect123/KmpAppInsights.git")
+                developerConnection.set("scm:git:ssh://git@github.com:TheArchitect123/KmpAppInsights.git")
                 url.set("https://github.com/TheArchitect123/KmpAppInsights")
             }
         }
@@ -126,26 +120,18 @@ afterEvaluate {
         // Configure publishing to Maven Central
         publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-        // Add credentials for Sonatype OSSRH
-        repositories {
-            maven {
-                name = "ossrh"
-                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                credentials {
-                    username = System.getenv("OSSRH_USERNAME") ?: ""
-                    password = System.getenv("OSSRH_PASSWORD") ?: ""
-                }
-            }
-        }
-
         // Enable GPG signing for all publications
         signAllPublications()
     }
 }
 
 signing {
-    val privateKey = System.getenv("GPG_PRIVATE_KEY") ?: error("GPG_PRIVATE_KEY is missing")
-    val passphrase = System.getenv("GPG_PASSPHRASE") ?: error("GPG_PASSPHRASE is missing")
+    val privateKey = System.getenv("GPG_PRIVATE_KEY")
+    val passphrase = System.getenv("GPG_PASSPHRASE")
+
+    if (privateKey.isNullOrBlank() || passphrase.isNullOrBlank()) {
+        throw GradleException("GPG signing key and passphrase must be provided as environment variables")
+    }
 
     useInMemoryPgpKeys(privateKey, passphrase)
     sign(publishing.publications)
@@ -156,7 +142,6 @@ dependencies {
         add("kspAndroid", this)
         add("kspIosArm64", this)
         add("kspIosSimulatorArm64", this)
-        add("kspIosX64", this)
     }
 }
 
