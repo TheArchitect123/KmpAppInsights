@@ -36,3 +36,10 @@ jobs:
         run: |
           export GRADLE_OPTS="-Dorg.gradle.internal.http.debug=true"
           ./gradlew buildAllPlatformsAndPublish --info --stacktrace --scan
+
+      - name: Upload Problems Report
+        if: failure() # Only upload if the build fails
+        uses: actions/upload-artifact@v3
+        with:
+          name: problems-report
+          path: build/reports/problems/problems-report.html
