@@ -8,7 +8,7 @@ plugins {
     id("signing")
     id("maven-publish")
     id("com.vanniktech.maven.publish") version "0.30.0"
-    id("com.gradle.build-scan") version "3.13.4"
+    id("com.gradle.build-scan")
 
     kotlin("plugin.serialization") version "2.0.0"
     id("com.google.devtools.ksp")
