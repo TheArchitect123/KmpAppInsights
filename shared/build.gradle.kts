@@ -132,7 +132,7 @@ signing {
 tasks.register("buildAllPlatformsAndPublish") {
     dependsOn(
         "clean",
-        "assemble",
+        "assembleRelease",
         //":shared:linkReleaseFrameworkIosArm64",
         ":shared:publishToMavenCentral"
     )

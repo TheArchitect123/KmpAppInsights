@@ -44,11 +44,4 @@ jobs:
       # Step 3: Build Artifacts
       - name: Build Artifacts And Publish
         run: |
-          ./gradlew buildAllPlatformsAndPublish --info --stacktrace --scan -Dorg.gradle.internal.http.debug=true
-
-      - name: Upload Problems Report
-        if: failure() # Only upload if the build fails
-        uses: actions/upload-artifact@v3
-        with:
-          name: problems-report
-          path: build/reports/problems/problems-report.html
+          ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
