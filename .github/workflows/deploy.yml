@@ -62,3 +62,7 @@ jobs:
 
       - name: Verify Maven settings
         run: ls -la ~/.m2
+
+        # Step 5: Publish to Maven Central
+      - name: Publish to Maven Central
+        run: ./gradlew :shared:publishAndReleaseToMavenCentral --no-configuration-cache --info --stacktrace --scan
