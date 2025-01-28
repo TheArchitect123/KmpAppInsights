@@ -48,13 +48,6 @@ jobs:
           ./gradlew :shared:linkReleaseFrameworkIosSimulatorArm64
           ./gradlew publishToMavenLocal --no-configuration-cache --info --stacktrace
 
-      # Step 5: Upload Artifacts
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-insights-artifacts
-          path: build/publish/staging/
-
       # Step 6: Publish to Maven Central
       - name: Publish to Maven Central
         run: |
