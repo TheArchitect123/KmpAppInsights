@@ -54,6 +54,7 @@ kotlin {
 
                 implementation("io.github.thearchitect123:kmpEssentials:1.8.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
+                implementation("org.fusesource.jansi:jansi:2.4.1")
             }
         }
 

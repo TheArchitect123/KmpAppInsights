@@ -31,6 +31,9 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
+      - name: Fix libjansi permissions
+        run: chmod +x ~/.gradle/native/jansi/1.18/osx/libjansi.jnilib
+
       # Step 3: Build Artifacts
       - name: Build Artifacts And Publish
         run: |
