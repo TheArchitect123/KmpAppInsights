@@ -128,7 +128,7 @@ afterEvaluate {
         repositories {
             maven {
                 name = "mavenCentral"
-                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                url = uri("https://s01.oss.sonatype.org/content/repositories/releases/")
                 credentials {
                     username = System.getenv("OSSRH_USERNAME")
                         ?: throw GradleException("OSSRH_USERNAME environment variable is missing")
