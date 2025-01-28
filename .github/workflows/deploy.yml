@@ -34,8 +34,7 @@ jobs:
       # Step 3: Build Artifacts
       - name: Build Artifacts And Publish
         run: |
-          export GRADLE_OPTS="-Dorg.gradle.internal.http.debug=true"
-          ./gradlew buildAllPlatformsAndPublish --info --stacktrace --scan
+          ./gradlew buildAllPlatformsAndPublish --info --stacktrace --scan -Dorg.gradle.internal.http.debug=true
 
       - name: Upload Problems Report
         if: failure() # Only upload if the build fails
