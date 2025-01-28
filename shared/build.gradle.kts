@@ -30,15 +30,15 @@ kotlin {
         }
     }
 
-    listOf(
-        iosArm64(),
-        //iosSimulatorArm64() // Uncomment if needed
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-            isStatic = true
-        }
-    }
+//    listOf(
+//        iosArm64(),
+//        //iosSimulatorArm64() // Uncomment if needed
+//    ).forEach {
+//        it.binaries.framework {
+//            baseName = "shared"
+//            isStatic = true
+//        }
+//    }
 
     sourceSets {
         val commonMain by getting {
@@ -64,16 +64,16 @@ kotlin {
             }
         }
 
-        val iosArm64Main by getting
-        // val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosArm64Main.dependsOn(this)
-            // iosSimulatorArm64Main.dependsOn(this)
-            dependencies {
-                implementation(libs.ktor.client.darwin)
-            }
-        }
+//        val iosArm64Main by getting
+//        // val iosSimulatorArm64Main by getting
+//        val iosMain by creating {
+//            dependsOn(commonMain)
+//            iosArm64Main.dependsOn(this)
+//            // iosSimulatorArm64Main.dependsOn(this)
+//            dependencies {
+//                implementation(libs.ktor.client.darwin)
+//            }
+//        }
     }
 }
 
@@ -133,11 +133,19 @@ tasks.register("buildAllPlatformsAndPublish") {
     dependsOn(
         "clean",
         "assemble",
-        ":shared:linkReleaseFrameworkIosArm64",
+        //":shared:linkReleaseFrameworkIosArm64",
         ":shared:publishToMavenCentral"
     )
 }
 
+dependencies {
+    with("de.jensklingenberg.ktorfit:ktorfit-ksp:2.0.1") {
+        add("kspAndroid", this)
+        //add("kspIosArm64", this)
+        //add("kspIosSimulatorArm64", this)
+        //add("kspIosX64", this)
+    }
+}
 
 ksp {
     arg("moduleName", project.name)
