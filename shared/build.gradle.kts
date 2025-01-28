@@ -120,6 +120,20 @@ afterEvaluate {
         // Configure publishing to Maven Central
         publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
+        // Configure publishing to Maven Central
+        repositories {
+            maven {
+                name = "mavenCentral"
+                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = System.getenv("OSSRH_USERNAME")
+                        ?: throw GradleException("OSSRH_USERNAME environment variable is missing")
+                    password = System.getenv("OSSRH_PASSWORD")
+                        ?: throw GradleException("OSSRH_PASSWORD environment variable is missing")
+                }
+            }
+        }
+
         // Enable GPG signing for all publications
         signAllPublications()
     }
