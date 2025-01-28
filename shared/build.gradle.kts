@@ -7,7 +7,7 @@ plugins {
     id("org.gradle.maven-publish")
     id("signing")
     id("maven-publish")
-    id("com.vanniktech.maven.publish") version "0.28.0"
+    id("com.vanniktech.maven.publish") version "0.30.0"
 
     kotlin("plugin.serialization") version "2.0.0"
     id("com.google.devtools.ksp")
@@ -69,11 +69,11 @@ kotlin {
 
 //        // iOS Targets
         val iosArm64Main by getting
-     //   val iosSimulatorArm64Main by getting
+        //   val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
             iosArm64Main.dependsOn(this)
-         //   iosSimulatorArm64Main.dependsOn(this)
+            //   iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation(libs.ktor.client.darwin)
             }
@@ -172,7 +172,11 @@ dependencies {
 }
 
 tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
-
+tasks.register("buildAllPlatforms") {
+    dependsOn(
+        "clean", "assemble", ":shared:linkReleaseFrameworkIosArm64", ":shared:publishToMavenLocal"
+    )
+}
 
 ksp {
     arg("moduleName", project.name)
