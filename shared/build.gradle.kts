@@ -128,7 +128,7 @@ signing {
     sign(publishing.publications)
 }
 
-tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
+//tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
 tasks.register("buildAllPlatformsAndPublish") {
     dependsOn(
         "clean",
