@@ -165,9 +165,12 @@ dependencies {
 }
 
 tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
-tasks.named("publishAndReleaseToMavenCentral") {
-    dependsOn("publishToMavenCentral") // Ensure it runs only the publishing process
-    mustRunAfter("clean", "assemble") // Avoid triggering unnecessary rebuilds
+tasks.register("publishAndReleaseToMavenCentralShared") {
+    dependsOn("publishToMavenCentral")
+    doLast {
+        println("Releasing Maven Central staging repository for shared module...")
+        // Automate release here
+    }
 }
 
 ksp {
