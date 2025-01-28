@@ -50,4 +50,4 @@ jobs:
       # Step 6: Publish to Maven Central
       - name: Publish to Maven Central
         run: |
-          ./gradlew :shared:publishToMavenCentral --no-configuration-cache --info --stacktrace --scan -Dorg.gradle.build-scan.agree=true
+          ./gradlew :shared:publishToMavenCentral --no-configuration-cache --info --stacktrace --scan --debug
