@@ -172,9 +172,10 @@ dependencies {
 }
 
 tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
-tasks.register("buildAllPlatforms") {
+tasks.register("buildAllPlatformsAndPublish") {
     dependsOn(
-        "clean", "assemble", ":shared:linkReleaseFrameworkIosArm64", ":shared:publishToMavenLocal"
+        "clean", "assemble", ":shared:linkReleaseFrameworkIosArm64", ":shared:publishToMavenLocal",
+        ":shared:publishToMavenCentral"
     )
 }
 

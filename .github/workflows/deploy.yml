@@ -31,12 +31,7 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      # Step 4: Build Artifacts
-      - name: Build Artifacts
+      # Step 3: Build Artifacts
+      - name: Build Artifacts And Publish
         run: |
-          ./gradlew buildAllPlatforms
-
-      # Step 6: Publish to Maven Central
-      - name: Publish to Maven Central
-        run: |
-          ./gradlew :shared:publishToMavenCentral --info --stacktrace --scan --debug
+          ./gradlew buildAllPlatformsAndPublish --info --stacktrace --scan
