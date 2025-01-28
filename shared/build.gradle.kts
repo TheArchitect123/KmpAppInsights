@@ -15,6 +15,11 @@ plugins {
 }
 
 val ktorVersion = "3.0.0"
+repositories {
+    google()
+    mavenCentral()
+    gradlePluginPortal()
+}
 
 kotlin {
     androidTarget {
