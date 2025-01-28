@@ -20,49 +20,42 @@ jobs:
         GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
     steps:
-      # Step 1: Checkout the repository
-      - name: Checkout repository
+      # Step 1: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       # Step 2: Set up JDK
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: 'zulu'
           java-version: '17'
 
-      - name: Install Xcode Command Line Tools
+      # Step 3: Set up Gradle Cache
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Step 4: Build Artifacts
+      - name: Build Artifacts
         run: |
-          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
-          xcodebuild -version
+          ./gradlew clean assemble --no-configuration-cache
+          ./gradlew :shared:linkReleaseFrameworkIosArm64
+          ./gradlew :shared:linkReleaseFrameworkIosSimulatorArm64
+          ./gradlew publishToMavenLocal --no-configuration-cache --info --stacktrace
 
-      # Step 3: Import GPG key (securely)
-      - name: Import GPG key
-        run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
-          echo "use-agent" >> ~/.gnupg/gpg.conf
-          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
-          gpg --list-secret-keys --keyid-format LONG > /dev/null
+      # Step 5: Upload Artifacts
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-insights-artifacts
+          path: build/publish/staging/
 
-      # Step 4: Configure Maven settings (securely)
-      - name: Configure Maven settings
-        run: |
-          mkdir -p ~/.m2
-          cat <<EOF > ~/.m2/settings.xml
-          <settings>
-            <servers>
-              <server>
-                <id>ossrh</id>
-                <username>${{ secrets.OSSRH_USERNAME }}</username>
-                <password>${{ secrets.OSSRH_PASSWORD }}</password>
-              </server>
-            </servers>
-          </settings>
-          EOF
-
-      - name: Verify Maven settings
-        run: ls -la ~/.m2
-
-        # Step 5: Publish to Maven Central
+      # Step 6: Publish to Maven Central
       - name: Publish to Maven Central
-        run: ./gradlew :shared:publishAndReleaseToMavenCentral --no-configuration-cache --info --stacktrace --scan
+        run: |
+          ./gradlew :shared:publishToMavenCentral --no-configuration-cache --info --stacktrace --scan -Dorg.gradle.build-scan.agree=true
