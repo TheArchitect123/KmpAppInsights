@@ -45,7 +45,6 @@ jobs:
         run: |
           ./gradlew clean assemble --no-configuration-cache
           ./gradlew :shared:linkReleaseFrameworkIosArm64
-          ./gradlew :shared:linkReleaseFrameworkIosSimulatorArm64
           ./gradlew publishToMavenLocal --no-configuration-cache --info --stacktrace
 
       # Step 6: Publish to Maven Central
