@@ -6,7 +6,6 @@ plugins {
 
     id("org.gradle.maven-publish")
     id("signing")
-    id("maven-publish")
     id("com.vanniktech.maven.publish") version "0.30.0"
 
     kotlin("plugin.serialization") version "2.0.0"
@@ -15,6 +14,7 @@ plugins {
 }
 
 val ktorVersion = "3.0.0"
+
 repositories {
     google()
     mavenCentral()
@@ -30,11 +30,9 @@ kotlin {
         }
     }
 
-    // needs to be added into a build pipeline to automate creation of the static libraries (merged universal library)
-    //lipo -create “libApplicationInsightsObjectiveC.a” “libApplicationInsightsObjectiveC.a” -output “libApplicationInsightsObjectiveC.a”
     listOf(
         iosArm64(),
-        //iosSimulatorArm64()
+        //iosSimulatorArm64() // Uncomment if needed
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -56,7 +54,6 @@ kotlin {
 
                 implementation("io.github.thearchitect123:kmpEssentials:1.8.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
-
             }
         }
 
@@ -67,13 +64,12 @@ kotlin {
             }
         }
 
-//        // iOS Targets
         val iosArm64Main by getting
-        //   val iosSimulatorArm64Main by getting
+        // val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
             iosArm64Main.dependsOn(this)
-            //   iosSimulatorArm64Main.dependsOn(this)
+            // iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation(libs.ktor.client.darwin)
             }
@@ -81,71 +77,41 @@ kotlin {
     }
 }
 
-afterEvaluate {
-    mavenPublishing {
-        // Define coordinates for the published artifact
-        coordinates(
-            groupId = "io.github.thearchitect123",
-            artifactId = "appInsights",
-            version = "0.6.9"
-        )
+mavenPublishing {
+    // Automatically configures Sonatype repository and credentials
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-        // Configure POM metadata for the published artifact
-        pom {
-            name.set("KmpAppInsights")
-            description.set("An AppInsights Client for Kotlin Multiplatform. Supports both iOS & Android")
-            inceptionYear.set("2024")
+    coordinates(
+        groupId = "io.github.thearchitect123",
+        artifactId = "appInsights",
+        version = "0.7.0"
+    )
+
+    pom {
+        name.set("KmpAppInsights")
+        description.set("An AppInsights Client for Kotlin Multiplatform. Supports both iOS & Android")
+        inceptionYear.set("2024")
+        url.set("https://github.com/TheArchitect123/KmpAppInsights")
+
+        licenses {
+            license {
+                name.set("MIT")
+                url.set("https://opensource.org/licenses/MIT")
+            }
+        }
+
+        developers {
+            developer {
+                id.set("Dan Gerchcovich")
+                name.set("TheArchitect123")
+                email.set("dan.developer789@gmail.com")
+            }
+        }
+
+        scm {
+            connection.set("scm:git:git://github.com/TheArchitect123/KmpAppInsights.git")
+            developerConnection.set("scm:git:ssh://git@github.com:TheArchitect123/KmpAppInsights.git")
             url.set("https://github.com/TheArchitect123/KmpAppInsights")
-
-            licenses {
-                license {
-                    name.set("MIT")
-                    url.set("https://opensource.org/licenses/MIT")
-                }
-            }
-
-            // Specify developers information
-            developers {
-                developer {
-                    id.set("Dan Gerchcovich")
-                    name.set("TheArchitect123")
-                    email.set("dan.developer789@gmail.com")
-                }
-            }
-
-            // Specify SCM information
-            scm {
-                connection.set("scm:git:git://github.com/TheArchitect123/KmpAppInsights.git")
-                developerConnection.set("scm:git:ssh://git@github.com:TheArchitect123/KmpAppInsights.git")
-                url.set("https://github.com/TheArchitect123/KmpAppInsights")
-            }
-        }
-
-        // Configure publishing to Maven Central
-        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-
-        // Configure publishing to Maven Central
-        repositories {
-            maven {
-                name = "mavenCentral"
-                url = uri("https://s01.oss.sonatype.org/content/repositories/releases/")
-                credentials {
-                    username = System.getenv("OSSRH_USERNAME")
-                        ?: throw GradleException("OSSRH_USERNAME environment variable is missing")
-                    password = System.getenv("OSSRH_PASSWORD")
-                        ?: throw GradleException("OSSRH_PASSWORD environment variable is missing")
-                }
-            }
-        }
-
-        // Enable GPG signing for all publications
-        signAllPublications()
-    }
-
-    tasks.named("publishAndReleaseToMavenCentral") {
-        doLast {
-            println("Artifacts have been successfully published to the Sonatype staging repository.")
-            // Automate the release using REST API or additional plugins
         }
     }
 }
@@ -162,34 +128,11 @@ signing {
     sign(publishing.publications)
 }
 
-dependencies {
-    with("de.jensklingenberg.ktorfit:ktorfit-ksp:2.0.1") {
-        add("kspAndroid", this)
-        add("kspIosArm64", this)
-        //add("kspIosSimulatorArm64", this)
-    }
-}
-
-tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
 tasks.register("buildAllPlatformsAndPublish") {
     dependsOn(
-        "clean", "assemble", ":shared:linkReleaseFrameworkIosArm64", ":shared:publishToMavenLocal",
+        "clean",
+        "assemble",
+        ":shared:linkReleaseFrameworkIosArm64",
         ":shared:publishToMavenCentral"
     )
-}
-
-ksp {
-    arg("moduleName", project.name)
-}
-
-android {
-    namespace = "com.architect.kmpappinsights"
-    compileSdk = 34
-    defaultConfig {
-        minSdk = 21
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
 }
