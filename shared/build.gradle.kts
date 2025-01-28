@@ -142,6 +142,13 @@ afterEvaluate {
         // Enable GPG signing for all publications
         signAllPublications()
     }
+
+    tasks.named("publishAndReleaseToMavenCentral") {
+        doLast {
+            println("Artifacts have been successfully published to the Sonatype staging repository.")
+            // Automate the release using REST API or additional plugins
+        }
+    }
 }
 
 signing {
@@ -165,13 +172,7 @@ dependencies {
 }
 
 tasks.named("sourcesJar").configure { dependsOn(":shared:kspCommonMainKotlinMetadata") }
-tasks.register("publishAndReleaseToMavenCentralShared") {
-    dependsOn("publishToMavenCentral")
-    doLast {
-        println("Releasing Maven Central staging repository for shared module...")
-        // Automate release here
-    }
-}
+
 
 ksp {
     arg("moduleName", project.name)
