@@ -73,4 +73,4 @@ jobs:
 
       # Step 7: Publish to Maven Central
       - name: Publish to Maven Central
-        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache --info --stacktrace --scan
+        run: ./gradlew publishToMavenCentral --no-configuration-cache --info --stacktrace --scan
